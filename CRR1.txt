@@ -1,0 +1,30 @@
+Logique combinatoire => RLC sinus (nous)
+Logique Séquecielle
+Logique programmée
+
+
+Ampli op ? => idéal why not
+Transistor => bof
+
+
+Ergo :
+	* placer des composants => biblio de composants
+	Drag and drop
+	* Relier avec des fils
+	Connaitre les pins des fils
+	Voir les états ?
+	Mode sous circuit ?
+
+
+Est ce que faire RLC sinus pertinant ??
+  => Quelle représentation ?
+  
+Compilateur !!
+
+
+                    Partie Graphique
+                    //           \\
+                   //             \\
+                  //               \\
+    Partie création circuits -T- Partie simulation
+                          
