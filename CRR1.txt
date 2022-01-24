@@ -18,13 +18,14 @@ Ergo :
 
 Est ce que faire RLC sinus pertinant ??
   => Quelle représentation ?
-  
-Compilateur !!
 
+Compilateur !!
 
                     Partie Graphique
                     //           \\
                    //             \\
                   //               \\
     Partie création circuits -T- Partie simulation
-                          
+                         Compilateur
+			  
+CCL : RLC pas très utile et trop complexe.
