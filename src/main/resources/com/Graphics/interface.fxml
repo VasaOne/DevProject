@@ -21,8 +21,9 @@
       </ScrollPane>
    </left>
    <center>
-      <Pane fx:id="mainPane" BorderPane.alignment="CENTER">
-         <children>
-         </children></Pane>
+       <Pane fx:id="mainPane" BorderPane.alignment="CENTER">
+           <children>
+           </children>
+       </Pane>
    </center>
 </BorderPane>

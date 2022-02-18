@@ -1,15 +1,9 @@
-package com.graphics;
+package com.Graphics;
 
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -52,4 +46,7 @@ public class GraphicsManager extends Application {
         launch();
     }
 
+    public static void CanvasAnimator() {
+
+    }
 }

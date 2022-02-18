@@ -10,6 +10,8 @@ module com.graphics.devproject {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.graphics to javafx.fxml;
-    exports com.graphics;
+    opens com.Graphics to javafx.fxml;
+    exports com.Graphics;
+    exports com.Graphics.Canvas;
+    opens com.Graphics.Canvas to javafx.fxml;
 }
