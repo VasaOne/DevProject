@@ -1,15 +1,25 @@
 package com.Graphics;
 
+import com.Graphics.Canvas.*;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 public class GraphicsManager extends Application {
     Line line = new Line();
@@ -21,22 +31,27 @@ public class GraphicsManager extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("interface.fxml"));
         Scene scene = new Scene(root);
 
+        ScrollPane pane = (ScrollPane) scene.lookup("#workspace");
+        pane.setFitToHeight(true);
+        pane.setFitToWidth(true);
 
-        Circle circle1 = new Circle(50);
-        circle1.setStroke(Color.GREEN);
-        circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.7));
-        circle1.relocate(100, 100);
+        Sheet currentSheet = new Sheet(10, 10);
+        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 20);
+        renderer.setCanvasParent(pane);
 
-        Circle circle2 = new Circle(50);
-        circle2.setStroke(Color.BLUE);
-        circle2.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.7));
-        circle2.relocate(200, 200);
+        SheetObject addDoor = new SheetObject("add", 1, Color.web("#33CC33"), 2, 1);
 
-        Line line = new Line(circle1.getLayoutX(), circle1.getLayoutY(), circle2.getLayoutX(), circle2.getLayoutY());
-        line.setStrokeWidth(20);
+        NodeInstance.defaultNode = SheetObject.DefaultNode();
 
-        Pane overlay = (Pane) scene.lookup("#mainPane");
-        overlay.getChildren().addAll(circle1, circle2, line);
+        currentSheet.addObject(new ComponentInstance(addDoor, 2, 2));
+
+        AnimationTimer animate = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                renderer.renderGraphicContext();
+            }
+        };
+        animate.start();
 
         stage.setScene(scene);
         stage.show();

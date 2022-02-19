@@ -19,7 +19,7 @@ public class Sheet {
     ArrayList<ComponentInstance> objects;
     ArrayList<WireInstance> wires;
 
-    Sheet(double height, double width) {
+    public Sheet(double height, double width) {
         this.height = height;
         this.width = width;
 
@@ -27,10 +27,10 @@ public class Sheet {
         wires = new ArrayList<>();
     }
 
-    void addObject(ComponentInstance instance) {
+    public void addObject(ComponentInstance instance) {
         objects.add(instance);
     }
-    void addWire(WireInstance wire) {
+    public void addWire(WireInstance wire) {
         wires.add(wire);
     }
 }

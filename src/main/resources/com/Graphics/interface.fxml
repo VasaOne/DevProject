@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -21,9 +20,7 @@
       </ScrollPane>
    </left>
    <center>
-       <Pane fx:id="mainPane" BorderPane.alignment="CENTER">
-           <children>
-           </children>
-       </Pane>
+       <ScrollPane fx:id="workspace" hbarPolicy="ALWAYS" hmax="0.5" minHeight="2.0" minWidth="2.0" pannable="true" prefHeight="10" prefWidth="10" vbarPolicy="ALWAYS" vmax="0.5" BorderPane.alignment="CENTER">
+       </ScrollPane>
    </center>
 </BorderPane>

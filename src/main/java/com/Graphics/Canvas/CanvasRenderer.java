@@ -1,7 +1,11 @@
 package com.Graphics.Canvas;
 
+import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 
@@ -9,52 +13,72 @@ import java.util.ArrayList;
  * This class make the canvas render each frame.
  */
 public class CanvasRenderer {
+
     /**
-     * The graphicsContext that will render our sheet
+     * The canvas where sheet will be rendered
      */
-    private GraphicsContext gc;
+    private Canvas canvas;
+    private GraphicsContext context;
     /**
      * The sheet that will be displayed
      */
     private Sheet displayedSheet;
 
     /**
-     * The height of the canvas
+     * The default height of the canvas
      */
     private double height;
     /**
-     * The width of the canvas
+     * The default width of the canvas
      */
     private double width;
 
-    /**
-     * The position on the sheet of the upper-left angle
-     */
-    private double originX;
-    /**
-     * The position on the sheet of the upper-left angle
-     */
-    private double originY;
+    private double scale;
 
-    /**
-     * The ratio of the zoom : sheet size = zoomRatio * canvas size
-     */
-    private double zoomRatio;
 
-    public CanvasRenderer(Canvas canvas, Sheet displayedSheet) {
-        gc = canvas.getGraphicsContext2D();
+    ///TEMPORARY :
+    private Color nodeOnColor = Color.web("#F21C1C");
+    private Color nodeOffColor = Color.web("#7F1010");
+
+    public CanvasRenderer(Sheet displayedSheet, double defaultScale) {
+        scale = defaultScale;
+        width = displayedSheet.width * scale;
+        height = displayedSheet.height * scale;
         this.displayedSheet = displayedSheet;
+        setCanvas(new Canvas(width, height));
     }
 
     public void renderGraphicContext() {
         ArrayList<NodeInstance> onNodesToDraw = new ArrayList<>();
         ArrayList<NodeInstance> offNodesToDraw = new ArrayList<>();
 
-        for (ComponentInstance instance: displayedSheet.objects) {
-            onNodesToDraw.addAll(instance.getOnNodes());
-            offNodesToDraw.addAll(instance.getOffNodes());
+        for (ComponentInstance component: displayedSheet.objects) {
+            onNodesToDraw.addAll(component.getOnNodes());
+            offNodesToDraw.addAll(component.getOffNodes());
 
-            gc.setFill(instance.instanceOf.color);
+            context.setFill(component.instanceOf.color);
+            context.fillRect(
+                    component.getOriginX() * scale, component.getOriginY() * scale,
+                    component.instanceOf.getWidth() * scale, component.instanceOf.getHeight() * scale
+            );
+        }
+        for (NodeInstance node: onNodesToDraw) {
+            context.setFill(nodeOnColor);
+            context.fillOval(
+                    node.getOriginX() * scale,
+                    node.getOriginY() * scale,
+                    node.instanceOf.getWidth() * scale,
+                    node.instanceOf.getHeight() * scale
+            );
+        }
+        for (NodeInstance node: offNodesToDraw) {
+            context.setFill(nodeOffColor);
+            context.fillOval(
+                    node.getOriginX() * scale,
+                    node.getOriginY() * scale,
+                    node.instanceOf.getWidth() * scale,
+                    node.instanceOf.getHeight() * scale
+            );
         }
     }
 
@@ -63,28 +87,14 @@ public class CanvasRenderer {
     }
 
     public void setCanvas(Canvas canvas) {
-        gc = canvas.getGraphicsContext2D();
-        height = canvas.getHeight();
-        width = canvas.getWidth();
+        this.canvas = canvas;
+        context = canvas.getGraphicsContext2D();
+        context.setFill(Color.LIGHTGRAY);
+        context.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setTextBaseline(VPos.CENTER);
     }
-
-    public void setPositionAndZoom(double originX, double originY, double zoomRatio) {
-        this.originX = originX;
-        this.originY = originY;
-        this.zoomRatio = zoomRatio;
-    }
-
-    public double pixelToSheetX(double pixelX) {
-        return (pixelX + originX) * zoomRatio;
-    }
-    public double pixelToSheetY(double pixelY) {
-        return (pixelY + originY) * zoomRatio;
-    }
-
-    public double sheetToPixelX(double sheetX) {
-        return sheetX / zoomRatio - originX;
-    }
-    public double sheetToPixelY(double sheetY) {
-        return sheetY / zoomRatio - originY;
+    public void setCanvasParent(ScrollPane parent) {
+        parent.setContent(canvas);
     }
 }
