@@ -1,5 +1,9 @@
 package com.Graphics.Canvas;
 
+import com.Config;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 public class ComponentInstance extends ObjectInstance {
@@ -15,7 +19,6 @@ public class ComponentInstance extends ObjectInstance {
         }
         for (int i = 0; i < object.outputs; i++) {
             outputs[i] = new NodeInstance(this, instanceOf.getWidth(), instanceOf.outputNodeHeights[i]);
-            outputs[i].state = true;
         }
     }
 
@@ -52,5 +55,34 @@ public class ComponentInstance extends ObjectInstance {
             }
         }
         return offNodes;
+    }
+
+    void DrawComponent(GraphicsContext context, double scale) {
+        context.setFill(instanceOf.color);
+        context.fillRect(
+                getOriginX() * scale, getOriginY() * scale,
+                instanceOf.getWidth() * scale, instanceOf.getHeight() * scale
+        );
+        context.setFill(Config.WSTextColor);
+        context.fillText(instanceOf.name, getCenterX() * scale, getCenterY() * scale);
+
+        for (NodeInstance node: getOnNodes()) {
+            context.setFill(Config.WSOnNodesColor);
+            context.fillOval(
+                    node.getOriginX() * scale,
+                    node.getOriginY() * scale,
+                    node.instanceOf.getWidth() * scale,
+                    node.instanceOf.getHeight() * scale
+            );
+        }
+        for (NodeInstance node: getOffNodes()) {
+            context.setFill(Config.WSOffNodesColor);
+            context.fillOval(
+                    node.getOriginX() * scale,
+                    node.getOriginY() * scale,
+                    node.instanceOf.getWidth() * scale,
+                    node.instanceOf.getHeight() * scale
+            );
+        }
     }
 }

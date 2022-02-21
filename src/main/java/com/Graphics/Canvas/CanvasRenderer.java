@@ -1,5 +1,6 @@
 package com.Graphics.Canvas;
 
+import com.Config;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
  * This class make the canvas render each frame.
  */
 public class CanvasRenderer {
-
     /**
      * The canvas where sheet will be rendered
      */
@@ -27,18 +27,13 @@ public class CanvasRenderer {
     /**
      * The default height of the canvas
      */
-    private double height;
+    private final double height;
     /**
      * The default width of the canvas
      */
-    private double width;
+    private final double width;
 
-    private double scale;
-
-
-    ///TEMPORARY :
-    private Color nodeOnColor = Color.web("#F21C1C");
-    private Color nodeOffColor = Color.web("#7F1010");
+    private final double scale;
 
     public CanvasRenderer(Sheet displayedSheet, double defaultScale) {
         scale = defaultScale;
@@ -49,36 +44,8 @@ public class CanvasRenderer {
     }
 
     public void renderGraphicContext() {
-        ArrayList<NodeInstance> onNodesToDraw = new ArrayList<>();
-        ArrayList<NodeInstance> offNodesToDraw = new ArrayList<>();
-
         for (ComponentInstance component: displayedSheet.objects) {
-            onNodesToDraw.addAll(component.getOnNodes());
-            offNodesToDraw.addAll(component.getOffNodes());
-
-            context.setFill(component.instanceOf.color);
-            context.fillRect(
-                    component.getOriginX() * scale, component.getOriginY() * scale,
-                    component.instanceOf.getWidth() * scale, component.instanceOf.getHeight() * scale
-            );
-        }
-        for (NodeInstance node: onNodesToDraw) {
-            context.setFill(nodeOnColor);
-            context.fillOval(
-                    node.getOriginX() * scale,
-                    node.getOriginY() * scale,
-                    node.instanceOf.getWidth() * scale,
-                    node.instanceOf.getHeight() * scale
-            );
-        }
-        for (NodeInstance node: offNodesToDraw) {
-            context.setFill(nodeOffColor);
-            context.fillOval(
-                    node.getOriginX() * scale,
-                    node.getOriginY() * scale,
-                    node.instanceOf.getWidth() * scale,
-                    node.instanceOf.getHeight() * scale
-            );
+            component.DrawComponent(context, scale);
         }
     }
 
@@ -89,8 +56,9 @@ public class CanvasRenderer {
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
         context = canvas.getGraphicsContext2D();
-        context.setFill(Color.LIGHTGRAY);
-        context.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
+        context.setFill(Config.WSBackgroundColor);
+        context.setFont(Config.WSFont(scale));
+        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         context.setTextAlign(TextAlignment.CENTER);
         context.setTextBaseline(VPos.CENTER);
     }

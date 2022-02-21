@@ -1,13 +1,19 @@
 package com.Graphics.Canvas;
 
+import com.Config;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+
+import java.util.ConcurrentModificationException;
 
 /**
  * This class represents a theoretical object
  */
 public class SheetObject {
+    static double nodeSpace = 1.4;
+    static double outSpace = 1;
+
     public Color color;
     public String name;
 
@@ -27,25 +33,25 @@ public class SheetObject {
         return width;
     }
 
-    private SheetObject() {};
+    private SheetObject() {}
 
-    public SheetObject(String name, double textHeight, Color color, int inputs, int outputs) {
+    public SheetObject(String name, Color color, int inputs, int outputs) {
         this.name = name;
 
         this.color = color;
         this.inputs = inputs;
         this.outputs = outputs;
 
-        width = textHeight * 0.7 * name.length() + 1;
-        height = Math.max(inputs, outputs) * 1.2 + 2;
+        width = 0.60 * (name.length() + 5);
+        height = Math.max(inputs - 1, outputs - 1) * nodeSpace + 2 * outSpace;
 
         inputNodeHeights = new double[inputs];
         for (int i = 0; i < inputs; i++) {
-            inputNodeHeights[i] = 1 + 1.2 * i + (1.2 * (inputs - 1) ) / 2;
+            inputNodeHeights[i] = nodeSpace * i + (height - nodeSpace * (inputs - 1)) / 2d;
         }
         outputNodeHeights = new double[outputs];
         for (int i = 0; i < outputs; i++) {
-            outputNodeHeights[i] = 1 + 1.2 * i + (1.2 * (outputs - 1) ) / 2;
+            outputNodeHeights[i] = nodeSpace * i + (height - nodeSpace * (outputs - 1)) / 2d;
         }
     }
 
