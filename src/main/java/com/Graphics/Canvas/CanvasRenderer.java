@@ -5,7 +5,6 @@ import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
@@ -32,7 +31,9 @@ public class CanvasRenderer {
      * The default width of the canvas
      */
     private final double width;
-
+    /**
+     * The diameter in pixel of a node, so that size(pixel) = size(NU) * scale
+     */
     private final double scale;
 
     public CanvasRenderer(Sheet displayedSheet, double defaultScale) {
@@ -41,12 +42,27 @@ public class CanvasRenderer {
         height = displayedSheet.height * scale;
         this.displayedSheet = displayedSheet;
         setCanvas(new Canvas(width, height));
+
+        /*CanvasInteractions interactions = */
+        new CanvasInteractions(this, displayedSheet, canvas, scale);
+        //canvas.setOnMouseClicked(mouseEvent -> System.out.println("Hi"));
     }
 
     public void renderGraphicContext() {
-        for (ComponentInstance component: displayedSheet.objects) {
-            component.DrawComponent(context, scale);
+        ArrayList<ComponentInstance> drawLast = new ArrayList<>();
+        for (ComponentInstance component: displayedSheet.components) {
+            if (component.isPlaced) {
+                component.drawComponent(context, scale);
+            }
+            else {
+                drawLast.add(component);
+            }
         }
+        context.setGlobalAlpha(Config.WSMoveAlpha);
+        for (ComponentInstance component: drawLast) {
+            component.drawComponent(context, scale);
+        }
+        context.setGlobalAlpha(1);
     }
 
     public void setDisplayedSheet(Sheet displayedSheet) {

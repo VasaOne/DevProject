@@ -26,7 +26,7 @@ public class GraphicsManager extends Application {
         pane.setFitToWidth(true);
 
         Sheet currentSheet = new Sheet(20, 30);
-        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
+        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 20);
         renderer.setCanvasParent(pane);
 
         SheetObject addDoor = new SheetObject("Add", Color.web("#33CC33"), 2, 1);
@@ -38,6 +38,7 @@ public class GraphicsManager extends Application {
         currentSheet.addObject(new ComponentInstance(addDoor, 2, 2));
         currentSheet.addObject(new ComponentInstance(notDoor, 10, 3));
         currentSheet.addObject(new ComponentInstance(sevenSgtDisp, 17, 3));
+
 
         AnimationTimer animate = new AnimationTimer() {
             @Override

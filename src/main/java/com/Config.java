@@ -9,6 +9,8 @@ public class Config {
     public static Color WSTextColor = Color.BLACK;
     public static Color WSOnNodesColor = Color.web("#F21C1C");
     public static Color WSOffNodesColor = Color.web("#7F1010");
+    public static Color WSDisabledColor = Color.GRAY;
+    public static double WSMoveAlpha = 0.7;
 
     //Texts of the workspace :
     public static double WSFontSize;

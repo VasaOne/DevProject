@@ -2,13 +2,16 @@ package com.Graphics.Canvas;
 
 import com.Config;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ComponentInstance extends ObjectInstance {
     NodeInstance[] inputs;
     NodeInstance[] outputs;
+
+    boolean isPlaced = false;
+    boolean canBePlaced = true;
 
     public ComponentInstance(SheetObject object) {
         instanceOf = object;
@@ -28,6 +31,11 @@ public class ComponentInstance extends ObjectInstance {
         this.originY = originY;
     }
 
+    public ArrayList<NodeInstance> getAllNodes() {
+        ArrayList<NodeInstance> nodes = new ArrayList(List.of(inputs));
+        nodes.addAll(List.of(outputs));
+        return nodes;
+    }
     public ArrayList<NodeInstance> getOnNodes() {
         ArrayList<NodeInstance> onNodes = new ArrayList<>();
         for (NodeInstance node: inputs) {
@@ -57,8 +65,14 @@ public class ComponentInstance extends ObjectInstance {
         return offNodes;
     }
 
-    void DrawComponent(GraphicsContext context, double scale) {
-        context.setFill(instanceOf.color);
+    void drawComponent(GraphicsContext context, double scale) {
+        if (canBePlaced) {
+            context.setFill(instanceOf.color);
+        }
+        else {
+            context.setFill(Config.WSDisabledColor);
+        }
+
         context.fillRect(
                 getOriginX() * scale, getOriginY() * scale,
                 instanceOf.getWidth() * scale, instanceOf.getHeight() * scale
@@ -84,5 +98,10 @@ public class ComponentInstance extends ObjectInstance {
                     node.instanceOf.getHeight() * scale
             );
         }
+    }
+
+    void moveComponent(double toXNU, double toYNU) {
+        originX = toXNU;
+        originY = toYNU;
     }
 }
