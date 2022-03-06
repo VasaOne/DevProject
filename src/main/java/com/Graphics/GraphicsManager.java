@@ -26,7 +26,7 @@ public class GraphicsManager extends Application {
         pane.setFitToWidth(true);
 
         Sheet currentSheet = new Sheet(20, 30);
-        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 20);
+        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
         renderer.setCanvasParent(pane);
 
         SheetObject addDoor = new SheetObject("Add", Color.web("#33CC33"), 2, 1);
@@ -35,9 +35,18 @@ public class GraphicsManager extends Application {
 
         NodeInstance.defaultNode = SheetObject.DefaultNode();
 
-        currentSheet.addObject(new ComponentInstance(addDoor, 2, 2));
-        currentSheet.addObject(new ComponentInstance(notDoor, 10, 3));
+        ComponentInstance add = new ComponentInstance(addDoor, 2, 2);
+        ComponentInstance not = new ComponentInstance(notDoor, 10, 3);
+
+        currentSheet.addObject(add);
+        currentSheet.addObject(not);
         currentSheet.addObject(new ComponentInstance(sevenSgtDisp, 17, 3));
+
+        WireInstance wire = new WireInstance();
+        wire.setStart(add.outputs[0]);
+        wire.setEnd(not.inputs[0]);
+
+        currentSheet.addWire(wire);
 
 
         AnimationTimer animate = new AnimationTimer() {

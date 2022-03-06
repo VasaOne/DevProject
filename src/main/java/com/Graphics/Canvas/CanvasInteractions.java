@@ -56,9 +56,9 @@ public class CanvasInteractions {
                 //System.out.println("Component selected, " + selectedComponent.instanceOf.name);
             }
         }
+
     }
     private void OnMouseReleased(MouseEvent event) {
-        renderer.setCanvas(canvas);
         isNodeSelected = false;
         if (isComponentSelected) {
             if (!selectedComponent.canBePlaced) {
@@ -71,7 +71,6 @@ public class CanvasInteractions {
         //System.out.println("Released");
     }
     private void OnMouseDragged(MouseEvent event) {
-        renderer.setCanvas(canvas);
         if (isNodeSelected) {
 
         }

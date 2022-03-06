@@ -49,6 +49,14 @@ public class CanvasRenderer {
     }
 
     public void renderGraphicContext() {
+        context.setFill(Config.WSBackgroundColor);
+        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        context.stroke();
+        for (WireInstance wire: displayedSheet.wires) {
+            wire.drawWire(context, scale);
+        }
+
         ArrayList<ComponentInstance> drawLast = new ArrayList<>();
         for (ComponentInstance component: displayedSheet.components) {
             if (component.isPlaced) {
@@ -77,6 +85,9 @@ public class CanvasRenderer {
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         context.setTextAlign(TextAlignment.CENTER);
         context.setTextBaseline(VPos.CENTER);
+        context.setLineWidth(Config.WSWireSize * scale);
+
+
     }
     public void setCanvasParent(ScrollPane parent) {
         parent.setContent(canvas);

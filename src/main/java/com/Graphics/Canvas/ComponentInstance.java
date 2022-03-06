@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ComponentInstance extends ObjectInstance {
-    NodeInstance[] inputs;
-    NodeInstance[] outputs;
+    public NodeInstance[] inputs;
+    public NodeInstance[] outputs;
 
     boolean isPlaced = false;
     boolean canBePlaced = true;
