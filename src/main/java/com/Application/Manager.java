@@ -1,4 +1,4 @@
-package Application;
+package com.Application;
 
 public class Manager {
 
