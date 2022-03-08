@@ -8,7 +8,7 @@ module com.graphics.devproject {
     requires validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-    //requires eu.hansolo.tilesfx;
+    requires com.google.gson;
 
     opens com.Graphics to javafx.fxml;
     exports com.Graphics;

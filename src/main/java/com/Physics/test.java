@@ -1,6 +1,8 @@
 package com.Physics;
 
-public class test {
+import com.google.gson.Gson;
 
+public class test {
+    Gson gson;
 
 }
