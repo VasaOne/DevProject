@@ -1,4 +1,4 @@
-package com.Graphics.Canvas;
+package com.Graphics.Workspace;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;

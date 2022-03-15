@@ -78,7 +78,7 @@ public class Main {
         //A voir le plus simple, ici j'utilise la première solution
         wire1.setState(true);
         wire2.setState(false);
-        wire4.setState(false);
+        wire4.setState(true);
 
         sheet.refresh();
 

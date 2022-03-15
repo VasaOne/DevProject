@@ -1,11 +1,6 @@
-package com.Graphics.Canvas;
+package com.Graphics.Workspace;
 
-import com.Config;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
-
-import java.util.ConcurrentModificationException;
 
 /**
  * This class represents a theoretical object

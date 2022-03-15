@@ -12,8 +12,8 @@ module com.graphics.devproject {
 
     opens com.Graphics to javafx.fxml;
     exports com.Graphics;
-    exports com.Graphics.Canvas;
-    opens com.Graphics.Canvas to javafx.fxml;
+    exports com.Graphics.Workspace;
+    opens com.Graphics.Workspace to javafx.fxml;
 
     requires com.google.gson;
 }
