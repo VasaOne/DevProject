@@ -1,8 +1,6 @@
-package com.Graphics.Canvas;
+package com.Graphics.Workspace;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * A sheet which will contain our components and wires

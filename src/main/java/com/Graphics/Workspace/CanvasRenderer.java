@@ -1,4 +1,4 @@
-package com.Graphics.Canvas;
+package com.Graphics.Workspace;
 
 import com.Config;
 import javafx.geometry.VPos;
@@ -52,9 +52,9 @@ public class CanvasRenderer {
         context.setFill(Config.WSBackgroundColor);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        context.stroke();
         for (WireInstance wire: displayedSheet.wires) {
             wire.drawWire(context, scale);
+            context.stroke();
         }
 
         ArrayList<ComponentInstance> drawLast = new ArrayList<>();

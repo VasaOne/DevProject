@@ -1,10 +1,4 @@
-package com.Graphics.Canvas;
-
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
-
-import java.util.ArrayList;
+package com.Graphics.Workspace;
 
 /**
  * This class represents an instance of a sheet object which will be rendered on the canvas

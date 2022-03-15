@@ -1,4 +1,4 @@
-package com.Graphics.Canvas;
+package com.Graphics.Workspace;
 
 import com.Config;
 
