@@ -1,6 +1,7 @@
 package com.Graphics.Workspace;
 
 import com.Config;
+import com.Physics.Wire;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Objects;
@@ -8,6 +9,8 @@ import java.util.Objects;
 public class WireInstance {
     NodeInstance start;
     NodeInstance end;
+
+    com.Physics.Wire physicWire = new Wire();
 
     boolean state;
     public boolean getState() {
@@ -57,6 +60,9 @@ public class WireInstance {
             endX = end.getCenterX();
             endY = end.getCenterY();
             testMiddle();
+            if (Objects.nonNull(start)) {
+                physicWire.connect(start.relativeTo.getPhysicComponent(), end.relativeTo.getPhysicComponent());
+            }
         }
     }
 

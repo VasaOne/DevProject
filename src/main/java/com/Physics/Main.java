@@ -17,12 +17,12 @@ public class Main {
         Component button2 = new Component("button2",0,1,new Boolean[] {false, true});
         Component button3 = new Component("button3",0,1,new Boolean[] {false, true});
         Component led = new Component("led",1,0,null);
-        Wire wire1 = new Wire("wire1");
-        Wire wire2 = new Wire("wire2");
-        Wire wire3 = new Wire("wire3");
-        Wire wire4 = new Wire("wire4");
-        Wire wire5 = new Wire("wire5");
-        Wire wire6 = new Wire("wire6");
+        Wire wire1 = new Wire();
+        Wire wire2 = new Wire();
+        Wire wire3 = new Wire();
+        Wire wire4 = new Wire();
+        Wire wire5 = new Wire();
+        Wire wire6 = new Wire();
         sheet.addComponent(no);
         sheet.addComponent(ou);
         sheet.addComponent(et);

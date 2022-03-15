@@ -8,24 +8,17 @@ import java.lang.Math;
 public class Wire extends ObjetCircuit {
 
     Sheet sheet;
-    String name; //Changement : nom pour la méthode display
     private Boolean state;
     private Component start; //Problème en graphique : comment savoir qui est le start, qui est le end ?
     private Component end; //Je crois qu'il est possible de faire sans start et end mais pour linstant jai pas encore trouvé
 
-    Wire(String name) {
-        this.name = name;
-    }
+    public Wire() {}
     public void setState(Boolean state) {
         this.state = state;
     }
 
     public Boolean getState() {
         return state;
-    }
-
-    public void display() {
-        System.out.println(name);
     }
 
     public void connect(Component start, Component end) {

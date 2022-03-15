@@ -15,7 +15,7 @@ public class Component extends ObjetCircuit {
     private Wire[] WireInputs;
     private Wire[] WireOutput;
 
-    Component(String name, int inputs, int outputs, Boolean[] truthTable) {
+    public Component(String name, int inputs, int outputs, Boolean[] truthTable) {
         this.name = name;
         this.inputs = inputs;
         this.outputs = outputs;
@@ -38,13 +38,13 @@ public class Component extends ObjetCircuit {
 
     public void displayLinkWiresInput() { //Aide au codage, ne sert à rien
         for (Wire wire : WireInputs) {
-            wire.display();
+
         }
     }
 
     public void displayLinkWiresOutputs() { //Aide au codage, ne sert à rien
         for (Wire wire : WireOutput) {
-            wire.display();
+
         }
     }
 

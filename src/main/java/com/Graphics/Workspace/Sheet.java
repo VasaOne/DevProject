@@ -39,6 +39,12 @@ public class Sheet {
         wires.add(wire);
     }
 
+    /**
+     * Gets the node
+     * @param xNU the x coordinate
+     * @param yNU the y coordinate
+     * @return null if not node, else returns the node
+     */
     public NodeInstance getNodeAt(double xNU, double yNU) {
         for (NodeInstance node: nodes) {
             if (Math.pow(xNU - node.getCenterX(), 2) + Math.pow(yNU - node.getCenterY(), 2) <= Math.pow(node.instanceOf.getWidth() / 2, 2)) {
