@@ -1,4 +1,4 @@
-module com.graphics.devproject {
+module com.devproject {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -13,7 +13,7 @@ module com.graphics.devproject {
     opens com.Graphics to javafx.fxml;
     exports com.Graphics;
     exports com.Graphics.Workspace;
-    opens com.Graphics.Canvas to javafx.fxml;
+    opens com.Graphics.Workspace to javafx.fxml;
 
     requires com.google.gson;
 }
