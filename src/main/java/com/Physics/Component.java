@@ -12,16 +12,16 @@ public class Component extends ObjetCircuit {
 
     private Boolean[] truthTable;
 
-    private Wire[] linkWireInputs;
-    private Wire[] linkWireOutputs;
+    private Wire[] WireInputs;
+    private Wire[] WireOutput;
 
     Component(String name, int inputs, int outputs, Boolean[] truthTable) {
         this.name = name;
         this.inputs = inputs;
         this.outputs = outputs;
         this.truthTable = truthTable;
-        linkWireInputs = new Wire[inputs];
-        linkWireOutputs = new Wire[outputs];
+        WireInputs = new Wire[inputs];
+        WireOutput = new Wire[outputs];
     }
 
     public int getInputs() {
@@ -36,32 +36,32 @@ public class Component extends ObjetCircuit {
         return truthTable;
     }
 
-    public void displayLinkWiresInput() {
-        for (Wire i : linkWireInputs) {
-            i.display();
+    public void displayLinkWiresInput() { //Aide au codage, ne sert à rien
+        for (Wire wire : WireInputs) {
+            wire.display();
         }
     }
 
-    public void displayLinkWiresOutputs() {
-        for (Wire i : linkWireOutputs) {
-            i.display();
+    public void displayLinkWiresOutputs() { //Aide au codage, ne sert à rien
+        for (Wire wire : WireOutput) {
+            wire.display();
         }
     }
 
-    public void addLinkWiresInput(Wire wire, int i) { //Changement au niveau de ce qui était prévu : au lieu de mettre en argument la liste des wires en entrée on les ajoute un à un ce qui sera plus facile quand on voudra construire un circuit au fur et à mesure...
-        linkWireInputs[i] = wire;
+    public void addWireInput(Wire wire, int i) { //Changement au niveau de ce qui était prévu : au lieu de mettre en argument la liste des wires en entrée on les ajoute un à un ce qui sera plus facile quand on voudra construire un circuit au fur et à mesure...
+        WireInputs[i] = wire;
     }
 
-    public void addLinkWiresOutput(Wire wire, int i) { //Pareil que pour la fonction addLinkWiresInput
-        linkWireOutputs[i] = wire;
+    public void addWireOutput(Wire wire, int i) { //Pareil que pour la fonction addLinkWiresInput
+        WireOutput[i] = wire;
     }
 
-    public Wire[] getLinkWiresInput() {
-        return linkWireInputs;
+    public Wire[] getWiresInput() {
+        return WireInputs;
     }
 
-    public Wire[] getLinkWiresOutputs() {
-        return linkWireOutputs;
+    public Wire[] getWiresOutput() {
+        return WireOutput;
     }
 
 

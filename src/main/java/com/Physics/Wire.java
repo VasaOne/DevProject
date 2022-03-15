@@ -3,6 +3,8 @@
 //Gros changement : je vais surement passer de boolean a Boolean ce qui permetterait d'avoir des Boolean == null !
 package com.Physics;
 
+import java.lang.Math;
+
 public class Wire extends ObjetCircuit {
 
     Sheet sheet;
@@ -40,17 +42,19 @@ public class Wire extends ObjetCircuit {
     }
 
     public void refresh() {
-        for (Wire wire : start.getLinkWiresInput()) {
+        for (Wire wire : start.getWiresInput()) {
             if (wire == null) {
                 return;
             }
         }
         int s = 0;
-        for (int i=0;i<start.getInputs()-1;i++) {
-            if (start.getLinkWiresInput()[i].getState()) {
-                s += 2^i;
+        for (int i=0;i<start.getInputs();i++) {
+            if (start.getWiresInput()[i].getState()) {
+                s += Math.pow(2,start.getInputs()-i-1);
             }
         }
+        //System.out.println(start.getTruthTable()[s]);
+        //System.out.println(name);
         setState(start.getTruthTable()[s]);
     }
 }
