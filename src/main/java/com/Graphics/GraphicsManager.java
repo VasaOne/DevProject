@@ -52,6 +52,8 @@ public class GraphicsManager extends Application {
         wire2.setStart(not.outputs[0]);
         wire2.setEnd(fourBit.inputs[0]);
 
+        wire.setState(true);
+
         currentSheet.addWire(wire);
         currentSheet.addWire(wire2);
 

@@ -10,6 +10,12 @@ public class WireInstance {
     NodeInstance end;
 
     boolean state;
+    public boolean getState() {
+        return state;
+    }
+    public void setState(boolean state) {
+        this.state = state;
+    }
 
     private double startX;
     public double getStartX() {

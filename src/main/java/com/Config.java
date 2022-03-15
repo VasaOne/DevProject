@@ -9,7 +9,7 @@ public class Config {
     public static Color WSTextColor = Color.BLACK;
     public static Color WSOnNodesColor = Color.web("#F21C1C");
     public static Color WSOffNodesColor = Color.web("#7F1010");
-    public static Color WSOnWiresColor = Color.web("#9c2d2d");
+    public static Color WSOnWiresColor = Color.web("#9c2d3e");
     public static Color WSOffWiresColor = Color.web("#521818");
     public static Color WSDisabledColor = Color.GRAY;
     public static double WSMoveAlpha = 0.7;
