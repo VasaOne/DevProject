@@ -1,5 +1,6 @@
 package com.Physics;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -48,37 +49,36 @@ public class Main {
         //connexions
         //wire1
         wire1.connect(button1, et);
-        button1.addLinkWiresOutput(wire1, 0);
-        et.addLinkWiresInput(wire1, 0);
+        button1.addWireOutput(wire1, 0);
+        et.addWireInput(wire1, 0);
         //wire2
         wire2.connect(button2, et);
-        button2.addLinkWiresOutput(wire2, 0);
-        et.addLinkWiresInput(wire2, 1);
+        button2.addWireOutput(wire2, 0);
+        et.addWireInput(wire2, 1);
         //wire3
         wire3.connect(et, ou);
-        et.addLinkWiresOutput(wire3,0);
-        ou.addLinkWiresInput(wire3,0);
+        et.addWireOutput(wire3,0);
+        ou.addWireInput(wire3,0);
         //wire4
         wire4.connect(button3, ou);
-        button3.addLinkWiresOutput(wire4,0);
-        ou.addLinkWiresInput(wire4,1);
+        button3.addWireOutput(wire4,0);
+        ou.addWireInput(wire4,1);
         //wire5
         wire5.connect(ou, no);
-        ou.addLinkWiresOutput(wire5,0);
-        no.addLinkWiresInput(wire5,0);
+        ou.addWireOutput(wire5,0);
+        no.addWireInput(wire5,0);
         //wire6
         wire6.connect(no, led);
-        no.addLinkWiresOutput(wire6,0);
-        led.addLinkWiresInput(wire6,0);
+        no.addWireOutput(wire6,0);
+        led.addWireInput(wire6,0);
 
         //Etats des button
         //(deux choix : soit on initilise les wires qui sortent d button, soit on suppose que les button ont e,
         //fait une entrée que l'utilisateur ne verra pas, et on initialise les buttons grâce à ces wires
         //A voir le plus simple, ici j'utilise la première solution
-        wire1.setState(false);
-        wire2.setState(true);
-        wire4.setState(true);
-
+        wire1.setState(true);
+        wire2.setState(false);
+        wire4.setState(false);
 
         sheet.refresh();
 
