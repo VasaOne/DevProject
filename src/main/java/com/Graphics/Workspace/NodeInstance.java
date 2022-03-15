@@ -3,7 +3,7 @@ package com.Graphics.Workspace;
 public class NodeInstance extends ObjectInstance {
     public static SheetObject defaultNode;
 
-    private ComponentInstance relativeTo;
+    ComponentInstance relativeTo;
     private WireInstance wire;
 
     /**

@@ -1,6 +1,7 @@
 package com.Graphics.Workspace;
 
 import com.Config;
+import com.Physics.Component;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ public class ComponentInstance extends ObjectInstance {
     boolean isPlaced = false;
     boolean canBePlaced = true;
 
+    private Component physicComponent;
+
     public ComponentInstance(SheetObject object) {
         instanceOf = object;
         inputs = new NodeInstance[instanceOf.inputs];
@@ -23,12 +26,14 @@ public class ComponentInstance extends ObjectInstance {
         for (int i = 0; i < object.outputs; i++) {
             outputs[i] = new NodeInstance(this, instanceOf.getWidth(), instanceOf.outputNodeHeights[i]);
         }
+        physicComponent = new Component(object.name, object.inputs, object.outputs, object.truthTable);
     }
 
     public ComponentInstance(SheetObject object, double originX, double originY) {
         this(object);
         this.originX = originX;
         this.originY = originY;
+        physicComponent = new Component(object.name, object.inputs, object.outputs, object.truthTable);
     }
 
     public ArrayList<NodeInstance> getAllNodes() {
@@ -103,5 +108,9 @@ public class ComponentInstance extends ObjectInstance {
     void moveComponent(double toXNU, double toYNU) {
         originX = toXNU;
         originY = toYNU;
+    }
+
+    public Component getPhysicComponent() {
+        return physicComponent;
     }
 }
