@@ -1,5 +1,7 @@
 package com.Graphics.Workspace;
 
+import com.Config;
+
 import java.util.ArrayList;
 
 /**
@@ -71,14 +73,43 @@ public class Sheet {
     public ComponentInstance isOverriding(ComponentInstance componentToMove) {
         for (ComponentInstance componentOnSheet: components) {
             if (componentOnSheet.isPlaced &&
-                    componentToMove.getOriginX() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() &&
-                    componentOnSheet.getOriginX() <= componentToMove.getOriginX() + componentToMove.instanceOf.getWidth() &&
-                    componentToMove.getOriginY() <= componentOnSheet.getOriginY() + componentOnSheet.instanceOf.getHeight() &&
-                    componentOnSheet.getOriginY() <= componentToMove.getOriginY() + componentToMove.instanceOf.getHeight()
+                    componentToMove.getOriginX() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    componentOnSheet.getOriginX() <= componentToMove.getOriginX() + componentToMove.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    componentToMove.getOriginY() <= componentOnSheet.getOriginY() + componentOnSheet.instanceOf.getHeight() + Config.WSDistBtwCompo &&
+                    componentOnSheet.getOriginY() <= componentToMove.getOriginY() + componentToMove.instanceOf.getHeight() + Config.WSDistBtwCompo
             ) {
                 return componentOnSheet;
             }
         }
         return null;
+    }
+    public boolean isWireOverriding(WireInstance wire) {
+        for (ComponentInstance componentOnSheet: components) {
+            if (!componentOnSheet.equals(wire.start.relativeTo) && !componentOnSheet.equals(wire.end.relativeTo) && (
+                    (wire.getStartX() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    componentOnSheet.getOriginX() <= wire.getMiddle() + Config.WSDistBtwCompo + 1 &&
+                    wire.getStartY() <= componentOnSheet.getOriginY() + componentOnSheet.instanceOf.getHeight() + Config.WSDistBtwCompo &&
+                    componentOnSheet.getOriginY() <= wire.getStartY() + Config.WSDistBtwCompo) ||
+                    (wire.getMiddle() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    componentOnSheet.getOriginX() <= wire.getMiddle() + Config.WSDistBtwCompo + 1 &&
+                    wire.getStartY() <= componentOnSheet.getOriginY() + componentOnSheet.instanceOf.getHeight() + Config.WSDistBtwCompo &&
+                    componentOnSheet.getOriginY() <= wire.getEndY() + Config.WSDistBtwCompo) ||
+                    (wire.getMiddle() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    componentOnSheet.getOriginX() <= wire.getEndX() + Config.WSDistBtwCompo + 1 &&
+                    wire.getEndY() <= componentOnSheet.getOriginY() + componentOnSheet.instanceOf.getHeight() + Config.WSDistBtwCompo &&
+                    componentOnSheet.getOriginY() <= wire.getEndY() + Config.WSDistBtwCompo))
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean areWiresOverriding() {
+        for (WireInstance wire: wires) {
+            if (isWireOverriding(wire)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

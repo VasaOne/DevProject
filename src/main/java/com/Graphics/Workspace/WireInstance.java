@@ -12,12 +12,14 @@ public class WireInstance {
 
     com.Physics.Wire physicWire = new Wire();
 
-    boolean state;
+    private boolean state;
     public boolean getState() {
         return state;
     }
     public void setState(boolean state) {
         this.state = state;
+        start.setState(state);
+        end.setState(state);
     }
 
     private double startX;
@@ -83,12 +85,14 @@ public class WireInstance {
 
     public void setStart(NodeInstance start) {
         this.start = start;
+        start.setWire(this);
         startX = start.getCenterX();
         startY = start.getCenterY();
         testMiddle();
     }
     public void setEnd(NodeInstance end) {
         this.end = end;
+        end.setWire(this);
         endX = end.getCenterX();
         endY = end.getCenterY();
         testMiddle();
@@ -134,5 +138,8 @@ public class WireInstance {
         if (useDefaultMiddle) {
             middle = getDefaultMiddle();
         }
+    }
+    boolean isWidthLarge() {
+        return startX + Config.WSWireMinWidth < endX;
     }
 }

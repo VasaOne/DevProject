@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ComponentInstance extends ObjectInstance {
     public NodeInstance[] inputs;
@@ -44,12 +45,12 @@ public class ComponentInstance extends ObjectInstance {
     public ArrayList<NodeInstance> getOnNodes() {
         ArrayList<NodeInstance> onNodes = new ArrayList<>();
         for (NodeInstance node: inputs) {
-            if (node.state) {
+            if (node.getState()) {
                 onNodes.add(node);
             }
         }
         for (NodeInstance node: outputs) {
-            if (node.state) {
+            if (node.getState()) {
                 onNodes.add(node);
             }
         }
@@ -58,12 +59,12 @@ public class ComponentInstance extends ObjectInstance {
     public ArrayList<NodeInstance> getOffNodes() {
         ArrayList<NodeInstance> offNodes = new ArrayList<>();
         for (NodeInstance node: inputs) {
-            if (!node.state) {
+            if (!node.getState()) {
                 offNodes.add(node);
             }
         }
         for (NodeInstance node: outputs) {
-            if (!node.state) {
+            if (!node.getState()) {
                 offNodes.add(node);
             }
         }
@@ -78,9 +79,10 @@ public class ComponentInstance extends ObjectInstance {
             context.setFill(Config.WSDisabledColor);
         }
 
-        context.fillRect(
+        context.fillRoundRect(
                 getOriginX() * scale, getOriginY() * scale,
-                instanceOf.getWidth() * scale, instanceOf.getHeight() * scale
+                instanceOf.getWidth() * scale, instanceOf.getHeight() * scale,
+                Config.WSComponentRoundSize * scale, Config.WSComponentRoundSize * scale
         );
         context.setFill(Config.WSTextColor);
         context.fillText(instanceOf.name, getCenterX() * scale, getCenterY() * scale);
@@ -112,5 +114,29 @@ public class ComponentInstance extends ObjectInstance {
 
     public Component getPhysicComponent() {
         return physicComponent;
+    }
+
+    boolean areWiresFacing() {
+        if (testWires(inputs)) return false;
+        if (testWires(outputs)) return false;
+        return true;
+    }
+
+    private boolean testWires(NodeInstance[] outputs) {
+        for (NodeInstance node: outputs) {
+            WireInstance wire = node.getWire();
+            if (Objects.nonNull(wire)) {
+                if (!wire.isWidthLarge()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isOnSheet(double width, double height) {
+        return originX > Config.WSDistBtwCompo + 0.5 && originY > Config.WSDistBtwCompo &&
+                originX + this.instanceOf.getWidth() < width - Config.WSDistBtwCompo - 0.5 &&
+                originY + this.instanceOf.getHeight() < height - Config.WSDistBtwCompo;
     }
 }

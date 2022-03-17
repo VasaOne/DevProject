@@ -5,6 +5,7 @@ import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class CanvasRenderer {
         context.setTextAlign(TextAlignment.CENTER);
         context.setTextBaseline(VPos.CENTER);
         context.setLineWidth(Config.WSWireSize * scale);
-
+        context.setLineJoin(StrokeLineJoin.ROUND);
 
     }
     public void setCanvasParent(ScrollPane parent) {

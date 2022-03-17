@@ -4,7 +4,6 @@ public class NodeInstance extends ObjectInstance {
     public static SheetObject defaultNode;
 
     ComponentInstance relativeTo;
-    private WireInstance wire;
 
     /**
      * The position on the sheet relatively to the origin, in NU
@@ -37,7 +36,13 @@ public class NodeInstance extends ObjectInstance {
     }
 
 
-    public boolean state;
+    private boolean state;
+    public boolean getState() {
+        return state;
+    }
+    public void setState(boolean state) {
+        this.state = state;
+    }
 
     public NodeInstance(ComponentInstance relativeTo, double centerX, double centerY) {
         this.relativeTo = relativeTo;
@@ -47,12 +52,16 @@ public class NodeInstance extends ObjectInstance {
         state = false;
     }
 
+    private WireInstance wire;
     public void setWire(WireInstance wire) {
         this.wire = wire;
     }
     public WireInstance removeWire() {
         WireInstance wire = this.wire;
         this.wire = null;
+        return wire;
+    }
+    public WireInstance getWire() {
         return wire;
     }
 }
