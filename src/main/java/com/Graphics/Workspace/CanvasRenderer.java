@@ -1,10 +1,11 @@
-package com.Graphics.Canvas;
+package com.Graphics.Workspace;
 
 import com.Config;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
@@ -49,6 +50,14 @@ public class CanvasRenderer {
     }
 
     public void renderGraphicContext() {
+        context.setFill(Config.WSBackgroundColor);
+        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        for (WireInstance wire: displayedSheet.wires) {
+            wire.drawWire(context, scale);
+            context.stroke();
+        }
+
         ArrayList<ComponentInstance> drawLast = new ArrayList<>();
         for (ComponentInstance component: displayedSheet.components) {
             if (component.isPlaced) {
@@ -77,6 +86,9 @@ public class CanvasRenderer {
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         context.setTextAlign(TextAlignment.CENTER);
         context.setTextBaseline(VPos.CENTER);
+        context.setLineWidth(Config.WSWireSize * scale);
+        context.setLineJoin(StrokeLineJoin.ROUND);
+
     }
     public void setCanvasParent(ScrollPane parent) {
         parent.setContent(canvas);

@@ -1,11 +1,7 @@
-package com.Graphics.Canvas;
+package com.Graphics.Workspace;
 
-import com.Config;
+import com.Physics.Component;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
-
-import java.util.ConcurrentModificationException;
 
 /**
  * This class represents a theoretical object
@@ -33,6 +29,8 @@ public class SheetObject {
         return width;
     }
 
+    public Boolean[] truthTable;
+
     private SheetObject() {}
 
     public SheetObject(String name, Color color, int inputs, int outputs) {
@@ -53,6 +51,28 @@ public class SheetObject {
         for (int i = 0; i < outputs; i++) {
             outputNodeHeights[i] = nodeSpace * i + (height - nodeSpace * (outputs - 1)) / 2d;
         }
+    }
+
+    public SheetObject(String name, Color color, int inputs, int outputs, Boolean[] truthTable) {
+        this.name = name;
+
+        this.color = color;
+        this.inputs = inputs;
+        this.outputs = outputs;
+
+        width = 0.60 * (name.length() + 5);
+        height = Math.max(inputs - 1, outputs - 1) * nodeSpace + 2 * outSpace;
+
+        inputNodeHeights = new double[inputs];
+        for (int i = 0; i < inputs; i++) {
+            inputNodeHeights[i] = nodeSpace * i + (height - nodeSpace * (inputs - 1)) / 2d;
+        }
+        outputNodeHeights = new double[outputs];
+        for (int i = 0; i < outputs; i++) {
+            outputNodeHeights[i] = nodeSpace * i + (height - nodeSpace * (outputs - 1)) / 2d;
+        }
+
+        this.truthTable = truthTable;
     }
 
     public static SheetObject DefaultNode() {
