@@ -10,6 +10,8 @@ public class WireInstance {
     NodeInstance start;
     NodeInstance end;
 
+    public boolean isReal = true;
+
     com.Physics.Wire physicWire = new Wire();
 
     private boolean state;
@@ -18,8 +20,12 @@ public class WireInstance {
     }
     public void setState(boolean state) {
         this.state = state;
-        start.setState(state);
-        end.setState(state);
+        if (Objects.nonNull(start)) {
+            start.setState(state);
+        }
+        if (Objects.nonNull(end)) {
+            end.setState(state);
+        }
     }
 
     private double startX;
@@ -51,6 +57,12 @@ public class WireInstance {
     public WireInstance() {
         wireInteraction = new WireInteraction(this);
     }
+    public WireInstance(NodeInstance start, NodeInstance end, boolean isReal) {
+        this();
+        this.start = start;
+        this.end = end;
+        this.isReal = isReal;
+    }
 
     public void updateWire() {
         if (Objects.nonNull(start)) {
@@ -69,18 +81,19 @@ public class WireInstance {
     }
 
     public void drawWire(GraphicsContext context, double scale) {
-        updateWire();
-        context.beginPath();
-        if (state) {
-            context.setStroke(Config.WSOnWiresColor);
+        if (isReal) {
+            updateWire();
+            context.beginPath();
+            if (state) {
+                context.setStroke(Config.WSOnWiresColor);
+            } else {
+                context.setStroke(Config.WSOffWiresColor);
+            }
+            context.moveTo(startX * scale, startY * scale);
+            context.lineTo(middle * scale, startY * scale);
+            context.lineTo(middle * scale, endY * scale);
+            context.lineTo(endX * scale, endY * scale);
         }
-        else {
-            context.setStroke(Config.WSOffWiresColor);
-        }
-        context.moveTo(startX * scale, startY * scale);
-        context.lineTo(middle * scale, startY * scale);
-        context.lineTo(middle * scale, endY * scale);
-        context.lineTo(endX * scale, endY * scale);
     }
 
     public void setStart(NodeInstance start) {

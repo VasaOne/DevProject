@@ -40,7 +40,7 @@ public class CanvasInteractions {
         if (Objects.nonNull(node)) {
             isNodeSelected = true;
             selectedNode = node;
-            //System.out.println();
+            //System.out.println("Click on node");
         }
         else {
             ComponentInstance component = sheet.getComponentAt(event.getX() / scale, event.getY() / scale);
@@ -59,6 +59,11 @@ public class CanvasInteractions {
 
     }
     private void OnMouseReleased(MouseEvent event) {
+        if (isNodeSelected) {
+            if (Objects.equals(sheet.getNodeAt(event.getX() / scale, event.getY() / scale), selectedNode) && selectedNode.isGlobalInput) {
+                selectedNode.getWire().setState(!selectedNode.getState());
+            }
+        }
         isNodeSelected = false;
         if (isComponentSelected) {
             if (!selectedComponent.canBePlaced) {

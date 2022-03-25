@@ -28,4 +28,6 @@ public class Config {
     public static double WSWireRound = 1;
     public static double WSWireMinWidth = 1.5;
     public static double WSComponentRoundSize = 0.3;
+    public static double WSNodeSpace = 1.4;
+    public static double WSOutSpace = 1;
 }
