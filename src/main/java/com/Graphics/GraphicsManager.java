@@ -29,6 +29,16 @@ public class GraphicsManager extends Application {
         CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
         renderer.setCanvasParent(pane);
 
+        NodeInstance.defaultNode = SheetObject.DefaultNode();
+
+        currentSheet.input.addNode(currentSheet);
+        currentSheet.input.addNode(currentSheet);
+        currentSheet.input.addNode(currentSheet);
+
+        currentSheet.output.addNode(currentSheet);
+        currentSheet.output.addNode(currentSheet);
+
+
         SheetObject orDoor = new SheetObject("or", Color.web("#33CC33"), 2, 1, new Boolean[]{false, true, true, true});
         SheetObject notDoor = new SheetObject("not", Color.web("#772288"), 1, 1, new Boolean[] {true,false});
         SheetObject andDoor = new SheetObject("and", Color.web("#03C93C"), 2, 1, new Boolean[]{false, false, false, true});
@@ -37,33 +47,31 @@ public class GraphicsManager extends Application {
         //SheetObject sevenSgtDisp = new SheetObject("7 segment", Color.web("#00FFCC"), 4, 7);
         //SheetObject fourBitsAdder = new SheetObject("4 bit adder", Color.PURPLE, 9, 5);
 
-        NodeInstance.defaultNode = SheetObject.DefaultNode();
-
         ComponentInstance or = new ComponentInstance(orDoor, 12, 6);
         ComponentInstance not = new ComponentInstance(notDoor, 18, 8);
         ComponentInstance and = new ComponentInstance(andDoor, 5, 3);
-        ComponentInstance button1 = new ComponentInstance(button, 0, 3);
-        ComponentInstance button2 = new ComponentInstance(button, 0, 6);
-        ComponentInstance button3 = new ComponentInstance(button, 0, 9);
-        ComponentInstance led1 = new ComponentInstance(led, 25, 8);
+//        ComponentInstance button1 = new ComponentInstance(button, 0, 3);
+//        ComponentInstance button2 = new ComponentInstance(button, 0, 6);
+//        ComponentInstance button3 = new ComponentInstance(button, 0, 9);
+//        ComponentInstance led1 = new ComponentInstance(led, 25, 8);
         //ComponentInstance fourBit = new ComponentInstance(fourBitsAdder, 20, 5);
 
         currentSheet.addObject(or);
         currentSheet.addObject(not);
         currentSheet.addObject(and);
-        currentSheet.addObject(button1);
-        currentSheet.addObject(button2);
-        currentSheet.addObject(button3);
-        currentSheet.addObject(led1);
+//        currentSheet.addObject(button1);
+//        currentSheet.addObject(button2);
+//        currentSheet.addObject(button3);
+//        currentSheet.addObject(led1);
         //currentSheet.addObject(new ComponentInstance(sevenSgtDisp, 17, 3));
 
         WireInstance wire0 = new WireInstance();
-        wire0.setStart(button1.outputs[0]);
+        wire0.setStart(currentSheet.input.nodes.get(0));
         wire0.setEnd(and.inputs[0]);
         currentSheet.addWire(wire0);
 
         WireInstance wire1 = new WireInstance();
-        wire1.setStart(button2.outputs[0]);
+        wire1.setStart(currentSheet.input.nodes.get(1));
         wire1.setEnd(and.inputs[1]);
         currentSheet.addWire(wire1);
 
@@ -73,7 +81,7 @@ public class GraphicsManager extends Application {
         currentSheet.addWire(wire2);
 
         WireInstance wire3 = new WireInstance();
-        wire3.setStart(button3.outputs[0]);
+        wire3.setStart(currentSheet.input.nodes.get(2));
         wire3.setEnd(or.inputs[1]);
         currentSheet.addWire(wire3);
 
@@ -84,7 +92,7 @@ public class GraphicsManager extends Application {
 
         WireInstance wire5 = new WireInstance();
         wire5.setStart(not.outputs[0]);
-        wire5.setEnd(led1.inputs[0]);
+        wire5.setEnd(currentSheet.output.nodes.get(1));
         currentSheet.addWire(wire5);
 
 
