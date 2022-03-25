@@ -50,10 +50,12 @@ public class NodeInstance extends ObjectInstance {
         instanceOf = defaultNode;
         this.setOriginX(centerX);
         this.setOriginY(centerY);
+        setWire(new WireInstance(this, this, false));
         state = false;
     }
     public NodeInstance(ObjectInstance relativeTo, double centerX, double centerY, boolean isGlobalInput) {
         this(relativeTo, centerX, centerY);
+        instanceOf = defaultNode;
         this.isGlobalInput = isGlobalInput;
     }
 

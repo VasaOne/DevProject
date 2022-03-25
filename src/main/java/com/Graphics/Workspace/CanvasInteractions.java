@@ -40,7 +40,7 @@ public class CanvasInteractions {
         if (Objects.nonNull(node)) {
             isNodeSelected = true;
             selectedNode = node;
-            System.out.println("Click on node");
+            //System.out.println("Click on node");
         }
         else {
             ComponentInstance component = sheet.getComponentAt(event.getX() / scale, event.getY() / scale);

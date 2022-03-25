@@ -28,36 +28,51 @@ public class GraphicsManager extends Application {
         CanvasRenderer renderer = new CanvasRenderer(currentSheet, 30);
         renderer.setCanvasParent(pane);
 
+        NodeInstance.defaultNode = SheetObject.DefaultNode();
+
+        currentSheet.input.addNode(currentSheet);
+        currentSheet.input.addNode(currentSheet);
+        currentSheet.input.addNode(currentSheet);
+
+        currentSheet.output.addNode(currentSheet);
+        currentSheet.output.addNode(currentSheet);
+
         SheetObject addDoor = new SheetObject("Add", Color.web("#33CC33"), 2, 1, new Boolean[] {});
         SheetObject notDoor = new SheetObject("not", Color.web("#772288"), 1, 1);
         SheetObject sevenSgtDisp = new SheetObject("7 segment", Color.web("#00FFCC"), 4, 7);
         //SheetObject fourBitsAdder = new SheetObject("4 bit adder", Color.PURPLE, 9, 5);
 
-        NodeInstance.defaultNode = SheetObject.DefaultNode();
+        ComponentInstance add = new ComponentInstance(addDoor, 2, 2);
+        ComponentInstance not = new ComponentInstance(notDoor, 10, 3);
+        //ComponentInstance fourBit = new ComponentInstance(fourBitsAdder, 20, 5);
 
-//        ComponentInstance add = new ComponentInstance(addDoor, 2, 2);
-//        ComponentInstance not = new ComponentInstance(notDoor, 10, 3);
-//        //ComponentInstance fourBit = new ComponentInstance(fourBitsAdder, 20, 5);
-//
-//        currentSheet.addObject(add);
-//        currentSheet.addObject(not);
-//        currentSheet.addObject(new ComponentInstance(sevenSgtDisp, 17, 3));
-//
-//        WireInstance wire = new WireInstance();
-//        wire.setStart(add.outputs[0]);
-//        wire.setEnd(not.inputs[0]);
-//
-//
-//        wire.setState(true);
-//
-//        currentSheet.addWire(wire);
+        currentSheet.addObject(add);
+        currentSheet.addObject(not);
+        currentSheet.addObject(new ComponentInstance(sevenSgtDisp, 17, 3));
 
-        currentSheet.input.addNode(currentSheet);
-        currentSheet.input.addNode(currentSheet);
-        currentSheet.input.addNode(currentSheet);
+        WireInstance wire = new WireInstance();
+        wire.setStart(add.outputs[0]);
+        wire.setEnd(not.inputs[0]);
 
-        currentSheet.output.addNode(currentSheet);
-        currentSheet.output.addNode(currentSheet);
+        wire.setState(true);
+
+        currentSheet.addWire(wire);
+
+        WireInstance wire2 = new WireInstance();
+        wire2.setStart(currentSheet.input.nodes.get(0));
+        wire2.setEnd(add.inputs[0]);
+
+        wire2.setState(true);
+
+        currentSheet.addWire(wire2);
+
+        WireInstance wire3 = new WireInstance();
+        wire3.setStart(currentSheet.input.nodes.get(1));
+        wire3.setEnd(add.inputs[1]);
+
+        wire3.setState(true);
+
+        currentSheet.addWire(wire3);
 
         AnimationTimer animate = new AnimationTimer() {
             @Override

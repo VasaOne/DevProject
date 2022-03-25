@@ -56,7 +56,7 @@ public class IOComponent extends ObjectInstance {
             }
             context.fillOval(
                     node.getOriginX() * scale,
-                    node.getOriginY() * scale + height / 2d,
+                    node.getOriginY() * scale,
                     node.instanceOf.getWidth() * scale,
                     node.instanceOf.getHeight() * scale
             );

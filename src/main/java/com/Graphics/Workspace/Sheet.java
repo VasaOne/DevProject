@@ -56,7 +56,6 @@ public class Sheet {
      */
     public NodeInstance getNodeAt(double xNU, double yNU) {
         for (NodeInstance node: nodes) {
-            System.out.println(node.originY);
             if (Math.pow(xNU - node.getCenterX(), 2) + Math.pow(yNU - node.getCenterY(), 2) <= Math.pow(node.instanceOf.getWidth() / 2, 2)) {
                 return node;
             }
