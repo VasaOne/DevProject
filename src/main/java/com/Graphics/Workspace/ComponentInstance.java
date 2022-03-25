@@ -111,15 +111,13 @@ public class ComponentInstance extends ObjectInstance {
     }
 
     boolean areWiresFacing() {
-        if (testWires(inputs)) return false;
-        if (testWires(outputs)) return false;
-        return true;
+        return !testWires(inputs) && !testWires(outputs);
     }
 
     private boolean testWires(NodeInstance[] outputs) {
         for (NodeInstance node: outputs) {
             WireInstance wire = node.getWire();
-            if (Objects.nonNull(wire)) {
+            if (Objects.nonNull(wire) && wire.isReal) {
                 if (!wire.isWidthLarge()) {
                     return true;
                 }
