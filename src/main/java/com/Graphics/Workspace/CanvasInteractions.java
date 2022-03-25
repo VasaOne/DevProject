@@ -40,7 +40,7 @@ public class CanvasInteractions {
         if (Objects.nonNull(node)) {
             isNodeSelected = true;
             selectedNode = node;
-            //System.out.println();
+            //System.out.println("Click on node");
         }
         else {
             ComponentInstance component = sheet.getComponentAt(event.getX() / scale, event.getY() / scale);
@@ -59,6 +59,11 @@ public class CanvasInteractions {
 
     }
     private void OnMouseReleased(MouseEvent event) {
+        if (isNodeSelected) {
+            if (Objects.equals(sheet.getNodeAt(event.getX() / scale, event.getY() / scale), selectedNode) && selectedNode.isGlobalInput) {
+                selectedNode.getWire().setState(!selectedNode.getState());
+            }
+        }
         isNodeSelected = false;
         if (isComponentSelected) {
             if (!selectedComponent.canBePlaced) {
@@ -79,20 +84,23 @@ public class CanvasInteractions {
             double posX = event.getX() / scale;
             double posY = event.getY() / scale;
 
-            if (selectedComponent.isOnSheet(sheet.width, sheet.height)) {
+            if (!selectedComponent.isOnSheet(sheet.width, sheet.height)) {
+                selectedComponent.canBePlaced = false;
+                System.out.println("Not on sheet");
+            }
+            else {
                 ComponentInstance override = sheet.isOverriding(selectedComponent);
                 if (Objects.nonNull(override) || !selectedComponent.areWiresFacing()) {
                     selectedComponent.canBePlaced = false;
+                    System.out.println("Wire inverted");
                 }
                 else if (sheet.areWiresOverriding()) {
                     selectedComponent.canBePlaced = false;
+                    System.out.println("Wire overriding");
                 }
                 else {
                     selectedComponent.canBePlaced = true;
                 }
-            }
-            else {
-                selectedComponent.canBePlaced = false;
             }
             selectedComponent.moveComponent(posX - xFromOrigin, posY - yFromOrigin);
         }

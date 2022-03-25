@@ -46,7 +46,6 @@ public class CanvasRenderer {
 
         /*CanvasInteractions interactions = */
         new CanvasInteractions(this, displayedSheet, canvas, scale);
-        //canvas.setOnMouseClicked(mouseEvent -> System.out.println("Hi"));
     }
 
     public void renderGraphicContext() {
@@ -72,6 +71,9 @@ public class CanvasRenderer {
             component.drawComponent(context, scale);
         }
         context.setGlobalAlpha(1);
+
+        displayedSheet.input.drawComponent(context, scale, canvas.getHeight());
+        displayedSheet.output.drawComponent(context, scale, canvas.getHeight());
     }
 
     public void setDisplayedSheet(Sheet displayedSheet) {

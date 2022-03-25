@@ -15,8 +15,6 @@ public class ComponentInstance extends ObjectInstance {
     boolean isPlaced = false;
     boolean canBePlaced = true;
 
-    private Component physicComponent;
-
     public ComponentInstance(SheetObject object) {
         instanceOf = object;
         inputs = new NodeInstance[instanceOf.inputs];
@@ -112,20 +110,14 @@ public class ComponentInstance extends ObjectInstance {
         originY = toYNU;
     }
 
-    public Component getPhysicComponent() {
-        return physicComponent;
-    }
-
     boolean areWiresFacing() {
-        if (testWires(inputs)) return false;
-        if (testWires(outputs)) return false;
-        return true;
+        return !testWires(inputs) && !testWires(outputs);
     }
 
     private boolean testWires(NodeInstance[] outputs) {
         for (NodeInstance node: outputs) {
             WireInstance wire = node.getWire();
-            if (Objects.nonNull(wire)) {
+            if (Objects.nonNull(wire) && wire.isReal) {
                 if (!wire.isWidthLarge()) {
                     return true;
                 }
