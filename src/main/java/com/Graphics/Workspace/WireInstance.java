@@ -41,7 +41,7 @@ public class WireInstance {
     public double getMiddle() {
         return middle;
     }
-    private boolean useDefaultMiddle;
+    private boolean useDefaultMiddle = true;
 
     private double endX;
     public double getEndX() {
@@ -62,13 +62,13 @@ public class WireInstance {
         this.start = start;
         this.end = end;
         this.isReal = isReal;
+        testMiddle();
     }
 
     public void updateWire() {
         if (Objects.nonNull(start)) {
             startX = start.getCenterX();
             startY = start.getCenterY();
-            testMiddle();
         }
         if (Objects.nonNull(end)) {
             endX = end.getCenterX();

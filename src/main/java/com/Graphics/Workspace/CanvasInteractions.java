@@ -84,20 +84,23 @@ public class CanvasInteractions {
             double posX = event.getX() / scale;
             double posY = event.getY() / scale;
 
-            if (selectedComponent.isOnSheet(sheet.width, sheet.height)) {
+            if (!selectedComponent.isOnSheet(sheet.width, sheet.height)) {
+                selectedComponent.canBePlaced = false;
+                //System.out.println("Not on sheet");
+            }
+            else {
                 ComponentInstance override = sheet.isOverriding(selectedComponent);
                 if (Objects.nonNull(override) || !selectedComponent.areWiresFacing()) {
                     selectedComponent.canBePlaced = false;
+                    //System.out.println("Wire inverted");
                 }
                 else if (sheet.areWiresOverriding()) {
                     selectedComponent.canBePlaced = false;
+                    //System.out.println("Wire overriding");
                 }
                 else {
                     selectedComponent.canBePlaced = true;
                 }
-            }
-            else {
-                selectedComponent.canBePlaced = false;
             }
             selectedComponent.moveComponent(posX - xFromOrigin, posY - yFromOrigin);
         }
