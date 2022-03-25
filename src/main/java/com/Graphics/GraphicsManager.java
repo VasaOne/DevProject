@@ -1,7 +1,6 @@
 package com.Graphics;
 
 import com.Graphics.Workspace.*;
-import com.Physics.Component;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +24,8 @@ public class GraphicsManager extends Application {
         pane.setFitToHeight(true);
         pane.setFitToWidth(true);
 
-        Sheet currentSheet = new Sheet(20, 30);
-        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
+        Sheet currentSheet = new Sheet(30, 15);
+        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 30);
         renderer.setCanvasParent(pane);
 
         SheetObject addDoor = new SheetObject("Add", Color.web("#33CC33"), 2, 1, new Boolean[] {});
@@ -36,28 +35,29 @@ public class GraphicsManager extends Application {
 
         NodeInstance.defaultNode = SheetObject.DefaultNode();
 
-        ComponentInstance add = new ComponentInstance(addDoor, 2, 2);
-        ComponentInstance not = new ComponentInstance(notDoor, 10, 3);
-        ComponentInstance add2 = new ComponentInstance(addDoor, 10, 10);
-        //ComponentInstance fourBit = new ComponentInstance(fourBitsAdder, 20, 5);
+//        ComponentInstance add = new ComponentInstance(addDoor, 2, 2);
+//        ComponentInstance not = new ComponentInstance(notDoor, 10, 3);
+//        //ComponentInstance fourBit = new ComponentInstance(fourBitsAdder, 20, 5);
+//
+//        currentSheet.addObject(add);
+//        currentSheet.addObject(not);
+//        currentSheet.addObject(new ComponentInstance(sevenSgtDisp, 17, 3));
+//
+//        WireInstance wire = new WireInstance();
+//        wire.setStart(add.outputs[0]);
+//        wire.setEnd(not.inputs[0]);
+//
+//
+//        wire.setState(true);
+//
+//        currentSheet.addWire(wire);
 
-        currentSheet.addObject(add);
-        currentSheet.addObject(not);
-        currentSheet.addObject(new ComponentInstance(sevenSgtDisp, 17, 3));
-        currentSheet.addObject(add2);
+        currentSheet.input.addNode(currentSheet);
+        currentSheet.input.addNode(currentSheet);
+        currentSheet.input.addNode(currentSheet);
 
-        WireInstance wire = new WireInstance();
-        wire.setStart(add.outputs[0]);
-        wire.setEnd(not.inputs[0]);
-
-        WireInstance wire2 = new WireInstance();
-        wire2.setStart(not.outputs[0]);
-        wire2.setEnd(add2.inputs[1]);
-
-        wire.setState(true);
-
-        currentSheet.addWire(wire);
-        currentSheet.addWire(wire2);
+        currentSheet.output.addNode(currentSheet);
+        currentSheet.output.addNode(currentSheet);
 
         AnimationTimer animate = new AnimationTimer() {
             @Override

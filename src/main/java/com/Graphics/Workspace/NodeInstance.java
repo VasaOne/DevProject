@@ -3,7 +3,8 @@ package com.Graphics.Workspace;
 public class NodeInstance extends ObjectInstance {
     public static SheetObject defaultNode;
 
-    ComponentInstance relativeTo;
+    ObjectInstance relativeTo;
+    boolean isGlobalInput = false;
 
     /**
      * The position on the sheet relatively to the origin, in NU
@@ -44,12 +45,16 @@ public class NodeInstance extends ObjectInstance {
         this.state = state;
     }
 
-    public NodeInstance(ComponentInstance relativeTo, double centerX, double centerY) {
+    public NodeInstance(ObjectInstance relativeTo, double centerX, double centerY) {
         this.relativeTo = relativeTo;
         instanceOf = defaultNode;
         this.setOriginX(centerX);
         this.setOriginY(centerY);
         state = false;
+    }
+    public NodeInstance(ObjectInstance relativeTo, double centerX, double centerY, boolean isGlobalInput) {
+        this(relativeTo, centerX, centerY);
+        this.isGlobalInput = isGlobalInput;
     }
 
     private WireInstance wire;
@@ -58,7 +63,7 @@ public class NodeInstance extends ObjectInstance {
     }
     public WireInstance removeWire() {
         WireInstance wire = this.wire;
-        this.wire = null;
+        this.wire = new WireInstance(this, this, false);
         return wire;
     }
     public WireInstance getWire() {

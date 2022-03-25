@@ -17,19 +17,23 @@ public class Sheet {
      */
     double width;
 
-    double spaceBetween;
-
     ArrayList<ComponentInstance> components;
     ArrayList<NodeInstance> nodes;
     ArrayList<WireInstance> wires;
 
-    public Sheet(double height, double width) {
+    public IOComponent input;
+    public IOComponent output;
+
+    public Sheet(double width, double height) {
         this.height = height;
         this.width = width;
 
         components = new ArrayList<>();
         nodes = new ArrayList<>();
         wires = new ArrayList<>();
+
+        input = new IOComponent(true, 0);
+        output = new IOComponent(false, width);
     }
 
     public void addObject(ComponentInstance instance) {
@@ -40,6 +44,9 @@ public class Sheet {
     public void addWire(WireInstance wire) {
         wires.add(wire);
     }
+    public void addOrphanNode(NodeInstance node) {
+        nodes.add(node);
+    }
 
     /**
      * Gets the node
@@ -49,6 +56,7 @@ public class Sheet {
      */
     public NodeInstance getNodeAt(double xNU, double yNU) {
         for (NodeInstance node: nodes) {
+            System.out.println(node.originY);
             if (Math.pow(xNU - node.getCenterX(), 2) + Math.pow(yNU - node.getCenterY(), 2) <= Math.pow(node.instanceOf.getWidth() / 2, 2)) {
                 return node;
             }
