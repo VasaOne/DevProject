@@ -1,6 +1,5 @@
 package com.Physics;
 
-
 public class Main {
 
     public static void main(String[] args) {
@@ -38,17 +37,9 @@ public class Main {
         sheet.addWire(wire6);
 
 
-        //Note à moi même
-        /*
-        Problème : comment actualiser tous les wires et les compoenent dans le bon ordre ?????
-        ex : si dans un circuit on commence par actualiser le bout du circuit qui dépend du début alors on aura de faux résultats...
-        Créer un état null ? Les actualisations de Wire ne se feront que si l'etat des wires d'avant sont bien définis :)
-        Hourra, plus qu'a le mettre en place !
-        */
-
         //connexions
         //wire1
-        wire1.connect(button1, et);
+        wire1.connect(et, button1);
         button1.addWireOutput(wire1, 0);
         et.addWireInput(wire1, 0);
         //wire2
@@ -90,7 +81,6 @@ public class Main {
 
         System.out.println("wire6");
         System.out.println(wire6.getState());
-
 
     }
 }
