@@ -4,6 +4,7 @@ public class NodeInstance extends ObjectInstance {
     public static SheetObject defaultNode;
 
     ObjectInstance relativeTo;
+    boolean isInput;
     boolean isGlobalInput = false;
 
     /**
@@ -45,16 +46,17 @@ public class NodeInstance extends ObjectInstance {
         this.state = state;
     }
 
-    public NodeInstance(ObjectInstance relativeTo, double centerX, double centerY) {
+    public NodeInstance(ObjectInstance relativeTo, boolean isInput, double centerX, double centerY) {
         this.relativeTo = relativeTo;
+        this.isInput = isInput;
         instanceOf = defaultNode;
         this.setOriginX(centerX);
         this.setOriginY(centerY);
         setWire(new WireInstance(this, this, false));
         state = false;
     }
-    public NodeInstance(ObjectInstance relativeTo, double centerX, double centerY, boolean isGlobalInput) {
-        this(relativeTo, centerX, centerY);
+    public NodeInstance(ObjectInstance relativeTo, boolean isInput, double centerX, double centerY, boolean isGlobalInput) {
+        this(relativeTo, isInput, centerX, centerY);
         instanceOf = defaultNode;
         this.isGlobalInput = isGlobalInput;
     }

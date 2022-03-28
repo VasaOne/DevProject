@@ -20,10 +20,10 @@ public class ComponentInstance extends ObjectInstance {
         inputs = new NodeInstance[instanceOf.inputs];
         outputs = new NodeInstance[instanceOf.outputs];
         for (int i = 0; i < object.inputs; i++) {
-            inputs[i] = new NodeInstance(this, 0, instanceOf.inputNodeHeights[i]);
+            inputs[i] = new NodeInstance(this, false, 0, instanceOf.inputNodeHeights[i]);
         }
         for (int i = 0; i < object.outputs; i++) {
-            outputs[i] = new NodeInstance(this, instanceOf.getWidth(), instanceOf.outputNodeHeights[i]);
+            outputs[i] = new NodeInstance(this, true, instanceOf.getWidth(), instanceOf.outputNodeHeights[i]);
         }
         physicComponent = new Component(object.name, object.inputs, object.outputs, object.truthTable);
     }

@@ -3,6 +3,7 @@ package com.Graphics.Workspace;
 import com.Config;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A sheet which will contain our components and wires
@@ -46,6 +47,10 @@ public class Sheet {
     }
     public void addOrphanNode(NodeInstance node) {
         nodes.add(node);
+    }
+
+    public void removeWire(WireInstance wire) {
+        while (wires.remove(wire)) {}
     }
 
     /**
@@ -92,7 +97,9 @@ public class Sheet {
     }
     public boolean isWireOverriding(WireInstance wire) {
         for (ComponentInstance componentOnSheet: components) {
-            if (!componentOnSheet.equals(wire.start.relativeTo) && !componentOnSheet.equals(wire.end.relativeTo) && (
+            boolean isAroundWire = (Objects.nonNull(wire.start) && !componentOnSheet.equals(wire.start.relativeTo) || Objects.isNull(wire.start)) &&
+                    (Objects.nonNull(wire.end) && !componentOnSheet.equals(wire.end.relativeTo) || Objects.isNull(wire.end));
+            if (isAroundWire && (
                     (wire.getStartX() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
                     componentOnSheet.getOriginX() <= wire.getMiddle() + Config.WSDistBtwCompo + 1 &&
                     wire.getStartY() <= componentOnSheet.getOriginY() + componentOnSheet.instanceOf.getHeight() + Config.WSDistBtwCompo &&

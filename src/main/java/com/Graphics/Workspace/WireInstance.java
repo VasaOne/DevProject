@@ -12,6 +12,8 @@ public class WireInstance {
 
     public boolean isReal = true;
 
+    public boolean canBePlaced = true;
+
     com.Physics.Wire physicWire = new Wire();
 
     private boolean state;
@@ -84,9 +86,13 @@ public class WireInstance {
         if (isReal) {
             updateWire();
             context.beginPath();
-            if (state) {
+            if (!canBePlaced) {
+                context.setStroke(Config.WSDisabledColor);
+            }
+            else if (state) {
                 context.setStroke(Config.WSOnWiresColor);
-            } else {
+            }
+            else {
                 context.setStroke(Config.WSOffWiresColor);
             }
             context.moveTo(startX * scale, startY * scale);

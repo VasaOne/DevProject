@@ -12,6 +12,7 @@ public class IOComponent extends ObjectInstance {
     public boolean isInput;
 
     public double xPos;
+    public double height;
 
     private Component physicComponent;
 
@@ -26,8 +27,9 @@ public class IOComponent extends ObjectInstance {
     }
 
     public void addNode(Sheet sheet) {
-        NodeInstance node = new NodeInstance(this, xPos, 0, isInput);
+        NodeInstance node = new NodeInstance(this, isInput, xPos, 0, isInput);
         nodes.add(node);
+        height = sheet.height;
         recalculateNodePos();
         sheet.addOrphanNode(node);
     }
@@ -42,7 +44,7 @@ public class IOComponent extends ObjectInstance {
     private void recalculateNodePos() {
         int nodesNb = nodes.size();
         for (int i = 0; i < nodesNb; i++) {
-            nodes.get(i).setOriginY(Config.WSNodeSpace * i + ((nodesNb - 1) * Config.WSOutSpace + 1) / 2d);
+            nodes.get(i).setOriginY(height * (i + 1) / (nodesNb + 1) + 1/2);
         }
     }
 
