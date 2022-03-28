@@ -1,5 +1,7 @@
 package com.Graphics.Workspace;
 
+import java.util.ArrayList;
+
 public class NodeInstance extends ObjectInstance {
     public static SheetObject defaultNode;
 
@@ -61,14 +63,22 @@ public class NodeInstance extends ObjectInstance {
         this.isGlobalInput = isGlobalInput;
     }
 
-    private WireInstance wire;
+    private ArrayList<WireInstance> wires;
     public void setWire(WireInstance wire) {
-        this.wire = wire;
+        this.wires.add(wire);
     }
-    public WireInstance removeWire() {
-        WireInstance wire = this.wire;
-        this.wire = new WireInstance(this, this, false);
-        return wire;
+    public boolean removeWire(WireInstance wire) {
+        if (wires.remove(wire)) {
+            while (wires.remove(wire)) {}
+            if (wires.isEmpty()) {
+                wires.add(new WireInstance(this, this, false));
+            }
+            return true;
+        }
+        if (wires.isEmpty()) {
+            wires.add(new WireInstance(this, this, false));
+        }
+        return false;
     }
     public WireInstance getWire() {
         return wire;

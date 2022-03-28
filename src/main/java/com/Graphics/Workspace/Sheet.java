@@ -126,4 +126,7 @@ public class Sheet {
         }
         return false;
     }
+    public boolean isThereAWire(NodeInstance start, NodeInstance end) {
+        for (start.)
+    }
 }

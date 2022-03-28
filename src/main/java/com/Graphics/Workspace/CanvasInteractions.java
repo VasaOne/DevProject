@@ -119,7 +119,7 @@ public class CanvasInteractions {
                         selectedWire.setStart(event.getX() / scale, event.getY() / scale);
                     }
                 }
-                selectedWire.canBePlaced = !sheet.isWireOverriding(selectedWire);
+                selectedWire.canBePlaced = !sheet.isWireOverriding(selectedWire) && selectedWire.isWidthLarge() && ;
                 System.out.println(sheet.isWireOverriding(selectedWire));
             }
         }
