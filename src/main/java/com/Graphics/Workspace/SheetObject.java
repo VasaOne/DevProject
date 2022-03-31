@@ -52,23 +52,7 @@ public class SheetObject {
     }
 
     public SheetObject(String name, Color color, int inputs, int outputs, Boolean[] truthTable) {
-        this.name = name;
-
-        this.color = color;
-        this.inputs = inputs;
-        this.outputs = outputs;
-
-        width = 0.60 * (name.length() + 5);
-        height = Math.max(inputs - 1, outputs - 1) * Config.WSNodeSpace + 2 * Config.WSOutSpace;
-
-        inputNodeHeights = new double[inputs];
-        for (int i = 0; i < inputs; i++) {
-            inputNodeHeights[i] = Config.WSNodeSpace * i + (height - Config.WSNodeSpace * (inputs - 1)) / 2d;
-        }
-        outputNodeHeights = new double[outputs];
-        for (int i = 0; i < outputs; i++) {
-            outputNodeHeights[i] = Config.WSNodeSpace * i + (height - Config.WSNodeSpace * (outputs - 1)) / 2d;
-        }
+        this(name, color, inputs, outputs);
 
         this.truthTable = truthTable;
     }

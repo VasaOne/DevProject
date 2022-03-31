@@ -18,12 +18,20 @@ public class Sheet {
      */
     double width;
 
+    /**
+     * The components that the sheet contains
+     */
     ArrayList<ComponentInstance> components;
-    ArrayList<NodeInstance> nodes;
+    /**
+     * The nodes that the sheet contains
+     */
+    ArrayList<GraphicNode> nodes;
+    /**
+     * The real wires that the sheet contains
+     */
     ArrayList<WireInstance> wires;
 
-    public IOComponent input;
-    public IOComponent output;
+    public IOComponent ioComponent;
 
     public Sheet(double width, double height) {
         this.height = height;
@@ -33,8 +41,7 @@ public class Sheet {
         nodes = new ArrayList<>();
         wires = new ArrayList<>();
 
-        input = new IOComponent(true, 0);
-        output = new IOComponent(false, width);
+        ioComponent = new IOComponent();
     }
 
     public void addObject(ComponentInstance instance) {
@@ -45,7 +52,7 @@ public class Sheet {
     public void addWire(WireInstance wire) {
         wires.add(wire);
     }
-    public void addOrphanNode(NodeInstance node) {
+    public void addOrphanNode(GraphicNode node) {
         nodes.add(node);
     }
 
@@ -59,9 +66,9 @@ public class Sheet {
      * @param yNU the y coordinate
      * @return null if not node, else returns the node
      */
-    public NodeInstance getNodeAt(double xNU, double yNU) {
-        for (NodeInstance node: nodes) {
-            if (Math.pow(xNU - node.getCenterX(), 2) + Math.pow(yNU - node.getCenterY(), 2) <= Math.pow(node.instanceOf.getWidth() / 2, 2)) {
+    public GraphicNode getNodeAt(double xNU, double yNU) {
+        for (GraphicNode node: nodes) {
+            if (Math.pow(xNU - node.getCenterX(), 2) + Math.pow(yNU - node.getCenterY(), 2) <= 0.25d) {
                 return node;
             }
         }
@@ -97,8 +104,8 @@ public class Sheet {
     }
     public boolean isWireOverriding(WireInstance wire) {
         for (ComponentInstance componentOnSheet: components) {
-            boolean isAroundWire = (Objects.nonNull(wire.start) && !componentOnSheet.equals(wire.start.relativeTo) || Objects.isNull(wire.start)) &&
-                    (Objects.nonNull(wire.end) && !componentOnSheet.equals(wire.end.relativeTo) || Objects.isNull(wire.end));
+            boolean isAroundWire = (Objects.nonNull(wire.getStart()) && !componentOnSheet.equals(wire.getStart().relativeTo) || Objects.isNull(wire.getStart())) &&
+                    (Objects.nonNull(wire.getEnd()) && !componentOnSheet.equals(wire.getEnd().relativeTo) || Objects.isNull(wire.getEnd()));
             if (isAroundWire && (
                     (wire.getStartX() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
                     componentOnSheet.getOriginX() <= wire.getMiddle() + Config.WSDistBtwCompo + 1 &&
@@ -126,7 +133,8 @@ public class Sheet {
         }
         return false;
     }
-    public boolean isThereAWire(NodeInstance start, NodeInstance end) {
-        for (start.)
+    public boolean isThereAWire(OutputNode start, InputNode end) {
+        //On regarde simplement si le début du fil relié à end est start
+        return Objects.equals(end.wireConnected.getStart(), start);
     }
 }

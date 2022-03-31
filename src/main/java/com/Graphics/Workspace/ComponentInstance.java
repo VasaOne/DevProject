@@ -9,21 +9,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class ComponentInstance extends ObjectInstance {
-    public NodeInstance[] inputs;
-    public NodeInstance[] outputs;
+    public InputNode[] inputs;
+    public OutputNode[] outputs;
 
     boolean isPlaced = false;
     boolean canBePlaced = true;
 
     public ComponentInstance(SheetObject object) {
         instanceOf = object;
-        inputs = new NodeInstance[instanceOf.inputs];
-        outputs = new NodeInstance[instanceOf.outputs];
+        inputs = new InputNode[instanceOf.inputs];
+        outputs = new OutputNode[instanceOf.outputs];
         for (int i = 0; i < object.inputs; i++) {
-            inputs[i] = new NodeInstance(this, false, 0, instanceOf.inputNodeHeights[i]);
+            inputs[i] = new InputNode(this, 0, instanceOf.inputNodeHeights[i]);
         }
         for (int i = 0; i < object.outputs; i++) {
-            outputs[i] = new NodeInstance(this, true, instanceOf.getWidth(), instanceOf.outputNodeHeights[i]);
+            outputs[i] = new OutputNode(this, instanceOf.getWidth(), instanceOf.outputNodeHeights[i]);
         }
         physicComponent = new Component(object.name, object.inputs, object.outputs, object.truthTable);
     }
@@ -35,33 +35,33 @@ public class ComponentInstance extends ObjectInstance {
         physicComponent = new Component(object.name, object.inputs, object.outputs, object.truthTable);
     }
 
-    public ArrayList<NodeInstance> getAllNodes() {
-        ArrayList<NodeInstance> nodes = new ArrayList(List.of(inputs));
+    public ArrayList<GraphicNode> getAllNodes() {
+        ArrayList<GraphicNode> nodes = new ArrayList(List.of(inputs));
         nodes.addAll(List.of(outputs));
         return nodes;
     }
-    public ArrayList<NodeInstance> getOnNodes() {
-        ArrayList<NodeInstance> onNodes = new ArrayList<>();
-        for (NodeInstance node: inputs) {
+    public ArrayList<GraphicNode> getOnNodes() {
+        ArrayList<GraphicNode> onNodes = new ArrayList<>();
+        for (GraphicNode node: inputs) {
             if (node.getState()) {
                 onNodes.add(node);
             }
         }
-        for (NodeInstance node: outputs) {
+        for (GraphicNode node: outputs) {
             if (node.getState()) {
                 onNodes.add(node);
             }
         }
         return onNodes;
     }
-    public ArrayList<NodeInstance> getOffNodes() {
-        ArrayList<NodeInstance> offNodes = new ArrayList<>();
-        for (NodeInstance node: inputs) {
+    public ArrayList<GraphicNode> getOffNodes() {
+        ArrayList<GraphicNode> offNodes = new ArrayList<>();
+        for (GraphicNode node: inputs) {
             if (!node.getState()) {
                 offNodes.add(node);
             }
         }
-        for (NodeInstance node: outputs) {
+        for (GraphicNode node: outputs) {
             if (!node.getState()) {
                 offNodes.add(node);
             }
@@ -85,23 +85,8 @@ public class ComponentInstance extends ObjectInstance {
         context.setFill(Config.WSTextColor);
         context.fillText(instanceOf.name, getCenterX() * scale, getCenterY() * scale);
 
-        for (NodeInstance node: getOnNodes()) {
-            context.setFill(Config.WSOnNodesColor);
-            context.fillOval(
-                    node.getOriginX() * scale,
-                    node.getOriginY() * scale,
-                    node.instanceOf.getWidth() * scale,
-                    node.instanceOf.getHeight() * scale
-            );
-        }
-        for (NodeInstance node: getOffNodes()) {
-            context.setFill(Config.WSOffNodesColor);
-            context.fillOval(
-                    node.getOriginX() * scale,
-                    node.getOriginY() * scale,
-                    node.instanceOf.getWidth() * scale,
-                    node.instanceOf.getHeight() * scale
-            );
+        for (GraphicNode node: getAllNodes()) {
+            node.drawNode(context, scale);
         }
     }
 
@@ -111,19 +96,31 @@ public class ComponentInstance extends ObjectInstance {
     }
 
     boolean areWiresFacing() {
-        return !testWires(inputs) && !testWires(outputs);
+        return areInputWiresLongEnough() && areOutputWiresLongEnough();
     }
 
-    private boolean testWires(NodeInstance[] outputs) {
-        for (NodeInstance node: outputs) {
-            WireInstance wire = node.getWire();
-            if (Objects.nonNull(wire) && wire.isReal) {
-                if (!wire.isWidthLarge()) {
-                    return true;
+    private boolean areInputWiresLongEnough() {
+        //On regarde chaque input
+        for (InputNode node: inputs) {
+            //Si l'input est relié à un fil, mais que ce fil n'est pas assez long
+            if (node.wireConnected.isReal && !node.wireConnected.isWidthLarge()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean areOutputWiresLongEnough() {
+        //On regarde chaque ouput
+        for (OutputNode node: outputs) {
+            //Pour tous les fils reliés à l'output
+            for (int i = 1; i < node.wiresConnected.size(); i++) {
+                //Si le fil n'est pas assez long, on renvoit false
+                if (!node.wiresConnected.get(i).isWidthLarge()) {
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public boolean isOnSheet(double width, double height) {

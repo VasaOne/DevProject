@@ -5,63 +5,74 @@ import com.Physics.Component;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class IOComponent extends ObjectInstance {
-    public ArrayList<NodeInstance> nodes;
-
-    public boolean isInput;
-
-    public double xPos;
-    public double height;
+    public ArrayList<OutputNode> startNodes;
+    public ArrayList<InputNode> endNodes;
 
     private Component physicComponent;
 
-    public IOComponent(boolean isInput, double xPos) {
-        nodes = new ArrayList<>();
-
-        this.isInput = isInput;
-
-        String name = isInput ? "Input" : "Output";
-        this.xPos = xPos;
-        //physicComponent = new Component(name, , object.outputs, object.truthTable);
+    public IOComponent() {
+        startNodes = new ArrayList<>();
+        endNodes = new ArrayList<>();
     }
 
-    public void addNode(Sheet sheet) {
-        NodeInstance node = new NodeInstance(this, isInput, xPos, 0, isInput);
-        nodes.add(node);
-        height = sheet.height;
-        recalculateNodePos();
+    public void addStartNode(Sheet sheet) {
+        OutputNode node = new OutputNode(this, 0, 0);
+        node.isGlobal = true;
+        startNodes.add(node);
+        recalculateNodePos(sheet);
+        sheet.addOrphanNode(node);
+    }
+    public void addEndNode(Sheet sheet) {
+        InputNode node = new InputNode(this, 0, 0);
+        endNodes.add(node);
+        recalculateNodePos(sheet);
         sheet.addOrphanNode(node);
     }
 
-    public NodeInstance delNode(int index, Sheet sheet) {
-        NodeInstance node = nodes.remove(index);
-        recalculateNodePos();
+    public void delStartNode(OutputNode node, Sheet sheet) {
+        startNodes.remove(node);
         sheet.nodes.remove(node);
-        return node;
+        recalculateNodePos(sheet);
     }
-
-    private void recalculateNodePos() {
-        int nodesNb = nodes.size();
-        for (int i = 0; i < nodesNb; i++) {
-            nodes.get(i).setOriginY(height * (i + 1) / (nodesNb + 1) + 1/2);
+    public void delEndNode(InputNode node, Sheet sheet) {
+        endNodes.remove(node);
+        sheet.nodes.remove(node);
+        recalculateNodePos(sheet);
+    }
+    public void delNode(GraphicNode node, Sheet sheet) {
+        if (node instanceof OutputNode) {
+            delStartNode((OutputNode)node , sheet);
+        }
+        else {
+            delEndNode((InputNode)node, sheet);
         }
     }
 
-    public void drawComponent(GraphicsContext context, double scale, double height) {
-        for (NodeInstance node: nodes) {
-            if (node.getState()) {
-                context.setFill(Config.WSOnNodesColor);
-            }
-            else {
-                context.setFill(Config.WSOffNodesColor);
-            }
-            context.fillOval(
-                    node.getOriginX() * scale,
-                    node.getOriginY() * scale,
-                    node.instanceOf.getWidth() * scale,
-                    node.instanceOf.getHeight() * scale
-            );
+    private void recalculateNodePos(Sheet sheet) {
+        double startOff = (sheet.height - (startNodes.size() - 1) * Config.WSNodeSpace + 1) / 2;
+        int i = 0;
+        for (OutputNode startNode: startNodes) {
+            startNode.originX = -0.5;
+            startNode.originY = startOff + i * Config.WSNodeSpace;
+            i++;
+        }
+        double endOff = (sheet.height - (endNodes.size() - 1) * Config.WSNodeSpace + 1) / 2;
+        i = 0;
+        for (InputNode endNode: endNodes) {
+            endNode.originX = sheet.width - 0.5;
+            endNode.originY = endOff + i * Config.WSNodeSpace;
+        }
+    }
+
+    public void drawComponent(GraphicsContext context, double scale) {
+        for (OutputNode startNode: startNodes) {
+            startNode.drawNode(context, scale);
+        }
+        for (InputNode endNode: endNodes) {
+            endNode.drawNode(context, scale);
         }
     }
 }

@@ -72,8 +72,7 @@ public class CanvasRenderer {
         }
         context.setGlobalAlpha(1);
 
-        displayedSheet.input.drawComponent(context, scale, canvas.getHeight());
-        displayedSheet.output.drawComponent(context, scale, canvas.getHeight());
+        displayedSheet.ioComponent.drawComponent(context, scale);
     }
 
     public void setDisplayedSheet(Sheet displayedSheet) {

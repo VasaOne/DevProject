@@ -7,11 +7,10 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.Objects;
 
 public class WireInstance {
-    NodeInstance start;
-    NodeInstance end;
+    private OutputNode start;
+    private InputNode end;
 
     public boolean isReal = true;
-
     public boolean canBePlaced = true;
 
     com.Physics.Wire physicWire = new Wire();
@@ -59,7 +58,7 @@ public class WireInstance {
     public WireInstance() {
         wireInteraction = new WireInteraction(this);
     }
-    public WireInstance(NodeInstance start, NodeInstance end, boolean isReal) {
+    public WireInstance(OutputNode start, InputNode end, boolean isReal) {
         this();
         this.start = start;
         this.end = end;
@@ -102,14 +101,14 @@ public class WireInstance {
         }
     }
 
-    public void setStart(NodeInstance start) {
+    public void setStart(OutputNode start) {
         this.start = start;
-        start.setWire(this);
+        start.addWire(this);
         startX = start.getCenterX();
         startY = start.getCenterY();
         testMiddle();
     }
-    public void setEnd(NodeInstance end) {
+    public void setEnd(InputNode end) {
         this.end = end;
         end.setWire(this);
         endX = end.getCenterX();
@@ -117,18 +116,19 @@ public class WireInstance {
         testMiddle();
     }
 
-    public NodeInstance getStart() {
+    public OutputNode getStart() {
         return start;
     }
-    public NodeInstance getEnd() {
+    public InputNode getEnd() {
         return end;
     }
 
     public void setStart(double startX, double startY) {
         this.startX = startX;
         this.startY = startY;
+        //Si start était déjà assigné à un node
         if (Objects.nonNull(start)) {
-            start.removeWire();
+            start.removeWire(this);
             start = null;
         }
         testMiddle();
@@ -136,6 +136,7 @@ public class WireInstance {
     public void setEnd(double endX, double endY) {
         this.endX = endX;
         this.endY = endY;
+        //Si end était déjà assigné à un fil
         if (Objects.nonNull(end)) {
             end.removeWire();
             end = null;

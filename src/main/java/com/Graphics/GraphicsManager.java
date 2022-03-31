@@ -29,14 +29,12 @@ public class GraphicsManager extends Application {
         CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
         renderer.setCanvasParent(pane);
 
-        NodeInstance.defaultNode = SheetObject.DefaultNode();
+        currentSheet.ioComponent.addStartNode(currentSheet);
+        currentSheet.ioComponent.addStartNode(currentSheet);
+        currentSheet.ioComponent.addStartNode(currentSheet);
 
-        currentSheet.input.addNode(currentSheet);
-        currentSheet.input.addNode(currentSheet);
-        currentSheet.input.addNode(currentSheet);
-
-        currentSheet.output.addNode(currentSheet);
-        currentSheet.output.addNode(currentSheet);
+        currentSheet.ioComponent.addEndNode(currentSheet);
+        currentSheet.ioComponent.addEndNode(currentSheet);
 
 
         SheetObject orDoor = new SheetObject("or", Color.web("#33CC33"), 2, 1, new Boolean[]{false, true, true, true});
@@ -52,7 +50,7 @@ public class GraphicsManager extends Application {
         currentSheet.addObject(and);
 
         WireInstance wire0 = new WireInstance();
-        wire0.setStart(currentSheet.input.nodes.get(0));
+        wire0.setStart(currentSheet.ioComponent.startNodes.get(0));
         wire0.setEnd(and.inputs[0]);
         currentSheet.addWire(wire0);
 
