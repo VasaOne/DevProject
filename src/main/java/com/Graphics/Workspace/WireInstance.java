@@ -110,7 +110,6 @@ public class WireInstance {
     }
     public void setEnd(InputNode end) {
         this.end = end;
-        end.setWire(this);
         endX = end.getCenterX();
         endY = end.getCenterY();
         testMiddle();

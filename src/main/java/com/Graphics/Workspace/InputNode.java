@@ -23,7 +23,7 @@ public class InputNode extends GraphicNode {
     }
 
     public void setWire(WireInstance wire) {
-        wireConnected = wire;
+        wireConnected.setEnd(this);
     }
     public void removeWire() {
         wireConnected = abstractWire;
