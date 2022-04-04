@@ -26,7 +26,7 @@ public class CanvasInteractions {
     private double firstXPosition;
     private double firstYPosition;
 
-    public CanvasInteractions(CanvasRenderer renderer, Sheet sheet, Canvas canvas, double scale) {
+    public CanvasInteractions(Sheet sheet, Canvas canvas, double scale) {
         this.sheet = sheet;
         this.scale = scale;
         canvas.setOnMousePressed(this::OnMousePressed);
@@ -50,7 +50,7 @@ public class CanvasInteractions {
                 //On note qu'un node est sélectionné
                 currentAction = CurrentAction.pressOnInputNode;
             }
-            System.out.println("Click on node");
+            //System.out.println("Click on node");
             return;
         }
         // Si ce n'est pas un node, on tente avec un composant
@@ -66,20 +66,19 @@ public class CanvasInteractions {
 
             xFromOrigin = event.getX() / scale - selectedComponent.getOriginX();
             yFromOrigin = event.getY() / scale - selectedComponent.getOriginY();
-            //System.out.println("Component selected, " + selectedComponent.instanceOf.name);
         }
     }
     private void OnMouseReleased(MouseEvent event) {
         switch (currentAction) {
             // Si un fil est sélectionné, on ouvre le menu de contexte
             case pressOnWire:
+                System.out.println("Wire selected");
                 break;
 
-            // Si un output node est sélectionné, ???
+            // Si un output node est sélectionné, on vérifie si ce node est global pour changer l'état de son fil
             case pressOnOutputNode:
                 if (Objects.equals(sheet.getNodeAt(event.getX() / scale, event.getY() / scale), selectedNode) && selectedNode.isGlobal && selectedNode instanceof OutputNode) {
                     selectedNode.setState(!selectedNode.getState());
-                    System.out.println("hi !");
                 }
                 break;
 
@@ -114,28 +113,6 @@ public class CanvasInteractions {
         currentAction = CurrentAction.none;
         startNode = null;
         endNode = null;
-//        if (isWireSelected) {
-//            if (!selectedWire.canBePlaced) {
-//                sheet.removeWire(selectedWire);
-//            }
-//            isWireSelected = false;
-//        }
-//        else if (isNodeSelected) {
-//            if (Objects.equals(sheet.getNodeAt(event.getX() / scale, event.getY() / scale), selectedNode) && selectedNode.isGlobal && selectedNode instanceof OutputNode) {
-//                selectedNode.setState(!selectedNode.getState());
-//                System.out.println("hi !");
-//            }
-//        }
-
-//        if (isComponentSelected) {
-//            if (!selectedComponent.canBePlaced) {
-//                selectedComponent.moveComponent(firstXPosition, firstYPosition);
-//                selectedComponent.canBePlaced = true;
-//            }
-//            selectedComponent.isPlaced = true;
-//        }
-//        isComponentSelected = false;
-//        //System.out.println("Released");
     }
     private void OnMouseDragged(MouseEvent event) {
         double posX = event.getX() / scale;
@@ -163,9 +140,7 @@ public class CanvasInteractions {
                     selectedWire = new WireInstance();
                     sheet.addWire(selectedWire);
                     selectedWire.setStart(startNode);
-
-                    // On ajoute le fil à start node
-                    startNode.addWire(selectedWire);
+                    startNode.setState(startNode.getState());
 
                     // On passe en wireDrag
                     currentAction = CurrentAction.wireDragFromOutput;
@@ -187,12 +162,14 @@ public class CanvasInteractions {
                         // Si le node de fin est vide
                         if (!endNode.hasWire()) {
                             // On connecte le fil
-                            endNode.setWire(selectedWire);
+                            //endNode.setWire(selectedWire);
                             selectedWire.setEnd(endNode);
+
+                            selectedWire.canBePlaced = true;
                         }
                         // Si le node de fin est déjà occupé
                         else {
-                            // On coupe les nodes pour passer au cas 5
+                            // On coupe les nodes pour passer au cas 6
                             possibleEndNode = null;
                             endNode = null;
                         }
@@ -206,9 +183,7 @@ public class CanvasInteractions {
 
                     // Cas 4 : on sort du node input
                     if (Objects.nonNull(endNode) && Objects.isNull(possibleEndNode)) {
-                        // On enlève le fil du node de sortie
-                        endNode.removeWire();
-                        // Puis on passe au cas 6 en cassant les nodes
+                        // On passe au cas 6 en cassant les nodes
                         endNode = null;
                     }
 
@@ -217,13 +192,12 @@ public class CanvasInteractions {
                         System.out.println("Warning ! Case happened, end node and possible end node not null");
 
                         // On suit d'abord le cas 3
-                        endNode.removeWire();
                         selectedWire.setEnd(posX, posY);
 
                         // Puis on suit le cas 1
                         if (!endNode.hasWire()) {
-                            endNode.setWire(selectedWire);
                             selectedWire.setEnd(endNode);
+                            selectedWire.canBePlaced = true;
                         }
                         else {
                             possibleEndNode = null;
@@ -235,9 +209,9 @@ public class CanvasInteractions {
                     if (Objects.isNull(endNode) && Objects.isNull(possibleEndNode)) {
                         // On fait suivre le fil par le curseur
                         selectedWire.setEnd(posX, posY);
-                    }
 
-                    testWirePlacing();
+                        testWirePlacing();
+                    }
                     break;
                 }
 
@@ -254,8 +228,7 @@ public class CanvasInteractions {
                         selectedWire = new WireInstance();
                         sheet.addWire(selectedWire);
                         selectedWire.setEnd(endNode);
-
-                        endNode.setWire(selectedWire);
+                        endNode.setState(endNode.getState());
 
                         currentAction = CurrentAction.wireDragFromInput;
                     }
@@ -275,8 +248,9 @@ public class CanvasInteractions {
                         startNode = (OutputNode) possibleStartNode;
 
                         // On connecte le fil
-                        startNode.addWire(selectedWire);
                         selectedWire.setStart(startNode);
+
+                        selectedWire.canBePlaced = true;
                     }
 
                     // Cas 3 : on entre sur un node input
@@ -287,8 +261,6 @@ public class CanvasInteractions {
 
                     // Cas 4 : on sort du node input
                     if (Objects.nonNull(startNode) && Objects.isNull(possibleStartNode)) {
-                        // On enlève le fil du node de sortie
-                        startNode.removeWire(selectedWire);
                         // Puis on passe au cas 6 en cassant les nodes
                         startNode = null;
                     }
@@ -298,11 +270,9 @@ public class CanvasInteractions {
                         System.out.println("Warning ! Case happened, end node and possible end node not null");
 
                         // On suit d'abord le cas 3
-                        startNode.removeWire(selectedWire);
                         selectedWire.setStart(posX, posY);
 
                         // Puis on suit le cas 1
-                        endNode.setWire(selectedWire);
                         selectedWire.setStart(startNode);
                     }
 
@@ -310,9 +280,9 @@ public class CanvasInteractions {
                     if (Objects.isNull(startNode) && Objects.isNull(possibleStartNode)) {
                         // On fait suivre le fil par le curseur
                         selectedWire.setStart(posX, posY);
-                    }
 
-                    testWirePlacing();
+                        testWirePlacing();
+                    }
                     break;
                 }
 
@@ -323,111 +293,6 @@ public class CanvasInteractions {
                     break;
             }
         }
-//        //Cas où on sélectionne un node
-//        if (isNodeSelected) {
-//            //Si ce node est en entrée
-//            if (selectedNode instanceof OutputNode) {
-//                OutputNode start = (OutputNode) selectedNode;
-//                if (!isWireSelected) {
-//                    selectedWire = new WireInstance();
-//                    sheet.addWire(selectedWire);
-//                    isWireSelected = true;
-//                }
-//                selectedWire.setStart(start);
-//
-//                GraphicNode secondNode = sheet.getNodeAt(event.getX() / scale, event.getY() / scale);
-//
-//                System.out.println(Objects.isNull(secondNode));
-//                System.out.println(secondNode instanceof InputNode);
-//
-//
-//                if (secondNode instanceof InputNode) {
-//                    InputNode end = (InputNode) secondNode;
-//                    if (!Objects.equals(end.wireConnected, selectedWire)) {
-//                        if (!end.hasWire()) {
-//                            selectedWire.setEnd(end);
-//                        }
-//                        else {
-//                            selectedWire.setEnd(event.getX() / scale, event.getY() / scale);
-//                        }
-//                    }
-//                }
-//                else {
-//                    selectedWire.setEnd(event.getX() / scale, event.getY() / scale);
-//                }
-//            }
-//            //Si ce node est en sortie
-//            else {
-//                InputNode end = (InputNode) selectedNode;
-//                if (!end.hasWire() || Objects.equals(selectedWire, end.wireConnected)) {
-//                    if (!isWireSelected) {
-//                        selectedWire = new WireInstance();
-//                        sheet.addWire(selectedWire);
-//                        isWireSelected = true;
-//                    }
-//                    selectedWire.setEnd(end);
-//
-//                    GraphicNode secondNode = sheet.getNodeAt(event.getX() / scale, event.getY() / scale);
-//                    if (secondNode instanceof OutputNode) {
-//                        selectedWire.setStart((OutputNode) secondNode);
-//                    }
-//                    else {
-//                        selectedWire.setStart(event.getX() / scale, event.getY() / scale);
-//                    }
-//                }
-//            }
-//        }
-
-//
-//
-//
-//
-//            GraphicNode secondNode = sheet.getNodeAt(event.getX() / scale, event.getY() / scale);
-//            //Si la souris est sortie du node que l'on a sélectionné
-//            if (!Objects.equals(secondNode, selectedNode)) {
-//                OutputNode start;
-//                InputNode end;
-//                if (selectedNode instanceof OutputNode && )
-//                //Si on a pas de fil
-//                if (!isWireSelected) {
-//                    selectedWire = new WireInstance();
-//                    sheet.addWire(selectedWire);
-//                    isWireSelected = true;
-//                    if (selectedNode instanceof OutputNode) {
-//                        selectedWire.setStart((OutputNode)selectedNode);
-//                    }
-//                    else {
-//                        selectedWire.setEnd((InputNode)selectedNode);
-//                    }
-//                }
-//                //Si la node sélectionnée est en entrée du fil
-//                if (selectedNode instanceof OutputNode) {
-//                    if (Objects.nonNull(secondNode) && !(secondNode instanceof InputNode)) {
-//                        if (sheet.isThereAWire((OutputNode)se))
-//                        selectedWire.setEnd(secondNode);
-//                    }
-//                    else {
-//                        selectedWire.setEnd(event.getX() / scale, event.getY() / scale);
-//                    }
-//                }
-//                //Sinon
-//                else {
-//                    if (Objects.nonNull(secondNode) && secondNode.isInput) {
-//                        selectedWire.setStart(secondNode);
-//                    }
-//                    else {
-//                        selectedWire.setStart(event.getX() / scale, event.getY() / scale);
-//                    }
-//                }
-//                selectedWire.canBePlaced = !sheet.isWireOverriding(selectedWire) && selectedWire.isWidthLarge() && ;
-//                System.out.println(sheet.isWireOverriding(selectedWire));
-//            }
-//        }
-//        else if (isComponentSelected) {
-//            selectedComponent.isPlaced = false;
-//
-//
-//        }
     }
 
     private void testWirePlacing() {

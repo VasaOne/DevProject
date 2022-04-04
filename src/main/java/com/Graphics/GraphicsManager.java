@@ -51,7 +51,9 @@ public class GraphicsManager extends Application {
 
         WireInstance wire0 = new WireInstance();
         wire0.setStart(currentSheet.ioComponent.startNodes.get(0));
+        currentSheet.ioComponent.startNodes.get(0).addWire(wire0);
         wire0.setEnd(and.inputs[0]);
+        and.inputs[0].setWire(wire0);
         currentSheet.addWire(wire0);
 
 //        WireInstance wire1 = new WireInstance();
@@ -84,6 +86,7 @@ public class GraphicsManager extends Application {
             @Override
             public void handle(long l) {
                 CanvasAnimator(renderer);
+                //System.out.println(and.inputs[0].wireConnected.isReal);
             }
         };
         animate.start();

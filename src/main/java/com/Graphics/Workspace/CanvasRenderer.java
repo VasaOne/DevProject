@@ -25,27 +25,21 @@ public class CanvasRenderer {
     private Sheet displayedSheet;
 
     /**
-     * The default height of the canvas
-     */
-    private final double height;
-    /**
-     * The default width of the canvas
-     */
-    private final double width;
-    /**
      * The diameter in pixel of a node, so that size(pixel) = size(NU) * scale
      */
     private final double scale;
 
     public CanvasRenderer(Sheet displayedSheet, double defaultScale) {
         scale = defaultScale;
-        width = displayedSheet.width * scale;
-        height = displayedSheet.height * scale;
+        // The default width of the canvas
+        double width = displayedSheet.width * scale;
+        // The default height of the canvas
+        double height = displayedSheet.height * scale;
         this.displayedSheet = displayedSheet;
         setCanvas(new Canvas(width, height));
 
         /*CanvasInteractions interactions = */
-        new CanvasInteractions(this, displayedSheet, canvas, scale);
+        new CanvasInteractions(displayedSheet, canvas, scale);
     }
 
     public void renderGraphicContext() {

@@ -57,6 +57,7 @@ public class Sheet {
     }
 
     public void removeWire(WireInstance wire) {
+        wire.remove();
         while (true) {
             if (!wires.remove(wire)) break;
         }

@@ -21,12 +21,6 @@ public class WireInstance {
     }
     public void setState(boolean state) {
         this.state = state;
-        if (Objects.nonNull(start)) {
-            start.setState(state);
-        }
-        if (Objects.nonNull(end)) {
-            end.setState(state);
-        }
     }
 
     private double startX;
@@ -66,6 +60,9 @@ public class WireInstance {
         testMiddle();
     }
 
+    /**
+     * Updates the position of the wire.
+     */
     public void updateWire() {
         if (Objects.nonNull(start)) {
             startX = start.getCenterX();
@@ -81,6 +78,11 @@ public class WireInstance {
         }
     }
 
+    /**
+     * Draws the wire.
+     * @param context the context to draw on.
+     * @param scale the scale of the workspace.
+     */
     public void drawWire(GraphicsContext context, double scale) {
         if (isReal) {
             updateWire();
@@ -101,6 +103,10 @@ public class WireInstance {
         }
     }
 
+    /**
+     * Sets the start of the wire to the given node. Set itself as the start of the wire.
+     * @param start the node to set as start
+     */
     public void setStart(OutputNode start) {
         this.start = start;
         start.addWire(this);
@@ -108,8 +114,14 @@ public class WireInstance {
         startY = start.getCenterY();
         testMiddle();
     }
+
+    /**
+     * Sets the end of the wire to the given node. Set itself as the end of the wire.
+     * @param end the node to set as end
+     */
     public void setEnd(InputNode end) {
         this.end = end;
+        end.setWire(this);
         endX = end.getCenterX();
         endY = end.getCenterY();
         testMiddle();
@@ -122,6 +134,11 @@ public class WireInstance {
         return end;
     }
 
+    /**
+     * Sets the start of the wire to the give coordinates. Removes the start node if needed.
+     * @param startX the x coordinate of the start.
+     * @param startY the y coordinate of the start.
+     */
     public void setStart(double startX, double startY) {
         this.startX = startX;
         this.startY = startY;
@@ -132,6 +149,11 @@ public class WireInstance {
         }
         testMiddle();
     }
+    /**
+     * Sets the end of the wire to the give coordinates. Removes the end node if needed.
+     * @param endX the x coordinate of the end.
+     * @param endY the y coordinate of the end.
+     */
     public void setEnd(double endX, double endY) {
         this.endX = endX;
         this.endY = endY;
@@ -147,6 +169,9 @@ public class WireInstance {
         return (startX + endX) / 2;
     }
 
+    /**
+     * Test if the middle is in the right place
+     */
     void testMiddle() {
         if (middle < startX) {
             useDefaultMiddle = true;
@@ -158,7 +183,23 @@ public class WireInstance {
             middle = getDefaultMiddle();
         }
     }
+    /**
+     * Tests if the wire is large enough to be placed
+     * @return true if the wire is large enough to be placed, false otherwise
+     */
     boolean isWidthLarge() {
         return startX + Config.WSWireMinWidth < endX;
+    }
+
+    /**
+     * Removes the wire from its start and end.
+     */
+    public void remove() {
+        if (Objects.nonNull(start)) {
+            start.removeWire(this);
+        }
+        if (Objects.nonNull(end)) {
+            end.removeWire();
+        }
     }
 }
