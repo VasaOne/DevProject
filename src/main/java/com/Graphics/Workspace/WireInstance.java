@@ -87,6 +87,15 @@ public class WireInstance {
         if (isReal) {
             updateWire();
             context.beginPath();
+
+            boolean canBePlaced = this.canBePlaced;
+            if (Objects.nonNull(start)) {
+                canBePlaced &= start.relativeTo.canBePlaced;
+            }
+            if (Objects.nonNull(end)) {
+                canBePlaced &= end.relativeTo.canBePlaced;
+            }
+
             if (!canBePlaced) {
                 context.setStroke(Config.WSDisabledColor);
             }

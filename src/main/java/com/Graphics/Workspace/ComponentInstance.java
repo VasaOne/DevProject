@@ -13,7 +13,6 @@ public class ComponentInstance extends ObjectInstance {
     public OutputNode[] outputs;
 
     boolean isPlaced = false;
-    boolean canBePlaced = true;
     private boolean isSelected = false;
 
     public ComponentInstance(SheetObject object) {

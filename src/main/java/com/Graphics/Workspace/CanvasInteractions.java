@@ -181,7 +181,7 @@ public class CanvasInteractions {
                             //endNode.setWire(selectedWire);
                             selectedWire.setEnd(endNode);
 
-                            selectedWire.canBePlaced = true;
+                            selectedWire.canBePlaced = !sheet.isWireOverriding(selectedWire);
                         }
                         // Si le node de fin est déjà occupé
                         else {

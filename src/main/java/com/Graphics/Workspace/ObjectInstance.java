@@ -8,6 +8,8 @@ import com.Physics.Component;
 public abstract class ObjectInstance {
     public SheetObject instanceOf;
 
+    boolean canBePlaced = true;
+
     private double originX;
     private double originY;
 
