@@ -56,37 +56,10 @@ public class GraphicsManager extends Application {
         and.inputs[0].setWire(wire0);
         currentSheet.addWire(wire0);
 
-//        WireInstance wire1 = new WireInstance();
-//        wire1.setStart(currentSheet.input.nodes.get(1));
-//        wire1.setEnd(and.inputs[1]);
-//        currentSheet.addWire(wire1);
-//
-//        WireInstance wire2 = new WireInstance();
-//        wire2.setStart(and.outputs[0]);
-//        wire2.setEnd(or.inputs[0]);
-//        currentSheet.addWire(wire2);
-//
-//        WireInstance wire3 = new WireInstance();
-//        wire3.setStart(currentSheet.input.nodes.get(2));
-//        wire3.setEnd(or.inputs[1]);
-//        currentSheet.addWire(wire3);
-//
-//        WireInstance wire4 = new WireInstance();
-//        wire4.setStart(or.outputs[0]);
-//        wire4.setEnd(not.inputs[0]);
-//        currentSheet.addWire(wire4);
-//
-//        WireInstance wire5 = new WireInstance();
-//        wire5.setStart(not.outputs[0]);
-//        wire5.setEnd(currentSheet.output.nodes.get(1));
-//        currentSheet.addWire(wire5);
-
-
         AnimationTimer animate = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 CanvasAnimator(renderer);
-                //System.out.println(and.inputs[0].wireConnected.isReal);
             }
         };
         animate.start();

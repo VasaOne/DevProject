@@ -22,7 +22,7 @@ public class Config {
         return Font.font(size);
     }
 
-    //Other :
+    //Lengths of the workspace :
     public static double WSDistBtwCompo = 0.5;
     public static double WSWireSize = 0.4;
     public static double WSWireRound = 1;
@@ -30,4 +30,5 @@ public class Config {
     public static double WSComponentRoundSize = 0.3;
     public static double WSNodeSpace = 1.4;
     public static double WSOutSpace = 1;
+    public static double WSCompoSelectedSize = 0.2;
 }

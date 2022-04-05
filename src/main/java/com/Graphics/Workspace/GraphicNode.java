@@ -46,15 +46,24 @@ public abstract class GraphicNode {
      * The position on the sheet relative to the origin, in NU
      */
     public double getCenterX() {
-        return getOriginX() + 0.5;
+        return getOriginX() + getSize() / 2;
     }
     /**
      * The position on the sheet relative to the origin, in NU
      */
     public double getCenterY() {
-        return getOriginY() + 0.5;
+        return getOriginY() + getSize() / 2;
     }
 
+    public double getSize() {
+        return 1;//relativeTo.isSelected() ? Config.WSCompoSelectedSize + 1 : 1;
+    }
+
+    /**
+     * Draws the node on the workspace
+     * @param context the graphics context
+     * @param scale the scale of the workspace
+     */
     public void drawNode(GraphicsContext context, double scale) {
         if (getState()) {
             context.setFill(Config.WSOnNodesColor);
@@ -62,6 +71,16 @@ public abstract class GraphicNode {
         else {
             context.setFill(Config.WSOffNodesColor);
         }
-        context.fillOval(getOriginX() * scale, getOriginY() * scale, scale, scale);
+        context.fillOval(getOriginX() * scale, getOriginY() * scale, getSize() * scale, getSize() * scale);
     }
+//
+//    public void drawNode(GraphicsContext context, double scale, double xModifier) {
+//        if (getState()) {
+//            context.setFill(Config.WSOnNodesColor);
+//        }
+//        else {
+//            context.setFill(Config.WSOffNodesColor);
+//        }
+//        context.fillOval(getOriginX() * xModifier, getOriginY() * scale, scale, scale);
+//    }
 }
