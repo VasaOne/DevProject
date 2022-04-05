@@ -20,8 +20,8 @@ public class CanvasInteractions {
     private ComponentInstance selectedComponent;
     private WireInstance selectedWire;
 
-    private double xFromOrigin;
-    private double yFromOrigin;
+    private double xFromCenter;
+    private double yFromCenter;
 
     private double firstXPosition;
     private double firstYPosition;
@@ -59,13 +59,17 @@ public class CanvasInteractions {
             //On note qu'un composant est sélectionné
             currentAction = CurrentAction.pressOnComponent;
 
+            // On récupère le composant sélectionné
             selectedComponent = component;
 
-            firstXPosition = selectedComponent.getOriginX();
-            firstYPosition = selectedComponent.getOriginY();
+            firstXPosition = selectedComponent.getCenterX();
+            firstYPosition = selectedComponent.getCenterY();
 
-            xFromOrigin = event.getX() / scale - selectedComponent.getOriginX();
-            yFromOrigin = event.getY() / scale - selectedComponent.getOriginY();
+            xFromCenter = event.getX() / scale - selectedComponent.getCenterX();
+            yFromCenter = event.getY() / scale - selectedComponent.getCenterY();
+
+            selectedComponent.selectComponent(true);
+            selectedComponent.setCenter(firstXPosition, firstYPosition);
         }
     }
     private void OnMouseReleased(MouseEvent event) {
@@ -88,6 +92,10 @@ public class CanvasInteractions {
 
             // Si un composant est sélectionné, on
             case pressOnComponent:
+                double centerX1 = selectedComponent.getCenterX();
+                double centerY1 = selectedComponent.getCenterY();
+                selectedComponent.selectComponent(false);
+                selectedComponent.setCenter(centerX1, centerY1);
                 break;
 
             // Si un fil est en train d'être déplacé depuis un input ou un output
@@ -100,9 +108,17 @@ public class CanvasInteractions {
 
             // Si un composant est en train d'être déplacé
             case componentDrag:
+
                 if (!selectedComponent.canBePlaced) {
-                    selectedComponent.moveComponent(firstXPosition, firstYPosition);
+                    selectedComponent.selectComponent(false);
+                    selectedComponent.setCenter(firstXPosition, firstYPosition);
                     selectedComponent.canBePlaced = true;
+                }
+                else {
+                    double centerX2 = selectedComponent.getCenterX();
+                    double centerY2 = selectedComponent.getCenterY();
+                    selectedComponent.selectComponent(false);
+                    selectedComponent.setCenter(centerX2, centerY2);
                 }
                 selectedComponent.isPlaced = true;
                 break;
@@ -304,11 +320,11 @@ public class CanvasInteractions {
     }
 
     /**
-     * Test if the selected component can be moved at (posX, posY)
-     * @param posX the X coordinate in NU
-     * @param posY the Y coordinate in NU
+     * Test if the selected component can be moved at (centerX, centerY), which are the center of the component
+     * @param centerX the X coordinate in NU
+     * @param centerY the Y coordinate in NU
      */
-    private void tryAndMoveComponent(double posX, double posY) {
+    private void tryAndMoveComponent(double centerX, double centerY) {
         if (!selectedComponent.isOnSheet(sheet.width, sheet.height)) {
             selectedComponent.canBePlaced = false;
             System.out.println("Not on sheet");
@@ -327,6 +343,6 @@ public class CanvasInteractions {
                 selectedComponent.canBePlaced = true;
             }
         }
-        selectedComponent.moveComponent(posX - xFromOrigin, posY - yFromOrigin);
+        selectedComponent.setCenter(centerX - xFromCenter, centerY - yFromCenter);
     }
 }

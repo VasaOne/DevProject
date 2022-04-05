@@ -3,6 +3,7 @@ package com.Graphics.Workspace;
 import com.Config;
 import com.Physics.Component;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -10,13 +11,35 @@ import java.util.Objects;
 public class IOComponent extends ObjectInstance {
     public ArrayList<OutputNode> startNodes;
     public ArrayList<InputNode> endNodes;
+    public Sheet sheet;
 
     private Component physicComponent;
 
-    public IOComponent() {
+    public IOComponent(Sheet sheet) {
+        setOrigin(sheet.width, 0);
         startNodes = new ArrayList<>();
         endNodes = new ArrayList<>();
+        this.sheet = sheet;
     }
+
+    /**
+     * Gets the width of the iocomponent, which is the one of the sheet.
+     * @return the width of the iocomponent
+     */
+    @Override
+    public double getWidth() {
+        return -sheet.width;
+    }
+
+    /**
+     * Gets the height of the iocomponent, which is the one of the sheet.
+     * @return the height of the iocomponent
+     */
+    @Override
+    public double getHeight() {
+        return sheet.height;
+    }
+
 
     public void addStartNode(Sheet sheet) {
         OutputNode node = new OutputNode(this, 0, 0);
@@ -62,7 +85,7 @@ public class IOComponent extends ObjectInstance {
         double endOff = (sheet.height - (endNodes.size() - 1) * Config.WSNodeSpace + 1) / 2;
         i = 0;
         for (InputNode endNode: endNodes) {
-            endNode.originX = sheet.width - 0.5;
+            endNode.originX =  -0.5;
             endNode.originY = endOff + i * Config.WSNodeSpace;
         }
     }

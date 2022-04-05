@@ -41,7 +41,7 @@ public class Sheet {
         nodes = new ArrayList<>();
         wires = new ArrayList<>();
 
-        ioComponent = new IOComponent();
+        ioComponent = new IOComponent(this);
     }
 
     public void addObject(ComponentInstance instance) {
@@ -82,9 +82,9 @@ public class Sheet {
         for (ComponentInstance component: components) {
             if (component.isPlaced &&
                     component.getOriginX() <= xNU &&
-                    xNU <= component.getOriginX() + component.instanceOf.getWidth() &&
+                    xNU <= component.getOriginX() + component.getWidth() &&
                     component.getOriginY() <= yNU &&
-                    yNU <= component.getOriginY() + component.instanceOf.getHeight()
+                    yNU <= component.getOriginY() + component.getHeight()
             ) {
                 return component;
             }
@@ -95,10 +95,10 @@ public class Sheet {
     public ComponentInstance isOverriding(ComponentInstance componentToMove) {
         for (ComponentInstance componentOnSheet: components) {
             if (componentOnSheet.isPlaced &&
-                    componentToMove.getOriginX() <= componentOnSheet.getOriginX() + componentOnSheet.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
-                    componentOnSheet.getOriginX() <= componentToMove.getOriginX() + componentToMove.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
-                    componentToMove.getOriginY() <= componentOnSheet.getOriginY() + componentOnSheet.instanceOf.getHeight() + Config.WSDistBtwCompo &&
-                    componentOnSheet.getOriginY() <= componentToMove.getOriginY() + componentToMove.instanceOf.getHeight() + Config.WSDistBtwCompo
+                    componentToMove.getOriginX() <= componentOnSheet.getOriginX() + componentOnSheet.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    componentOnSheet.getOriginX() <= componentToMove.getOriginX() + componentToMove.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    componentToMove.getOriginY() <= componentOnSheet.getOriginY() + componentOnSheet.getHeight() + Config.WSDistBtwCompo &&
+                    componentOnSheet.getOriginY() <= componentToMove.getOriginY() + componentToMove.getHeight() + Config.WSDistBtwCompo
             ) {
                 return componentOnSheet;
             }
@@ -108,17 +108,17 @@ public class Sheet {
     public boolean isWireOverridingComponent(WireInstance wire, ComponentInstance component) {
         return (Objects.nonNull(wire.getStart()) && !Objects.equals(component, wire.getStart().relativeTo) || Objects.isNull(wire.getStart())) &&
                 (Objects.nonNull(wire.getEnd()) && !Objects.equals(component, wire.getEnd().relativeTo) || Objects.isNull(wire.getEnd())) &&
-                ((wire.getStartX() <= component.getOriginX() + component.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                ((wire.getStartX() <= component.getOriginX() + component.getWidth() + Config.WSDistBtwCompo + 1 &&
                     component.getOriginX() <= wire.getMiddle() + Config.WSDistBtwCompo + 1 &&
-                    wire.getStartY() <= component.getOriginY() + component.instanceOf.getHeight() + Config.WSDistBtwCompo &&
+                    wire.getStartY() <= component.getOriginY() + component.getHeight() + Config.WSDistBtwCompo &&
                     component.getOriginY() <= wire.getStartY() + Config.WSDistBtwCompo) ||
-                    (wire.getMiddle() <= component.getOriginX() + component.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    (wire.getMiddle() <= component.getOriginX() + component.getWidth() + Config.WSDistBtwCompo + 1 &&
                     component.getOriginX() <= wire.getMiddle() + Config.WSDistBtwCompo + 1 &&
-                    wire.getStartY() <= component.getOriginY() + component.instanceOf.getHeight() + Config.WSDistBtwCompo &&
+                    wire.getStartY() <= component.getOriginY() + component.getHeight() + Config.WSDistBtwCompo &&
                     component.getOriginY() <= wire.getEndY() + Config.WSDistBtwCompo) ||
-                    (wire.getMiddle() <= component.getOriginX() + component.instanceOf.getWidth() + Config.WSDistBtwCompo + 1 &&
+                    (wire.getMiddle() <= component.getOriginX() + component.getWidth() + Config.WSDistBtwCompo + 1 &&
                     component.getOriginX() <= wire.getEndX() + Config.WSDistBtwCompo + 1 &&
-                    wire.getEndY() <= component.getOriginY() + component.instanceOf.getHeight() + Config.WSDistBtwCompo &&
+                    wire.getEndY() <= component.getOriginY() + component.getHeight() + Config.WSDistBtwCompo &&
                     component.getOriginY() <= wire.getEndY() + Config.WSDistBtwCompo)
                 );
     }
