@@ -1,12 +1,14 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Component;
 
 import com.Config;
+import com.Graphics.Workspace.Node.GraphicNode;
+import com.Graphics.Workspace.Node.InputNode;
+import com.Graphics.Workspace.Node.OutputNode;
+import com.Graphics.Workspace.Sheet.Sheet;
 import com.Physics.Component;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class IOComponent extends ObjectInstance {
     public ArrayList<OutputNode> startNodes;
@@ -16,7 +18,7 @@ public class IOComponent extends ObjectInstance {
     private Component physicComponent;
 
     public IOComponent(Sheet sheet) {
-        setOrigin(sheet.width, 0);
+        setOrigin(sheet.getWidth(), 0);
         startNodes = new ArrayList<>();
         endNodes = new ArrayList<>();
         this.sheet = sheet;
@@ -28,7 +30,7 @@ public class IOComponent extends ObjectInstance {
      */
     @Override
     public double getWidth() {
-        return -sheet.width;
+        return -sheet.getWidth();
     }
 
     /**
@@ -37,7 +39,7 @@ public class IOComponent extends ObjectInstance {
      */
     @Override
     public double getHeight() {
-        return sheet.height;
+        return sheet.getHeight();
     }
 
 
@@ -75,18 +77,18 @@ public class IOComponent extends ObjectInstance {
     }
 
     private void recalculateNodePos(Sheet sheet) {
-        double startOff = (sheet.height - (startNodes.size() - 1) * Config.WSNodeSpace + 1) / 2;
+        double startOff = (sheet.getHeight() - (startNodes.size() - 1) * Config.WSNodeSpace + 1) / 2;
         int i = 0;
         for (OutputNode startNode: startNodes) {
-            startNode.originX = -0.5;
-            startNode.originY = startOff + i * Config.WSNodeSpace;
+            startNode.setOriginX(-0.5);
+            startNode.setOriginY(startOff + i * Config.WSNodeSpace);
             i++;
         }
-        double endOff = (sheet.height - (endNodes.size() - 1) * Config.WSNodeSpace + 1) / 2;
+        double endOff = (sheet.getHeight() - (endNodes.size() - 1) * Config.WSNodeSpace + 1) / 2;
         i = 0;
         for (InputNode endNode: endNodes) {
-            endNode.originX =  -0.5;
-            endNode.originY = endOff + i * Config.WSNodeSpace;
+            endNode.setOriginX(-0.5);
+            endNode.setOriginY(endOff + i * Config.WSNodeSpace);
         }
     }
 

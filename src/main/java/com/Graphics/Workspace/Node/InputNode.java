@@ -1,4 +1,7 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Node;
+
+import com.Graphics.Workspace.Component.ObjectInstance;
+import com.Graphics.Workspace.Wire.WireInstance;
 
 import java.util.Objects;
 

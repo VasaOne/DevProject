@@ -1,18 +1,21 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Component;
 
 import com.Config;
+import com.Graphics.Workspace.Application.SheetObject;
+import com.Graphics.Workspace.Node.GraphicNode;
+import com.Graphics.Workspace.Node.InputNode;
+import com.Graphics.Workspace.Node.OutputNode;
 import com.Physics.Component;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ComponentInstance extends ObjectInstance {
     public InputNode[] inputs;
     public OutputNode[] outputs;
 
-    boolean isPlaced = false;
+    public boolean isPlaced = false;
     private boolean isSelected = false;
 
     public ComponentInstance(SheetObject object) {
@@ -70,7 +73,7 @@ public class ComponentInstance extends ObjectInstance {
      * @return the ArrayList of all the nodes
      */
     public ArrayList<GraphicNode> getAllNodes() {
-        ArrayList<GraphicNode> nodes = new ArrayList(List.of(inputs));
+        ArrayList<GraphicNode> nodes = new ArrayList<>(List.of(inputs));
         nodes.addAll(List.of(outputs));
         return nodes;
     }
@@ -117,7 +120,7 @@ public class ComponentInstance extends ObjectInstance {
      * @param context the graphics context where to draw
      * @param scale the scale of the workspace
      */
-    void drawComponent(GraphicsContext context, double scale) {
+    public void drawComponent(GraphicsContext context, double scale) {
         // Determines the color of the component
         if (canBePlaced) {
             context.setFill(instanceOf.color);
@@ -149,7 +152,7 @@ public class ComponentInstance extends ObjectInstance {
      * Checks if the wires connected to this component instance are long enough
      * @return true if the wires are long enough, false otherwise
      */
-    boolean areWiresFacing() {
+    public boolean areWiresFacing() {
         return areInputWiresLongEnough() && areOutputWiresLongEnough();
     }
 

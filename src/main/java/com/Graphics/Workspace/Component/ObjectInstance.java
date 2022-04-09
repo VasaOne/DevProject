@@ -1,5 +1,6 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Component;
 
+import com.Graphics.Workspace.Application.SheetObject;
 import com.Physics.Component;
 
 /**
@@ -8,7 +9,7 @@ import com.Physics.Component;
 public abstract class ObjectInstance {
     public SheetObject instanceOf;
 
-    boolean canBePlaced = true;
+    public boolean canBePlaced = true;
 
     private double originX;
     private double originY;

@@ -1,13 +1,13 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Node;
 
 import com.Config;
+import com.Graphics.Workspace.Component.ObjectInstance;
+import com.Graphics.Workspace.Wire.WireInstance;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.Objects;
-
 public abstract class GraphicNode {
-    ObjectInstance relativeTo;
-    boolean isGlobal;
+    public ObjectInstance relativeTo;
+    public boolean isGlobal;
 
     protected WireInstance abstractWire;
 
@@ -40,6 +40,22 @@ public abstract class GraphicNode {
      */
     public double getOriginY() {
         return relativeTo.getOriginY() + originY;
+    }
+
+    /**
+     * Sets the origin of the node
+     * @param originX the new X origin
+     */
+    public void setOriginX(double originX) {
+        this.originX = originX;
+    }
+
+    /**
+     * Sets the origin of the node
+     * @param originY the new Y origin
+     */
+    public void setOriginY(double originY) {
+        this.originY = originY;
     }
 
     /**

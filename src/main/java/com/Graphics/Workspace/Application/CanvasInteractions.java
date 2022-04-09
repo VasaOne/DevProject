@@ -1,5 +1,11 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Application;
 
+import com.Graphics.Workspace.Component.ComponentInstance;
+import com.Graphics.Workspace.Node.GraphicNode;
+import com.Graphics.Workspace.Node.InputNode;
+import com.Graphics.Workspace.Node.OutputNode;
+import com.Graphics.Workspace.Sheet.Sheet;
+import com.Graphics.Workspace.Wire.WireInstance;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 
@@ -133,7 +139,7 @@ public class CanvasInteractions {
     private void OnMouseDragged(MouseEvent event) {
         double posX = event.getX() / scale;
         double posY = event.getY() / scale;
-        if (posX >= 0 && posY >= 0 && posX <= sheet.width && posY <= sheet.height) {
+        if (posX >= 0 && posY >= 0 && posX <= sheet.getWidth() && posY <= sheet.getHeight()) {
             switch (currentAction) {
                 // Si un composant a été sélectionné mais pas déplacé
                 case pressOnComponent: {
@@ -325,7 +331,7 @@ public class CanvasInteractions {
      * @param centerY the Y coordinate in NU
      */
     private void tryAndMoveComponent(double centerX, double centerY) {
-        if (!selectedComponent.isOnSheet(sheet.width, sheet.height)) {
+        if (!selectedComponent.isOnSheet(sheet.getWidth(), sheet.getHeight())) {
             selectedComponent.canBePlaced = false;
             System.out.println("Not on sheet");
         }

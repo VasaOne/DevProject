@@ -1,6 +1,8 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Wire;
 
 import com.Config;
+import com.Graphics.Workspace.Node.InputNode;
+import com.Graphics.Workspace.Node.OutputNode;
 import com.Physics.Wire;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -196,7 +198,7 @@ public class WireInstance {
      * Tests if the wire is large enough to be placed
      * @return true if the wire is large enough to be placed, false otherwise
      */
-    boolean isWidthLarge() {
+    public boolean isWidthLarge() {
         return startX + Config.WSWireMinWidth < endX;
     }
 

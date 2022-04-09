@@ -1,6 +1,7 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Wire;
 
 import com.Config;
+import com.Graphics.Workspace.Wire.WireInstance;
 
 public class WireInteraction {
     WireInstance wire;

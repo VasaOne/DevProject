@@ -1,7 +1,6 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Application;
 
 import com.Config;
-import com.Physics.Component;
 import javafx.scene.paint.Color;
 
 /**

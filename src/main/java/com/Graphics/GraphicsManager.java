@@ -1,7 +1,10 @@
 package com.Graphics;
 
-import com.Graphics.Workspace.*;
-import com.Physics.Component;
+import com.Graphics.Workspace.Application.CanvasRenderer;
+import com.Graphics.Workspace.Component.ComponentInstance;
+import com.Graphics.Workspace.Application.SheetObject;
+import com.Graphics.Workspace.Sheet.Sheet;
+import com.Graphics.Workspace.Wire.WireInstance;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

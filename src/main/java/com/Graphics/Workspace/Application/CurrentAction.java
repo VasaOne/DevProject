@@ -1,4 +1,4 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Application;
 
 /**
  * The current action of the user on the workspace.

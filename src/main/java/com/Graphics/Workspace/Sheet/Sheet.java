@@ -1,6 +1,12 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Sheet;
 
 import com.Config;
+import com.Graphics.Workspace.Component.ComponentInstance;
+import com.Graphics.Workspace.Component.IOComponent;
+import com.Graphics.Workspace.Node.GraphicNode;
+import com.Graphics.Workspace.Node.InputNode;
+import com.Graphics.Workspace.Node.OutputNode;
+import com.Graphics.Workspace.Wire.WireInstance;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,20 +25,40 @@ public class Sheet {
     double width;
 
     /**
+     * Gets the Width in node units (NU) of the sheet
+     * @return the width
+     */
+    public double getWidth() {
+        return width;
+    }
+    /**
+     * Gets the Height in node units (NU) of the sheet
+     * @return the height
+     */
+    public double getHeight() {
+        return height;
+    }
+
+    /**
      * The components that the sheet contains
      */
-    ArrayList<ComponentInstance> components;
+    public ArrayList<ComponentInstance> components;
     /**
      * The nodes that the sheet contains
      */
-    ArrayList<GraphicNode> nodes;
+    public ArrayList<GraphicNode> nodes;
     /**
      * The real wires that the sheet contains
      */
-    ArrayList<WireInstance> wires;
+    public ArrayList<WireInstance> wires;
 
     public IOComponent ioComponent;
 
+    /**
+     * Creates a new sheet with the given width and height
+     * @param width the width of the sheet
+     * @param height the height of the sheet
+     */
     public Sheet(double width, double height) {
         this.height = height;
         this.width = width;

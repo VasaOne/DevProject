@@ -1,6 +1,9 @@
-package com.Graphics.Workspace;
+package com.Graphics.Workspace.Application;
 
 import com.Config;
+import com.Graphics.Workspace.Component.ComponentInstance;
+import com.Graphics.Workspace.Sheet.Sheet;
+import com.Graphics.Workspace.Wire.WireInstance;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -32,9 +35,9 @@ public class CanvasRenderer {
     public CanvasRenderer(Sheet displayedSheet, double defaultScale) {
         scale = defaultScale;
         // The default width of the canvas
-        double width = displayedSheet.width * scale;
+        double width = displayedSheet.getWidth() * scale;
         // The default height of the canvas
-        double height = displayedSheet.height * scale;
+        double height = displayedSheet.getHeight() * scale;
         this.displayedSheet = displayedSheet;
         setCanvas(new Canvas(width, height));
 
