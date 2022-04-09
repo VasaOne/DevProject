@@ -9,12 +9,13 @@ public abstract class GraphicNode {
     public ObjectInstance relativeTo;
     public boolean isGlobal;
 
+    private boolean isSelected;
+
     protected WireInstance abstractWire;
 
     public GraphicNode(ObjectInstance relativeTo, double centerX, double centerY) {
         this.relativeTo = relativeTo;
-        this.originX = centerX - 0.5;
-        this.originY = centerY - 0.5;
+        setCenter(centerX, centerY);
     }
 
     public abstract boolean getState();
@@ -49,13 +50,27 @@ public abstract class GraphicNode {
     public void setOriginX(double originX) {
         this.originX = originX;
     }
-
     /**
      * Sets the origin of the node
      * @param originY the new Y origin
      */
     public void setOriginY(double originY) {
         this.originY = originY;
+    }
+
+    /**
+     * Sets the center of the node
+     * @param centerX the new X center
+     */
+    public void setCenterX(double centerX) {
+        this.originX = centerX - 0.5;
+    }
+    /**
+     * Sets the center of the node
+     * @param centerY the new Y center
+     */
+    public void setCenterY(double centerY) {
+        this.originY = centerY - 0.5;
     }
 
     /**
@@ -71,8 +86,26 @@ public abstract class GraphicNode {
         return getOriginY() + getSize() / 2;
     }
 
+    /**
+     * Sets the center of the object to the given coordinates
+     * @param centerX the x coordinate of the center
+     * @param centerY the y coordinate of the center
+     */
+    public void setCenter(double centerX, double centerY) {
+        setOriginX(centerX - getSize() / 2d);
+        setOriginY(centerY - getSize() / 2d);
+    }
+
+    public void selectNode(boolean select) {
+        double centerX = getCenterX();
+        double centerY = getCenterY();
+        this.isSelected = select;
+        setCenter(centerX, centerY);
+    }
+
+
     public double getSize() {
-        return 1;//relativeTo.isSelected() ? Config.WSCompoSelectedSize + 1 : 1;
+        return isSelected ? Config.WSCompoSelectedSize / 2 + 1 : 1;
     }
 
     /**
@@ -89,14 +122,4 @@ public abstract class GraphicNode {
         }
         context.fillOval(getOriginX() * scale, getOriginY() * scale, getSize() * scale, getSize() * scale);
     }
-//
-//    public void drawNode(GraphicsContext context, double scale, double xModifier) {
-//        if (getState()) {
-//            context.setFill(Config.WSOnNodesColor);
-//        }
-//        else {
-//            context.setFill(Config.WSOffNodesColor);
-//        }
-//        context.fillOval(getOriginX() * xModifier, getOriginY() * scale, scale, scale);
-//    }
 }

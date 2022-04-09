@@ -209,6 +209,7 @@ public class ComponentInstance extends ObjectInstance {
         double centerY = getCenterY();
         this.isSelected = selected;
         setCenter(centerX, centerY);
+        updateNodesPosition();
     }
 
     /**
@@ -217,5 +218,22 @@ public class ComponentInstance extends ObjectInstance {
      */
     public boolean isSelected() {
         return isSelected;
+    }
+
+    private void updateNodesPosition() {
+        double space = isSelected ? Config.WSNodeSpace * (Config.WSCompoSelectedSize / 2 + 1) : Config.WSNodeSpace;
+
+        int i = 0;
+        for (GraphicNode node: inputs) {
+            node.selectNode(isSelected);
+            node.setCenter(0, space * i + (getHeight() - space * (inputs.length - 1)) / 2d);
+            i++;
+        }
+        i = 0;
+        for (GraphicNode node: outputs) {
+            node.selectNode(isSelected);
+            node.setCenter(0, space * i + (getHeight() - space * (outputs.length - 1)) / 2d);
+            i++;
+        }
     }
 }
