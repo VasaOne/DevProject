@@ -7,6 +7,7 @@ import com.Graphics.Workspace.Node.GraphicNode;
 import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
 import com.Graphics.Workspace.Wire.WireInstance;
+import com.Graphics.Workspace.Wire.WireInteraction;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -118,6 +119,15 @@ public class Sheet {
         return null;
     }
 
+    public WireInteraction getWireAt(double xNU, double yNU) {
+        for (WireInstance wire: wires) {
+            if (wire.wireInteraction.hasTouchedWire(xNU, yNU)) {
+                return wire.wireInteraction;
+            }
+        }
+        return null;
+    }
+
     public ComponentInstance isOverriding(ComponentInstance componentToMove) {
         for (ComponentInstance componentOnSheet: components) {
             if (componentOnSheet.isPlaced &&
@@ -157,14 +167,7 @@ public class Sheet {
         }
         return false;
     }
-//    public boolean isWireOverridingOther(WireInstance wire, ComponentInstance component) {
-//        for (ComponentInstance componentOnSheet: components) {
-//            if (componentOnSheet != component) {
-//                if (isWireOverridingComponent(wire, componentOnSheet)) return true;
-//            }
-//        }
-//        return false;
-//    }
+
     public boolean areWiresOverriding() {
         for (WireInstance wire: wires) {
             if (isWireOverriding(wire)) {

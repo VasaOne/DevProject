@@ -9,7 +9,24 @@ import com.Physics.Component;
 public abstract class ObjectInstance {
     public SheetObject instanceOf;
 
-    public boolean canBePlaced = true;
+    public ComponentAnimation growthAnimation = new ComponentAnimation();
+    public ComponentAnimation moveAnimation = new ComponentAnimation();
+    public ComponentAnimation colorAnimation = new ComponentAnimation();
+
+    private boolean canBePlaced = true;
+    public void setPlaced(boolean placed) {
+        if (placed != canBePlaced) {
+            if (canBePlaced) {
+                colorAnimation.setState(AnimationState.p2);
+            } else {
+                colorAnimation.setState(AnimationState.p4);
+            }
+        }
+        canBePlaced = placed;
+    }
+    public boolean canBePlaced() {
+        return canBePlaced;
+    }
 
     private double originX;
     private double originY;

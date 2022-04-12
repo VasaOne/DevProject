@@ -92,10 +92,10 @@ public class WireInstance {
 
             boolean canBePlaced = this.canBePlaced;
             if (Objects.nonNull(start)) {
-                canBePlaced &= start.relativeTo.canBePlaced;
+                canBePlaced &= start.relativeTo.canBePlaced();
             }
             if (Objects.nonNull(end)) {
-                canBePlaced &= end.relativeTo.canBePlaced;
+                canBePlaced &= end.relativeTo.canBePlaced();
             }
 
             if (!canBePlaced) {

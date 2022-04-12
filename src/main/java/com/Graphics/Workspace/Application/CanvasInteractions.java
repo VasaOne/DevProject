@@ -6,6 +6,7 @@ import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
 import com.Graphics.Workspace.Sheet.Sheet;
 import com.Graphics.Workspace.Wire.WireInstance;
+import com.Graphics.Workspace.Wire.WireInteraction;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 
@@ -15,23 +16,65 @@ import java.util.Objects;
  * This class allows the user to interact with the canvas
  */
 public class CanvasInteractions {
+    /**
+     * The sheet on which the user is working
+     */
     private final Sheet sheet;
+    /**
+     * The scale of the sheet on the canvas
+     */
     private final double scale;
 
+    /**
+     * The action the user is currently performing
+     */
     private CurrentAction currentAction;
 
+    /**
+     * The graphic node the user is currently interacting with
+     */
     private GraphicNode selectedNode;
+    /**
+     * The output node the user is currently interacting with
+     */
     private OutputNode startNode;
+    /**
+     * The input node the user is currently interacting with
+     */
     private InputNode endNode;
+    /**
+     * The component the user is currently interacting with
+     */
     private ComponentInstance selectedComponent;
+    /**
+     * The wire the user is currently interacting with
+     */
     private WireInstance selectedWire;
 
+    /**
+     * The x coordinate of the mouse relative to the selected object
+     */
     private double xFromCenter;
+    /**
+     * The y coordinate of the mouse relative to the selected object
+     */
     private double yFromCenter;
 
+    /**
+     * The x coordinate of the component before the user moved it
+     */
     private double firstXPosition;
+    /**
+     * The y coordinate of the component before the user moved it
+     */
     private double firstYPosition;
 
+    /**
+     * Constructor of the class CanvasInteractions
+     * @param sheet the sheet on which the user is working
+     * @param canvas the canvas on which the user is working
+     * @param scale the scale of the sheet on the canvas
+     */
     public CanvasInteractions(Sheet sheet, Canvas canvas, double scale) {
         this.sheet = sheet;
         this.scale = scale;
@@ -68,14 +111,25 @@ public class CanvasInteractions {
             // On récupère le composant sélectionné
             selectedComponent = component;
 
+            // On récupère les coordonnées du composant
             firstXPosition = selectedComponent.getCenterX();
             firstYPosition = selectedComponent.getCenterY();
 
+            // On récupère les coordonnées du curseur par rapport au composant
             xFromCenter = event.getX() / scale - selectedComponent.getCenterX();
             yFromCenter = event.getY() / scale - selectedComponent.getCenterY();
 
             selectedComponent.selectComponent(true);
             selectedComponent.setCenter(firstXPosition, firstYPosition);
+            return;
+        }
+        WireInteraction wireInteraction = sheet.getWireAt(event.getX() / scale, event.getY() / scale);
+        if (Objects.nonNull(wireInteraction)) {
+            //On note qu'un wire est sélectionné
+            currentAction = CurrentAction.pressOnWire;
+
+            // On récupère le wire sélectionné
+            selectedWire = wireInteraction.getWire();
         }
     }
     private void OnMouseReleased(MouseEvent event) {
@@ -115,18 +169,17 @@ public class CanvasInteractions {
             // Si un composant est en train d'être déplacé
             case componentDrag:
 
-                if (!selectedComponent.canBePlaced) {
+                if (!selectedComponent.canBePlaced()) {
                     selectedComponent.selectComponent(false);
-                    selectedComponent.setCenter(firstXPosition, firstYPosition);
-                    selectedComponent.canBePlaced = true;
+                    selectedComponent.startAnimateMoveTo(firstXPosition, firstYPosition);
                 }
                 else {
                     double centerX2 = selectedComponent.getCenterX();
                     double centerY2 = selectedComponent.getCenterY();
                     selectedComponent.selectComponent(false);
                     selectedComponent.setCenter(centerX2, centerY2);
+                    selectedComponent.isPlaced = true;
                 }
-                selectedComponent.isPlaced = true;
                 break;
 
             default:
@@ -317,6 +370,9 @@ public class CanvasInteractions {
         }
     }
 
+    /**
+     * Teste si le fil sélectionné peut être placé
+     */
     private void testWirePlacing() {
         boolean wireExists = false;
         if (Objects.nonNull(selectedWire.getStart()) && Objects.nonNull(selectedWire.getEnd())) {
@@ -332,22 +388,17 @@ public class CanvasInteractions {
      */
     private void tryAndMoveComponent(double centerX, double centerY) {
         if (!selectedComponent.isOnSheet(sheet.getWidth(), sheet.getHeight())) {
-            selectedComponent.canBePlaced = false;
-            System.out.println("Not on sheet");
+            selectedComponent.setPlaced(false);
+            //System.out.println("Not on sheet");
         }
         else {
             ComponentInstance override = sheet.isOverriding(selectedComponent);
+            //System.out.println("Wire overriding");
             if (Objects.nonNull(override) || !selectedComponent.areWiresFacing()) {
-                selectedComponent.canBePlaced = false;
-                System.out.println("Wire inverted");
+                selectedComponent.setPlaced(false);
+                //System.out.println("Wire inverted");
             }
-            else if (sheet.areWiresOverriding()) {
-                selectedComponent.canBePlaced = false;
-                System.out.println("Wire overriding");
-            }
-            else {
-                selectedComponent.canBePlaced = true;
-            }
+            else selectedComponent.setPlaced(!sheet.areWiresOverriding());
         }
         selectedComponent.setCenter(centerX - xFromCenter, centerY - yFromCenter);
     }

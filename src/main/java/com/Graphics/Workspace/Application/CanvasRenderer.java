@@ -63,11 +63,9 @@ public class CanvasRenderer {
                 drawLast.add(component);
             }
         }
-        //context.setGlobalAlpha(Config.WSMoveAlpha);
         for (ComponentInstance component: drawLast) {
             component.drawComponent(context, scale);
         }
-        //context.setGlobalAlpha(1);
 
         displayedSheet.ioComponent.drawComponent(context, scale);
     }

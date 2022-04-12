@@ -7,6 +7,7 @@ import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
 import com.Physics.Component;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +44,14 @@ public class ComponentInstance extends ObjectInstance {
      * @return the X coordinate of the component instance
      */
     public double getOriginX() {
-        return super.getOriginX(); //isSelected ? super.getOriginX() - Config.WSCompoSelectedSize / 2 : super.getOriginX();
+        return super.getOriginX();
     }
     /**
      * Gets the Y coordinate of the component instance modified by the selection state
      * @return the Y coordinate of the component instance
      */
     public double getOriginY() {
-        return super.getOriginY(); //isSelected ? super.getOriginY() - Config.WSCompoSelectedSize / 2 : super.getOriginY();
+        return super.getOriginY();
     }
 
     /**
@@ -58,14 +59,14 @@ public class ComponentInstance extends ObjectInstance {
      * @return the width of the component instance
      */
     public double getWidth() {
-        return /*instanceOf.getWidth(); */isSelected ? super.getWidth() + Config.WSCompoSelectedSize : super.getWidth();
+        return super.getWidth() + Config.WSCompoSelectedSize * growthAnimation.getSize();
     }
     /**
      * Gets the height of the component instance modified by the selection state
      * @return the height of the component instance
      */
     public double getHeight() {
-        return /*instanceOf.getHeight();*/ isSelected ? super.getHeight() + Config.WSCompoSelectedSize : super.getHeight();
+        return super.getHeight() + Config.WSCompoSelectedSize * growthAnimation.getSize();
     }
 
     /**
@@ -121,13 +122,21 @@ public class ComponentInstance extends ObjectInstance {
      * @param scale the scale of the workspace
      */
     public void drawComponent(GraphicsContext context, double scale) {
+        double centerX = getCenterX();
+        double centerY = getCenterY();
+        growthAnimation.animate();
+        setCenter(centerX, centerY);
+        updateNodesPosition();
+
+        moveAnimation.animate();
+        if (isMoving) {
+            //System.out.println("moving");
+            animateMoveTo();
+        }
+
         // Determines the color of the component
-        if (canBePlaced) {
-            context.setFill(instanceOf.color);
-        }
-        else {
-            context.setFill(Config.WSDisabledColor);
-        }
+        colorAnimation.animate();
+        context.setFill(getActualColor());
 
         // Draws the component
         context.fillRoundRect(
@@ -205,11 +214,8 @@ public class ComponentInstance extends ObjectInstance {
      * @param selected the new selection state
      */
     public void selectComponent(boolean selected) {
-        double centerX = getCenterX();
-        double centerY = getCenterY();
+        growthAnimation.setState(selected ? AnimationState.p2 : AnimationState.p4);
         this.isSelected = selected;
-        setCenter(centerX, centerY);
-        updateNodesPosition();
     }
 
     /**
@@ -221,7 +227,7 @@ public class ComponentInstance extends ObjectInstance {
     }
 
     private void updateNodesPosition() {
-        double space = isSelected ? Config.WSNodeSpace * (Config.WSCompoSelectedSize / 2 + 1) : Config.WSNodeSpace;
+        double space = Config.WSNodeSpace; //* (animation.getSize() + 1); //* (Config.WSCompoSelectedSize * animation.getSize() / 2 + 1);
 
         int i = 0;
         for (GraphicNode node: inputs) {
@@ -235,5 +241,44 @@ public class ComponentInstance extends ObjectInstance {
             node.setCenter(0, space * i + (getHeight() - space * (outputs.length - 1)) / 2d);
             i++;
         }
+    }
+
+    private boolean isMoving = false;
+
+    private double startX;
+    private double startY;
+
+    private double goToX;
+    private double goToY;
+
+    public void startAnimateMoveTo(double x, double y) {
+        isMoving = true;
+        moveAnimation.setState(AnimationState.p2);
+        startX = getCenterX();
+        startY = getCenterY();
+        goToX = x;
+        goToY = y;
+    }
+
+    void animateMoveTo() {
+        if (moveAnimation.state == AnimationState.p2) {
+            setCenterX((goToX - startX) * moveAnimation.getSize() + startX);
+            setCenterY((goToY - startY) * moveAnimation.getSize() + startY);
+        }
+        else {
+            setCenterX(goToX);
+            setCenterY(goToY);
+            isMoving = false;
+            isPlaced = true;
+            setPlaced(true);
+        }
+    }
+
+    /**
+     * The actual color of the component instance
+     * @return the actual color of the component instance
+     */
+    private Color getActualColor() {
+        return Config.lerpColor(instanceOf.color, Config.WSDisabledColor, colorAnimation.getSize());
     }
 }

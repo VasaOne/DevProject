@@ -9,8 +9,6 @@ public abstract class GraphicNode {
     public ObjectInstance relativeTo;
     public boolean isGlobal;
 
-    private boolean isSelected;
-
     protected WireInstance abstractWire;
 
     public GraphicNode(ObjectInstance relativeTo, double centerX, double centerY) {
@@ -99,13 +97,12 @@ public abstract class GraphicNode {
     public void selectNode(boolean select) {
         double centerX = getCenterX();
         double centerY = getCenterY();
-        this.isSelected = select;
         setCenter(centerX, centerY);
     }
 
 
     public double getSize() {
-        return isSelected ? Config.WSCompoSelectedSize / 2 + 1 : 1;
+        return Config.WSCompoSelectedSize * relativeTo.growthAnimation.getSize() / 2 + 1;
     }
 
     /**

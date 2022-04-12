@@ -4,7 +4,7 @@ import com.Config;
 import com.Graphics.Workspace.Wire.WireInstance;
 
 public class WireInteraction {
-    WireInstance wire;
+    private WireInstance wire;
 
     private WireInteraction() {}
     public WireInteraction(WireInstance wire) {
@@ -22,5 +22,9 @@ public class WireInteraction {
     }
     public boolean hasTouchedWire(double posX, double posY) {
         return hasTouchedStartPart(posX, posY) || hasTouchedMiddlePart(posX, posY) || hasTouchedEndPart(posX, posY);
+    }
+
+    public WireInstance getWire() {
+        return wire;
     }
 }

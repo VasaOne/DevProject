@@ -31,4 +31,23 @@ public class Config {
     public static double WSNodeSpace = 1.4;
     public static double WSOutSpace = 1;
     public static double WSCompoSelectedSize = 0.2;
+
+    //Animation of the workspace :
+    public static double WSAnimationDurationInMs = 100;
+
+
+    /**
+     * Lerps the color from the first color to the second color.
+     * @param firstColor The first color.
+     * @param secondColor The second color.
+     * @param t The value between 0 and 1.
+     * @return The lerped color.
+     */
+    public static Color lerpColor(Color firstColor, Color secondColor, double t) {
+        double r = firstColor.getRed() + t * (secondColor.getRed() - firstColor.getRed());
+        double g = firstColor.getGreen() + t * (secondColor.getGreen() - firstColor.getGreen());
+        double b = firstColor.getBlue() + t * (secondColor.getBlue() - firstColor.getBlue());
+        double a = firstColor.getOpacity() + t * (secondColor.getOpacity() - firstColor.getOpacity());
+        return Color.color(r, g, b, a);
+    }
 }
