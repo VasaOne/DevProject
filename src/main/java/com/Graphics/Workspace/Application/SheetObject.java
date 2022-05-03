@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
  * This class represents a theoretical object
  */
 public class SheetObject {
+    public int id;
     public Color color;
     public String name;
 

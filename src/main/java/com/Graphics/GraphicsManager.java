@@ -1,5 +1,6 @@
 package com.Graphics;
 
+import com.Application.FileManger.SaveLoadSheet;
 import com.Graphics.Workspace.Application.CanvasRenderer;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Graphics.Workspace.Application.SheetObject;
@@ -77,6 +78,8 @@ public class GraphicsManager extends Application {
         wire0.setEnd(and.inputs[0]);
         // Adds the wire to the sheet
         currentSheet.addWire(wire0);
+
+        SaveLoadSheet.saveSheet(1, "a", Color.PINK, currentSheet);
 
         AnimationTimer animate = new AnimationTimer() {
             @Override

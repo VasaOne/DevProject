@@ -1,5 +1,6 @@
 package com.Graphics.Workspace.Sheet;
 
+import com.Application.FileManger.ComponentData;
 import com.Config;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Graphics.Workspace.Component.IOComponent;
@@ -10,6 +11,7 @@ import com.Graphics.Workspace.Wire.WireInstance;
 import com.Graphics.Workspace.Wire.WireInteraction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -179,5 +181,64 @@ public class Sheet {
     public boolean isThereAWire(OutputNode start, InputNode end) {
         //On regarde simplement si le début du fil relié à end est start
         return Objects.equals(end.wireConnected.getStart(), start);
+    }
+
+    /**
+     * Collect data from the component and put it in ComponentData
+     * @param data the storage of the data
+     */
+    public void dataCollector(ComponentData data) {
+        data.inputs = ioComponent.startNodes.size();
+        data.outputs = ioComponent.endNodes.size();
+        data.width = width;
+        data.height = height;
+
+        data.components = new int[components.size()];
+        data.componentsX = new double[components.size()];
+        data.componentsY = new double[components.size()];
+        for (int i = 0; i < components.size(); i++) {
+            data.components[i] = components.get(i).instanceOf.id;
+            data.componentsX[i] = components.get(i).getCenterX();
+            data.componentsY[i] = components.get(i).getCenterY();
+        }
+
+        data.wiresStart = new int[wires.size()];
+        data.wiresStartId = new int[wires.size()];
+        data.wiresEnd = new int[wires.size()];
+        data.wiresEndId = new int[wires.size()];
+        data.wiresMiddle = new double[wires.size()];
+        for (int i = 0; i < wires.size(); i++) {
+            OutputNode start = wires.get(i).getStart();
+            if (Objects.nonNull(start)) {
+                if (start.relativeTo instanceof IOComponent) {
+                    data.wiresStart[i] = 0;
+                    data.wiresStartId[i] = ((IOComponent) start.relativeTo).startNodes.indexOf(start);
+                }
+                else {
+                    data.wiresStart[i] = components.indexOf(start.relativeTo);
+                    data.wiresStartId[i] = Arrays.asList(((ComponentInstance) start.relativeTo).outputs).indexOf(start);
+                }
+            }
+            else {
+                data.wiresStart[i] = -1;
+                data.wiresStartId[i] = -1;
+            }
+            InputNode end = wires.get(i).getEnd();
+            if (Objects.nonNull(end)) {
+                if (end.relativeTo instanceof IOComponent) {
+                    data.wiresEnd[i] = 0;
+                    data.wiresEndId[i] = ((IOComponent) end.relativeTo).endNodes.indexOf(end);
+                }
+                else {
+                    data.wiresEnd[i] = components.indexOf(end.relativeTo);
+                    data.wiresEndId[i] = Arrays.asList(((ComponentInstance) end.relativeTo).inputs).indexOf(end);
+                }
+            }
+            else {
+                data.wiresEnd[i] = -1;
+                data.wiresEndId[i] = -1;
+            }
+            data.wiresMiddle[i] = wires.get(i).getMiddle();
+        }
     }
 }
