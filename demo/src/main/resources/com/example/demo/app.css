@@ -1,0 +1,24 @@
+.root {
+	-fx-background-color: #F0F4F8
+}
+#files{
+	-fx-graphic:url("./files.png")
+}
+#zoom1{
+	-fx-graphic:url("./zoomplus.png")
+}
+#zoom2{
+	-fx-graphic:url("./zoom-.png")
+}
+#save{
+	-fx-graphic:url("./save.png")
+}
+#componants{
+	-fx-graphic:url("./component.png")
+}
+#nightView{
+	-fx-graphic:url("./night.png")
+}
+#undo{
+	-fx-graphic:url("./undo.png")
+}
