@@ -1,6 +1,6 @@
 package com.Physics;
 
-public class Component extends ObjetCircuit {
+public class Component {
 
     Sheet sheet;
     private int keyComponent; //Pas tout compris à quoi il servait...

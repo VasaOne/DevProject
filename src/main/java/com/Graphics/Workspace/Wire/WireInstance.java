@@ -74,9 +74,9 @@ public class WireInstance {
             endX = end.getCenterX();
             endY = end.getCenterY();
             testMiddle();
-            if (Objects.nonNull(start)) {
-                physicWire.connect(start.relativeTo.getPhysicComponent(), end.relativeTo.getPhysicComponent());
-            }
+//            if (Objects.nonNull(start)) {
+//                physicWire.connect(start.relativeTo.getPhysicComponent(), end.relativeTo.getPhysicComponent());
+//            }
         }
     }
 

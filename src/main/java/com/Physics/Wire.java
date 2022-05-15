@@ -3,14 +3,14 @@
 //Gros changement : je vais surement passer de boolean a Boolean ce qui permetterait d'avoir des Boolean == null !
 package com.Physics;
 
+import javax.xml.stream.events.StartDocument;
 import java.lang.Math;
 
-public class Wire extends ObjetCircuit {
+public class Wire {
 
     Sheet sheet;
     private Boolean state;
-    private Component start; //Problème en graphique : comment savoir qui est le start, qui est le end ?
-    private Component end; //Je crois qu'il est possible de faire sans start et end mais pour linstant jai pas encore trouvé
+    private Component[] components;
 
     public Wire() {}
     public void setState(Boolean state) {
@@ -21,9 +21,8 @@ public class Wire extends ObjetCircuit {
         return state;
     }
 
-    public void connect(Component start, Component end) {
-        this.start = start;
-        this.end = end;
+    public void connect(Component[] components) {
+        this.components = components;
     }
 
     public Boolean isNull() {
@@ -35,19 +34,29 @@ public class Wire extends ObjetCircuit {
     }
 
     public void refresh() {
-        for (Wire wire : start.getWiresInput()) {
-            if (wire == null) {
-                return;
+        Component startComponent = null;
+        for (Component component : components) {
+            int s = 0;
+            for (Wire wire : component.getWiresInput()) {
+                if (wire == this) {
+                    s ++;
+                }
+            }
+            if (s==0) {
+                startComponent = component;
             }
         }
+        if (startComponent == null) {
+            return;
+        }
         int s = 0;
-        for (int i=0;i<start.getInputs();i++) {
-            if (start.getWiresInput()[i].getState()) {
-                s += Math.pow(2,start.getInputs()-i-1);
+        for (int i=0;i<startComponent.getInputs();i++) {
+            if (startComponent.getWiresInput()[i].getState()) {
+                s += Math.pow(2,startComponent.getInputs()-i-1);
             }
         }
         //System.out.println(start.getTruthTable()[s]);
         //System.out.println(name);
-        setState(start.getTruthTable()[s]);
+        setState(startComponent.getTruthTable()[s]);
     }
 }

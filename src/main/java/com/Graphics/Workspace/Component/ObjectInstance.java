@@ -1,6 +1,7 @@
 package com.Graphics.Workspace.Component;
 
 import com.Graphics.Workspace.Application.SheetObject;
+import com.Graphics.Workspace.Node.OutputNode;
 import com.Physics.Component;
 
 /**
@@ -101,4 +102,5 @@ public abstract class ObjectInstance {
     public boolean isSelected() {
         return false;
     }
+
 }

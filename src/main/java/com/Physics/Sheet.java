@@ -2,7 +2,7 @@ package com.Physics;
 
 import java.util.*;
 
-public class Sheet extends ObjetCircuit {
+public class Sheet {
 
     private List<Component> components;
     private List<Wire> wires;

@@ -39,27 +39,27 @@ public class Main {
 
         //connexions
         //wire1
-        wire1.connect(et, button1);
+        wire1.connect(new Component[] {et,button1});
         button1.addWireOutput(wire1, 0);
         et.addWireInput(wire1, 0);
         //wire2
-        wire2.connect(button2, et);
+        wire2.connect(new Component[] {button2,et});
         button2.addWireOutput(wire2, 0);
         et.addWireInput(wire2, 1);
         //wire3
-        wire3.connect(et, ou);
+        wire3.connect(new Component[] {et,ou});
         et.addWireOutput(wire3,0);
         ou.addWireInput(wire3,0);
         //wire4
-        wire4.connect(button3, ou);
+        wire4.connect(new Component[] {button3, ou});
         button3.addWireOutput(wire4,0);
         ou.addWireInput(wire4,1);
         //wire5
-        wire5.connect(ou, no);
+        wire5.connect(new Component[] {ou,no});
         ou.addWireOutput(wire5,0);
         no.addWireInput(wire5,0);
         //wire6
-        wire6.connect(no, led);
+        wire6.connect(new Component[] {no,led});
         no.addWireOutput(wire6,0);
         led.addWireInput(wire6,0);
 

@@ -180,4 +180,5 @@ public class Sheet {
         //On regarde simplement si le début du fil relié à end est start
         return Objects.equals(end.wireConnected.getStart(), start);
     }
+
 }
