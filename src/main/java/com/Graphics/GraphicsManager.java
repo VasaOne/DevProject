@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+
 public class GraphicsManager extends Application {
 
     // Create a new sheet

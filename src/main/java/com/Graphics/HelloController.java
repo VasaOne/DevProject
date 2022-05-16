@@ -2,7 +2,6 @@ package com.Graphics;
 
 import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Component.ComponentInstance;
-import com.Graphics.GraphicsManager;
 import com.Physics.Component;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
+import static com.Physics.PhysicsManager.sheet;
 
 public class HelloController {
 
@@ -35,19 +35,22 @@ public class HelloController {
     public void no(ActionEvent actionEvent) {
         ComponentInstance no = new ComponentInstance(noDoor, 12, 6);
         currentSheet.addObject(no);
-        // Component no = new Component("no",1, 1, new Boolean[] {true,false});
+        Component physicNo = new Component("no",1, 1, new Boolean[] {true,false});
+        sheet.addComponent(physicNo);
     }
 
     public void or(ActionEvent actionEvent) {
         ComponentInstance or = new ComponentInstance(orDoor, 12, 6);
         currentSheet.addObject(or);
-        Component physicOr = new Component("or",1, 1, new Boolean[] {true,false});
+        Component physicOr = new Component("or",1, 1, new Boolean[]{false, true, true, true});
+        sheet.addComponent(physicOr);
     }
 
     public void and(ActionEvent actionEvent) {
         ComponentInstance and = new ComponentInstance(andDoor, 12, 6);
         currentSheet.addObject(and);
-        // Component no = new Component("no",1, 1, new Boolean[] {true,false});
+        Component physicAnd = new Component("and",1, 1, new Boolean[] {false, false, false, true});
+        sheet.addComponent(physicAnd);
     }
 
 
@@ -65,5 +68,9 @@ public class HelloController {
         for (int i=0;i<OutputSlider.getValue();i++) {
             currentSheet.ioComponent.addEndNode(currentSheet);
         }
+    }
+
+    public void simulate(ActionEvent actionEvent) {
+        sheet.refresh();
     }
 }

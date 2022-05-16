@@ -1,8 +1,9 @@
 package com.Physics;
 
-public class Main {
 
-    Sheet sheet = new Sheet();
+public class PhysicsManager {
+
+    public static Sheet sheet = new Sheet();
 
     public static void main(String[] args) {
 
@@ -11,34 +12,15 @@ public class Main {
 
         //setup
 
-        Component no = new Component("no",1, 1, new Boolean[] {true,false});
-        Component ou = new Component("ou",2, 1, new Boolean[]{false, true, true, true});
-        Component et = new Component("et",2, 1, new Boolean[] {false, false, false, true});
-        Component button1 = new Component("button1",0,1,new Boolean[] {false, true});
-        Component button2 = new Component("button2",0,1,new Boolean[] {false, true});
-        Component button3 = new Component("button3",0,1,new Boolean[] {false, true});
-        Component led = new Component("led",1,0,null);
+
         Wire wire1 = new Wire();
         Wire wire2 = new Wire();
         Wire wire3 = new Wire();
         Wire wire4 = new Wire();
         Wire wire5 = new Wire();
         Wire wire6 = new Wire();
+
         /*
-        sheet.addComponent(no);
-        sheet.addComponent(ou);
-        sheet.addComponent(et);
-        sheet.addComponent(button1);
-        sheet.addComponent(button2);
-        sheet.addComponent(button3);
-        sheet.addComponent(led);
-        sheet.addWire(wire1);
-        sheet.addWire(wire2);
-        sheet.addWire(wire3);
-        sheet.addWire(wire4);
-        sheet.addWire(wire5);
-        sheet.addWire(wire6);
-        */
 
         //connexions
         //wire1
@@ -65,6 +47,10 @@ public class Main {
         wire6.connect(new Component[] {no,led});
         no.addWireOutput(wire6,0);
         led.addWireInput(wire6,0);
+
+
+         */
+
 
         //Etats des button
         //(deux choix : soit on initilise les wires qui sortent d button, soit on suppose que les button ont e,

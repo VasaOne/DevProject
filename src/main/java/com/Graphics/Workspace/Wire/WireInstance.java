@@ -1,10 +1,14 @@
 package com.Graphics.Workspace.Wire;
 
 import com.Config;
+import com.Graphics.Workspace.Component.IOComponent;
 import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
+import com.Physics.Component;
 import com.Physics.Wire;
 import javafx.scene.canvas.GraphicsContext;
+
+import static com.Physics.PhysicsManager.sheet;
 
 import java.util.Objects;
 
@@ -74,9 +78,10 @@ public class WireInstance {
             endX = end.getCenterX();
             endY = end.getCenterY();
             testMiddle();
-//            if (Objects.nonNull(start)) {
-//                physicWire.connect(start.relativeTo.getPhysicComponent(), end.relativeTo.getPhysicComponent());
-//            }
+            if (Objects.nonNull(start)) {
+                sheet.addWire(physicWire);
+                physicWire.connect(new Component[] {start.relativeTo.getPhysicComponent(), end.relativeTo.getPhysicComponent()});
+            }
         }
     }
 
@@ -124,6 +129,24 @@ public class WireInstance {
         startX = start.getCenterX();
         startY = start.getCenterY();
         testMiddle();
+        /*
+        //Connaître le numéro de la node
+        IOComponent component = null;
+        if (start.relativeTo instanceof IOComponent) { //Normalement ne sert à rien car on est sûr qu'il s'agit d'un omponent
+            component = (IOComponent) start.relativeTo;
+        }
+        int s = 0;
+        int l = 0;
+        for (OutputNode node : component.startNodes) {
+            if (node != start) {
+                s++;
+            } else {
+                l = s; //On a récupéré le num de la node
+            }
+        }
+        component.getPhysicComponent().addWireInput(physicWire, l);
+
+         */
     }
 
     /**
@@ -136,6 +159,23 @@ public class WireInstance {
         endX = end.getCenterX();
         endY = end.getCenterY();
         testMiddle();
+        /*//Connaître le numéro de la node
+        IOComponent component = null;
+        if (end.relativeTo instanceof IOComponent) { //Normalement ne sert à rien car on est sûr qu'il s'agit d'un omponent
+            component = (IOComponent) end.relativeTo;
+        }
+        int s = 0;
+        int l = 0;
+        for (InputNode node : component.endNodes) {
+            if (node != end) {
+                s++;
+            } else {
+                l = s; //On a récupéré le num de la node
+            }
+        }
+        component.getPhysicComponent().addWireOutput(physicWire, l);
+
+         */
     }
 
     public OutputNode getStart() {

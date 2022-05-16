@@ -25,6 +25,7 @@
             <Slider fx:id="OutputSlider" layoutX="278.0" layoutY="66.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" onMouseReleased="#outputs" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
             <Slider fx:id="InputSlider" layoutX="278.0" layoutY="27.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" onMouseReleased="#inputs" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="8.0" />
             <Button fx:id="test" layoutX="44.0" layoutY="34.0" mnemonicParsing="false" onAction="#test" text="Test" />
+            <Button fx:id="Simulate" layoutX="495.0" layoutY="40.0" mnemonicParsing="false" onAction="#simulate" text="Simulate" />
          </children>
       </AnchorPane>
    </top>
