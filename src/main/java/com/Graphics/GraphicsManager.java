@@ -19,6 +19,9 @@ import java.util.Objects;
 
 public class GraphicsManager extends Application {
 
+    // Create a new sheet
+    static Sheet currentSheet = new Sheet(30, 20);
+
     @Override
     public void start(Stage stage) throws IOException {
         // Load the FXML file
@@ -31,8 +34,8 @@ public class GraphicsManager extends Application {
         pane.setFitToHeight(true);
         pane.setFitToWidth(true);
 
-        // Create a new sheet
-        Sheet currentSheet = new Sheet(30, 20);
+
+
         // Create a new canvas renderer which will render the sheet
         CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
         // Sets the workspace for the renderer
@@ -40,33 +43,15 @@ public class GraphicsManager extends Application {
 
         // The main sheet contains a special component which is the sheet itself, on which the global nodes are placed
         // Then we create 3 inputs
-        currentSheet.ioComponent.addStartNode(currentSheet);
-        currentSheet.ioComponent.addStartNode(currentSheet);
-        currentSheet.ioComponent.addStartNode(currentSheet);
-
         // And 2 outputs
-        currentSheet.ioComponent.addEndNode(currentSheet);
-        currentSheet.ioComponent.addEndNode(currentSheet);
 
-        // We create 3 new components, which are the most basic ones we'll be using
+
         SheetObject orDoor = new SheetObject("or", Color.PINK, 2, 1, new Boolean[]{false, true, true, true});
-        SheetObject notDoor = new SheetObject("not", Color.web("#772288"), 1, 1, new Boolean[] {true,false});
-        SheetObject andDoor = new SheetObject("and", Color.web("#03C93C"), 2, 1, new Boolean[]{false, false, false, true});
+        ComponentInstance no = new ComponentInstance(orDoor, 12, 6);
+        currentSheet.addObject(no);
 
-        //SheetObject test = new SheetObject("test", Color.PURPLE, 7, 8, new Boolean[]{true});
 
-        // We create instances of these components
-        ComponentInstance or = new ComponentInstance(orDoor, 12, 6);
-        ComponentInstance not = new ComponentInstance(notDoor, 18, 8);
-        ComponentInstance and = new ComponentInstance(andDoor, 5, 3);
-        //ComponentInstance testInstance = new ComponentInstance(test, 18, 8);
-
-        // And we place them on the sheet
-        currentSheet.addObject(or);
-        currentSheet.addObject(not);
-        currentSheet.addObject(and);
-
-        //currentSheet.addObject(testInstance);
+/*
 
         // We create a new wire between the first input and the add door
         // Creates a new wire
@@ -78,6 +63,8 @@ public class GraphicsManager extends Application {
         // Adds the wire to the sheet
         currentSheet.addWire(wire0);
 
+
+ */
         AnimationTimer animate = new AnimationTimer() {
             @Override
             public void handle(long l) {

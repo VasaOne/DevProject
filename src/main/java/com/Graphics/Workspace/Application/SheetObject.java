@@ -26,8 +26,6 @@ public class SheetObject {
         return width;
     }
 
-    public Boolean[] truthTable;
-
     private SheetObject() {}
 
     public SheetObject(String name, Color color, int inputs, int outputs) {
@@ -53,7 +51,6 @@ public class SheetObject {
     public SheetObject(String name, Color color, int inputs, int outputs, Boolean[] truthTable) {
         this(name, color, inputs, outputs);
 
-        this.truthTable = truthTable;
     }
 
     public static SheetObject DefaultNode() {

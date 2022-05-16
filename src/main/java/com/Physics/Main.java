@@ -2,13 +2,15 @@ package com.Physics;
 
 public class Main {
 
+    Sheet sheet = new Sheet();
+
     public static void main(String[] args) {
 
         //test avec trois portes, trois entrées, et une led...
         //Image du circuit https://drive.google.com/file/d/1MXw_zg9wkNohjrMirr88znJrv8MFNUU2/view?usp=sharing
 
         //setup
-	    Sheet sheet = new Sheet();
+
         Component no = new Component("no",1, 1, new Boolean[] {true,false});
         Component ou = new Component("ou",2, 1, new Boolean[]{false, true, true, true});
         Component et = new Component("et",2, 1, new Boolean[] {false, false, false, true});
@@ -22,6 +24,7 @@ public class Main {
         Wire wire4 = new Wire();
         Wire wire5 = new Wire();
         Wire wire6 = new Wire();
+        /*
         sheet.addComponent(no);
         sheet.addComponent(ou);
         sheet.addComponent(et);
@@ -35,7 +38,7 @@ public class Main {
         sheet.addWire(wire4);
         sheet.addWire(wire5);
         sheet.addWire(wire6);
-
+        */
 
         //connexions
         //wire1
@@ -71,7 +74,7 @@ public class Main {
         wire2.setState(false);
         wire4.setState(true);
 
-        sheet.refresh();
+        //sheet.refresh();
 
         System.out.println("wire3");
         System.out.println(wire3.getState());

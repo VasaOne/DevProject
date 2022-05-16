@@ -29,14 +29,12 @@ public class ComponentInstance extends ObjectInstance {
         for (int i = 0; i < object.outputs; i++) {
             outputs[i] = new OutputNode(this, 0, instanceOf.outputNodeHeights[i]);
         }
-        physicComponent = new Component(object.name, object.inputs, object.outputs, object.truthTable);
     }
 
     public ComponentInstance(SheetObject object, double originX, double originY) {
         this(object);
         setOriginX(originX);
         setOriginY(originY);
-        physicComponent = new Component(object.name, object.inputs, object.outputs, object.truthTable);
     }
 
     /**
