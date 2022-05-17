@@ -24,10 +24,10 @@ public class ComponentInstance extends ObjectInstance {
         inputs = new InputNode[instanceOf.inputs];
         outputs = new OutputNode[instanceOf.outputs];
         for (int i = 0; i < object.inputs; i++) {
-            inputs[i] = new InputNode(this, 0, instanceOf.inputNodeHeights[i]);
+            inputs[i] = new InputNode(this, 0, instanceOf.inputNodeHeights[i], i);
         }
         for (int i = 0; i < object.outputs; i++) {
-            outputs[i] = new OutputNode(this, 0, instanceOf.outputNodeHeights[i]);
+            outputs[i] = new OutputNode(this, 0, instanceOf.outputNodeHeights[i], i);
         }
     }
 

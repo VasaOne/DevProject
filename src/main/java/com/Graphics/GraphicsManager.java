@@ -66,6 +66,15 @@ public class GraphicsManager extends Application {
 
 
  */
+
+        currentSheet.ioComponent.addStartNode(currentSheet);
+        currentSheet.ioComponent.addStartNode(currentSheet);
+        currentSheet.ioComponent.addStartNode(currentSheet);
+
+        for (int i = 0; i < 10; i++) {
+            currentSheet.ioComponent.addEndNode(currentSheet);
+        }
+
         AnimationTimer animate = new AnimationTimer() {
             @Override
             public void handle(long l) {

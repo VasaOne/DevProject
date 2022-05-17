@@ -6,13 +6,16 @@ import com.Graphics.Workspace.Wire.WireInstance;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class GraphicNode {
+    public int id;
+
     public ObjectInstance relativeTo;
     public boolean isGlobal;
 
     protected WireInstance abstractWire;
 
-    public GraphicNode(ObjectInstance relativeTo, double centerX, double centerY) {
+    public GraphicNode(ObjectInstance relativeTo, double centerX, double centerY, int id) {
         this.relativeTo = relativeTo;
+        this.id = id;
         setCenter(centerX, centerY);
     }
 

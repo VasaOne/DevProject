@@ -53,10 +53,10 @@ public class SheetObject {
 
     }
 
-    public static SheetObject DefaultNode() {
+/*    public static SheetObject DefaultNode() {
         SheetObject node = new SheetObject();
         node.height = 1;
         node.width = 1;
         return node;
-    }
+    }*/
 }

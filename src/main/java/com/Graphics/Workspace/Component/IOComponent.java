@@ -44,14 +44,15 @@ public class IOComponent extends ObjectInstance {
 
 
     public void addStartNode(Sheet sheet) {
-        OutputNode node = new OutputNode(this, 0, 0);
+        OutputNode node = new OutputNode(this, 0, 0, startNodes.size());
         node.isGlobal = true;
         startNodes.add(node);
         recalculateNodePos(sheet);
         sheet.addOrphanNode(node);
     }
     public void addEndNode(Sheet sheet) {
-        InputNode node = new InputNode(this, 0, 0);
+        InputNode node = new InputNode(this, 0, 0, endNodes.size());
+        node.isGlobal = true;
         endNodes.add(node);
         recalculateNodePos(sheet);
         sheet.addOrphanNode(node);
@@ -89,6 +90,7 @@ public class IOComponent extends ObjectInstance {
         for (InputNode endNode: endNodes) {
             endNode.setOriginX(-0.5);
             endNode.setOriginY(endOff + i * Config.WSNodeSpace);
+            i++;
         }
     }
 

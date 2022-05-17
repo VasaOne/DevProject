@@ -59,14 +59,50 @@ public class HelloController {
     }
 
     public void inputs(MouseEvent mouseEvent) {
-        for (int i=0;i<InputSlider.getValue();i++) {
+/*        for (int i=0;i<InputSlider.getValue();i++) {
             currentSheet.ioComponent.addStartNode(currentSheet);
+        }*/
+
+        // J'ai remodifié le code sinon ça marchais pas :
+        // On calcule le nombre d'entrées à placer
+        int toPlace = (int) InputSlider.getValue() - currentSheet.ioComponent.startNodes.size();
+        // Si il faut ajouter des entrées
+        if (toPlace > 0) {
+            // On ajoute ce nombre d'entrées
+            for (int i = 0; i < toPlace; i++) {
+                currentSheet.ioComponent.addStartNode(currentSheet);
+            }
+        }
+        // Sinon, si il faut en enlever
+        else if (toPlace < 0) {
+            // On enlève ce nombre d'entrées
+            for (int i=0;i<-toPlace;i++) {
+                currentSheet.ioComponent.delStartNode(currentSheet.ioComponent.startNodes.get(currentSheet.ioComponent.startNodes.size() - 1), currentSheet);
+            }
         }
     }
 
     public void outputs(MouseEvent mouseEvent) {
-        for (int i=0;i<OutputSlider.getValue();i++) {
+/*        for (int i=0;i<OutputSlider.getValue();i++) {
             currentSheet.ioComponent.addEndNode(currentSheet);
+        }*/
+
+        // J'ai remodifié le code sinon ça marchais pas :
+        // On calcule le nombre d'entrées à placer
+        int toPlace = (int) OutputSlider.getValue() - currentSheet.ioComponent.endNodes.size();
+        // Si il faut ajouter des entrées
+        if (toPlace > 0) {
+            // On ajoute ce nombre d'entrées
+            for (int i = 0; i < toPlace; i++) {
+                currentSheet.ioComponent.addEndNode(currentSheet);
+            }
+        }
+        // Sinon, si il faut en enlever
+        else if (toPlace < 0) {
+            // On enlève ce nombre d'entrées
+            for (int i=0;i<-toPlace;i++) {
+                currentSheet.ioComponent.delEndNode(currentSheet.ioComponent.endNodes.get(currentSheet.ioComponent.endNodes.size() - 1), currentSheet);
+            }
         }
     }
 

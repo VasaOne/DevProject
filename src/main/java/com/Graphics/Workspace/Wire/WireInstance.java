@@ -244,6 +244,7 @@ public class WireInstance {
 
     /**
      * Removes the wire from its start and end.
+     * /!\ Should only be called by the sheet itself ! Maybe call removeWire function from the sheet.
      */
     public void remove() {
         if (Objects.nonNull(start)) {

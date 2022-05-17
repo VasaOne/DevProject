@@ -11,8 +11,8 @@ public class InputNode extends GraphicNode {
     final WireInstance abstractWire = new WireInstance(null, this, false);
     public WireInstance wireConnected;
 
-    public InputNode(ObjectInstance relativeTo, double originX, double originY) {
-        super(relativeTo, originX, originY);
+    public InputNode(ObjectInstance relativeTo, double originX, double originY, int id) {
+        super(relativeTo, originX, originY, id);
         wireConnected = abstractWire;
     }
 

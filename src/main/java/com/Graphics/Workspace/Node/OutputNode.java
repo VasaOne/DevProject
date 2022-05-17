@@ -9,8 +9,8 @@ public class OutputNode extends GraphicNode {
     final WireInstance abstractWire = new WireInstance(this, null, false);
     public ArrayList<WireInstance> wiresConnected = new ArrayList<>();
 
-    public OutputNode(ObjectInstance relativeTo, double originX, double originY) {
-        super(relativeTo, originX, originY);
+    public OutputNode(ObjectInstance relativeTo, double originX, double originY, int id) {
+        super(relativeTo, originX, originY, id);
         wiresConnected.add(abstractWire);
     }
 

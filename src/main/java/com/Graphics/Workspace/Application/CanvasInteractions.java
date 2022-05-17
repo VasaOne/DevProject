@@ -90,6 +90,8 @@ public class CanvasInteractions {
         if (Objects.nonNull(node)) {
             // Dans ce cas, on sélectionne le node
             selectedNode = node;
+            //System.out.println(selectedNode.id);
+
             // On teste quel type de node c'est
             if (selectedNode instanceof OutputNode) {
                 //On note qu'un node est sélectionné
@@ -285,7 +287,8 @@ public class CanvasInteractions {
                         // On fait suivre le fil par le curseur
                         selectedWire.setEnd(posX, posY);
 
-                        testWirePlacing();
+                        //testWirePlacing();
+                        selectedWire.canBePlaced = false;
                     }
                     break;
                 }
