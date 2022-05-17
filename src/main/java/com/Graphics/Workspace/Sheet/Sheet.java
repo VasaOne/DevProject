@@ -198,45 +198,47 @@ public class Sheet {
         data.componentsY = new double[components.size()];
         for (int i = 0; i < components.size(); i++) {
             data.components[i] = components.get(i).instanceOf.id;
-            data.componentsX[i] = components.get(i).getCenterX();
-            data.componentsY[i] = components.get(i).getCenterY();
+            data.componentsX[i] = components.get(i).getOriginX();
+            data.componentsY[i] = components.get(i).getOriginY();
         }
 
-        data.wiresStart = new int[wires.size()];
-        data.wiresStartId = new int[wires.size()];
-        data.wiresEnd = new int[wires.size()];
-        data.wiresEndId = new int[wires.size()];
+        data.wiresStartComp = new int[wires.size()];
+        data.wiresStartNode = new int[wires.size()];
+        data.wiresEndComp = new int[wires.size()];
+        data.wiresEndNode = new int[wires.size()];
         data.wiresMiddle = new double[wires.size()];
         for (int i = 0; i < wires.size(); i++) {
             OutputNode start = wires.get(i).getStart();
             if (Objects.nonNull(start)) {
                 if (start.relativeTo instanceof IOComponent) {
-                    data.wiresStart[i] = 0;
-                    data.wiresStartId[i] = ((IOComponent) start.relativeTo).startNodes.indexOf(start);
+                    data.wiresStartComp[i] = -1;
+                    data.wiresStartNode[i] = ((IOComponent) start.relativeTo).startNodes.indexOf(start);
                 }
                 else {
-                    data.wiresStart[i] = components.indexOf(start.relativeTo);
-                    data.wiresStartId[i] = Arrays.asList(((ComponentInstance) start.relativeTo).outputs).indexOf(start);
+                    data.wiresStartComp[i] = components.indexOf(start.relativeTo);
+                    data.wiresStartNode[i] = Arrays.asList(((ComponentInstance) start.relativeTo).outputs).indexOf(start);
                 }
             }
             else {
-                data.wiresStart[i] = -1;
-                data.wiresStartId[i] = -1;
+                data.wiresStartComp[i] = -1;
+                data.wiresStartNode[i] = -1;
+                throw new IllegalStateException("Start node of wire " + i + " is null");
             }
             InputNode end = wires.get(i).getEnd();
             if (Objects.nonNull(end)) {
                 if (end.relativeTo instanceof IOComponent) {
-                    data.wiresEnd[i] = 0;
-                    data.wiresEndId[i] = ((IOComponent) end.relativeTo).endNodes.indexOf(end);
+                    data.wiresEndComp[i] = -1;
+                    data.wiresEndNode[i] = ((IOComponent) end.relativeTo).endNodes.indexOf(end);
                 }
                 else {
-                    data.wiresEnd[i] = components.indexOf(end.relativeTo);
-                    data.wiresEndId[i] = Arrays.asList(((ComponentInstance) end.relativeTo).inputs).indexOf(end);
+                    data.wiresEndComp[i] = components.indexOf(end.relativeTo);
+                    data.wiresEndNode[i] = Arrays.asList(((ComponentInstance) end.relativeTo).inputs).indexOf(end);
                 }
             }
             else {
-                data.wiresEnd[i] = -1;
-                data.wiresEndId[i] = -1;
+                data.wiresEndComp[i] = -1;
+                data.wiresEndNode[i] = -1;
+                throw new IllegalStateException("End node of wire " + i + " is null");
             }
             data.wiresMiddle[i] = wires.get(i).getMiddle();
         }

@@ -30,19 +30,19 @@ public class ComponentData {
     /**
      * The list of the id of the start of the wires of the sheet
      */
-    public int[] wiresStart;
+    public int[] wiresStartNode;
     /**
      * The list of the id of the node of the component of the sheet
      */
-    public int[] wiresStartId;
+    public int[] wiresStartComp;
     /**
-     * The list of the id of the end of the wires of the sheet
+     * The list of the id of the start of the wires of the sheet
      */
-    public int[] wiresEnd;
+    public int[] wiresEndNode;
     /**
      * The list of the id of the node of the component of the sheet
      */
-    public int[] wiresEndId;
+    public int[] wiresEndComp;
     /**
      * The value of the middle of the wire
      */
@@ -60,90 +60,94 @@ public class ComponentData {
         this.color = color;
         sheet.dataCollector(this);
         //TODO: add the truth table of the sheet
-        this.truthTable = new boolean[][]{};
+        //this.truthTable = new boolean[][]{};
     }
 
-    public String getJson() {
-        String json = "{\n";
-        json += "\t\"id\": " + id + ",\n";
-        json += "\t\"name\": \"" + name + "\",\n";
-        json += "\t\"color\": \"" + color.toString() + "\",\n";
-        json += "\t\"inputs\": " + inputs + ",\n";
-        json += "\t\"outputs\": " + outputs + ",\n";
-        json += "\t\"truthTable\": [\n";
+    public void setTruthTable(boolean[][] truthTable) {
+        this.truthTable = truthTable;
+    }
+
+    String getFileContent() {
+        String[] content = new String[14];
+        content[0] = "id: " + id;
+        content[1] = "name: " + name;
+        content[2] = "color: " + color.toString();
+        content[3] = "inputs: " + inputs;
+        content[4] = "outputs: " + outputs;
+        content[5] = "width: " + width;
+        content[6] = "height: " + height;
+        content[7] = "components: ";
+        for (int i = 0; i < components.length; i++) {
+            content[7] += components[i];
+            if (i != components.length - 1) {
+                content[7] += ", ";
+            }
+        }
+
+        content[8] = "componentsX: ";
+        for (int i = 0; i < componentsX.length; i++) {
+            content[8] += componentsX[i];
+            if (i != componentsX.length - 1) {
+                content[8] += ", ";
+            }
+        }
+
+        content[9] = "componentsY: ";
+        for (int i = 0; i < componentsY.length; i++) {
+            content[9] += componentsY[i];
+            if (i != componentsY.length - 1) {
+                content[9] += ", ";
+            }
+        }
+
+        content[10] = "wiresStartComp: ";
+        for (int i = 0; i < wiresStartComp.length; i++) {
+            content[10] += wiresStartComp[i];
+            if (i != wiresStartComp.length - 1) {
+                content[10] += ", ";
+            }
+        }
+
+        content[11] = "wiresStartNode: ";
+        for (int i = 0; i < wiresStartNode.length; i++) {
+            content[11] += wiresStartNode[i];
+            if (i != wiresStartNode.length - 1) {
+                content[11] += ", ";
+            }
+        }
+
+        content[12] = "wiresEndComp: ";
+        for (int i = 0; i < wiresEndComp.length; i++) {
+            content[12] += wiresEndComp[i];
+            if (i != wiresEndComp.length - 1) {
+                content[12] += ", ";
+            }
+        }
+
+        content[13] = "wiresEndNode: ";
+        for (int i = 0; i < wiresEndNode.length; i++) {
+            content[13] += wiresEndNode[i];
+            if (i != wiresEndNode.length - 1) {
+                content[13] += ", ";
+            }
+        }
+
+        return String.join("\n", content);
+    }
+
+    String getTable() {
+        String[] table = new String[truthTable.length];
         for (int i = 0; i < truthTable.length; i++) {
-            json += "\t[";
+            table[i] = "";
             for (int j = 0; j < truthTable[i].length; j++) {
-                json += "\t\t" + truthTable[i][j];
-                if (j != truthTable[i].length - 1) {
-                    json += ", ";
+                if (truthTable[i][j]) {
+                    table[i] += "1";
+                }
+                else {
+                    table[i] += "0";
                 }
             }
-            json += "]";
-            if (i != truthTable.length - 1) {
-                json += ",\n";
-            }
         }
-        json += "\t],\n";
-        json += "\t\"width\": " + width + ",\n";
-        json += "\t\"height\": " + height + ",\n";
-        json += "\t\"components\": [";
-        for (int i = 0; i < components.length; i++) {
-            json += components[i];
-            if (i != components.length - 1) {
-                json += ", ";
-            }
-        }
-        json += "],\n";
-        json += "\t\"componentsX\": [";
-        for (int i = 0; i < componentsX.length; i++) {
-            json += componentsX[i];
-            if (i != componentsX.length - 1) {
-                json += ", ";
-            }
-        }
-        json += "],\n";
-        json += "\t\"componentsY\": [";
-        for (int i = 0; i < componentsY.length; i++) {
-            json += componentsY[i];
-            if (i != componentsY.length - 1) {
-                json += ", ";
-            }
-        }
-        json += "],\n";
-        json += "\t\"wiresStart\": [";
-        for (int i = 0; i < wiresStart.length; i++) {
-            json += wiresStart[i];
-            if (i != wiresStart.length - 1) {
-                json += ", ";
-            }
-        }
-        json += "],\n";
-        json += "\t\"wiresStartId\": [";
-        for (int i = 0; i < wiresStartId.length; i++) {
-            json += wiresStartId[i];
-            if (i != wiresStartId.length - 1) {
-                json += ", ";
-            }
-        }
-        json += "],\n";
-        json += "\t\"wiresEnd\": [";
-        for (int i = 0; i < wiresEnd.length; i++) {
-            json += wiresEnd[i];
-            if (i != wiresEnd.length - 1) {
-                json += ", ";
-            }
-        }
-        json += "],\n";
-        json += "\t\"wiresEndId\": [";
-        for (int i = 0; i < wiresEndId.length; i++) {
-            json += wiresEndId[i];
-            if (i != wiresEndId.length - 1) {
-                json += ", ";
-            }
-        }
-        json += "]\n";
-        json += "}";
-        return json;
+        return String.join("\n", table);
     }
 }

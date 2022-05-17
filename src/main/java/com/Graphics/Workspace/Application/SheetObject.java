@@ -31,7 +31,8 @@ public class SheetObject {
 
     private SheetObject() {}
 
-    public SheetObject(String name, Color color, int inputs, int outputs) {
+    public SheetObject(int id, String name, Color color, int inputs, int outputs) {
+        this.id = id;
         this.name = name;
 
         this.color = color;
@@ -51,8 +52,8 @@ public class SheetObject {
         }
     }
 
-    public SheetObject(String name, Color color, int inputs, int outputs, Boolean[] truthTable) {
-        this(name, color, inputs, outputs);
+    public SheetObject(int id, String name, Color color, int inputs, int outputs, Boolean[] truthTable) {
+        this(id, name, color, inputs, outputs);
 
         this.truthTable = truthTable;
     }
