@@ -23,5 +23,7 @@ module com.devproject {
     exports com.Graphics.Workspace.Wire;
     opens com.Graphics.Workspace.Wire to javafx.fxml;
 
+    exports com.Application.FileManger;
+
     requires com.google.gson;
 }

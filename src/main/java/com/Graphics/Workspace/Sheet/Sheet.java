@@ -181,4 +181,64 @@ public class Sheet {
         return Objects.equals(end.wireConnected.getStart(), start);
     }
 
+    /**
+     * Collect data from the component and put it in ComponentData
+     * @param data the storage of the data
+     */
+    public void dataCollector(ComponentData data) {
+        data.inputs = ioComponent.startNodes.size();
+        data.outputs = ioComponent.endNodes.size();
+        data.width = width;
+        data.height = height;
+
+        data.components = new int[components.size()];
+        data.componentsX = new double[components.size()];
+        data.componentsY = new double[components.size()];
+        for (int i = 0; i < components.size(); i++) {
+            data.components[i] = components.get(i).instanceOf.id;
+            data.componentsX[i] = components.get(i).getOriginX();
+            data.componentsY[i] = components.get(i).getOriginY();
+        }
+
+        data.wiresStartComp = new int[wires.size()];
+        data.wiresStartNode = new int[wires.size()];
+        data.wiresEndComp = new int[wires.size()];
+        data.wiresEndNode = new int[wires.size()];
+        data.wiresMiddle = new double[wires.size()];
+        for (int i = 0; i < wires.size(); i++) {
+            OutputNode start = wires.get(i).getStart();
+            if (Objects.nonNull(start)) {
+                if (start.relativeTo instanceof IOComponent) {
+                    data.wiresStartComp[i] = -1;
+                    data.wiresStartNode[i] = ((IOComponent) start.relativeTo).startNodes.indexOf(start);
+                }
+                else {
+                    data.wiresStartComp[i] = components.indexOf(start.relativeTo);
+                    data.wiresStartNode[i] = Arrays.asList(((ComponentInstance) start.relativeTo).outputs).indexOf(start);
+                }
+            }
+            else {
+                data.wiresStartComp[i] = -1;
+                data.wiresStartNode[i] = -1;
+                throw new IllegalStateException("Start node of wire " + i + " is null");
+            }
+            InputNode end = wires.get(i).getEnd();
+            if (Objects.nonNull(end)) {
+                if (end.relativeTo instanceof IOComponent) {
+                    data.wiresEndComp[i] = -1;
+                    data.wiresEndNode[i] = ((IOComponent) end.relativeTo).endNodes.indexOf(end);
+                }
+                else {
+                    data.wiresEndComp[i] = components.indexOf(end.relativeTo);
+                    data.wiresEndNode[i] = Arrays.asList(((ComponentInstance) end.relativeTo).inputs).indexOf(end);
+                }
+            }
+            else {
+                data.wiresEndComp[i] = -1;
+                data.wiresEndNode[i] = -1;
+                throw new IllegalStateException("End node of wire " + i + " is null");
+            }
+            data.wiresMiddle[i] = wires.get(i).getMiddle();
+        }
+    }
 }
