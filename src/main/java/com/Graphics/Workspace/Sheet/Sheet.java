@@ -1,5 +1,6 @@
 package com.Graphics.Workspace.Sheet;
 
+import com.Application.FileManger.ComponentData;
 import com.Config;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Graphics.Workspace.Component.IOComponent;
@@ -10,6 +11,7 @@ import com.Graphics.Workspace.Wire.WireInstance;
 import com.Graphics.Workspace.Wire.WireInteraction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**

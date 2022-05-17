@@ -27,9 +27,9 @@ public class HelloController {
     public Slider OutputSlider;
 
     // We create 3 new components, which are the most basic ones we'll be using
-    SheetObject orDoor = new SheetObject("or", Color.PINK, 2, 1);
-    SheetObject noDoor = new SheetObject("not", Color.web("#772288"), 1, 1);
-    SheetObject andDoor = new SheetObject("and", Color.web("#03C93C"), 2, 1);
+    SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1);
+    SheetObject noDoor = new SheetObject(1, "not", Color.web("#772288"), 1, 1);
+    SheetObject andDoor = new SheetObject(2, "and", Color.web("#03C93C"), 2, 1);
 
 
     public void no(ActionEvent actionEvent) {

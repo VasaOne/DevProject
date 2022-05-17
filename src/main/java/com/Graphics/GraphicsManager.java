@@ -20,6 +20,8 @@ import java.util.Objects;
 
 public class GraphicsManager extends Application {
 
+    public static Sheet currentSheet;
+
     @Override
     public void start(Stage stage) throws IOException {
         // Load the FXML file
@@ -99,7 +101,7 @@ public class GraphicsManager extends Application {
                 "wiresEndComp: 2, 1\n" +
                 "wiresEndNode: 0, 0";
 
-        Sheet currentSheet = SaveLoadSheet.loadSheet(fileContent);
+        currentSheet = SaveLoadSheet.loadSheet(fileContent);
         // Create a new canvas renderer which will render the sheet
         CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
         // Sets the workspace for the renderer
