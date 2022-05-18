@@ -33,15 +33,15 @@ public class CanvasInteractions {
     /**
      * The graphic node the user is currently interacting with
      */
-    private GraphicNode selectedNode;
+    public GraphicNode selectedNode;
     /**
      * The output node the user is currently interacting with
      */
-    private OutputNode startNode;
+    public OutputNode startNode;
     /**
      * The input node the user is currently interacting with
      */
-    private InputNode endNode;
+    public InputNode endNode;
     /**
      * The component the user is currently interacting with
      */
