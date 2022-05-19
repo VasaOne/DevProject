@@ -50,11 +50,6 @@ public class SheetObject {
         }
     }
 
-    public SheetObject(int id, String name, Color color, int inputs, int outputs, Boolean[] truthTable) {
-        this(id, name, color, inputs, outputs);
-
-    }
-
 /*    public static SheetObject DefaultNode() {
         SheetObject node = new SheetObject();
         node.height = 1;

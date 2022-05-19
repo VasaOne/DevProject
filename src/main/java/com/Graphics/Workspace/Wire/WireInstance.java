@@ -129,6 +129,12 @@ public class WireInstance {
         startX = start.getCenterX();
         startY = start.getCenterY();
         testMiddle();
+
+        if (!(start.relativeTo instanceof IOComponent)) {
+            start.relativeTo.getPhysicComponent().addWireOutput(physicWire, start.id);
+        }
+
+
         /*
         //Connaître le numéro de la node
         IOComponent component = null;
@@ -159,6 +165,11 @@ public class WireInstance {
         endX = end.getCenterX();
         endY = end.getCenterY();
         testMiddle();
+
+        if (!(end.relativeTo instanceof IOComponent)) {
+            end.relativeTo.getPhysicComponent().addWireInput(physicWire, end.id);
+        }
+
         /*//Connaître le numéro de la node
         IOComponent component = null;
         if (end.relativeTo instanceof IOComponent) { //Normalement ne sert à rien car on est sûr qu'il s'agit d'un omponent

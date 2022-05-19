@@ -19,7 +19,7 @@ public class ComponentInstance extends ObjectInstance {
     public boolean isPlaced = false;
     private boolean isSelected = false;
 
-    public ComponentInstance(SheetObject object) {
+    public ComponentInstance(SheetObject object, Component physicComponent) {
         instanceOf = object;
         inputs = new InputNode[instanceOf.inputs];
         outputs = new OutputNode[instanceOf.outputs];
@@ -29,10 +29,11 @@ public class ComponentInstance extends ObjectInstance {
         for (int i = 0; i < object.outputs; i++) {
             outputs[i] = new OutputNode(this, 0, instanceOf.outputNodeHeights[i], i);
         }
+        this.physicComponent = physicComponent;
     }
 
-    public ComponentInstance(SheetObject object, double originX, double originY) {
-        this(object);
+    public ComponentInstance(SheetObject object, double originX, double originY, Component physicComponent) {
+        this(object, physicComponent);
         setOriginX(originX);
         setOriginY(originY);
     }

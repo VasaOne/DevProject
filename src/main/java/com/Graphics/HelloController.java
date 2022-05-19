@@ -33,24 +33,24 @@ public class HelloController {
 
 
     public void no(ActionEvent actionEvent) {
-        ComponentInstance no = new ComponentInstance(noDoor, 12, 6);
-        currentSheet.addObject(no);
         Component physicNo = new Component("no",1, 1, new Boolean[] {true,false});
         sheet.addComponent(physicNo);
+        ComponentInstance no = new ComponentInstance(noDoor, 12, 6, physicNo);
+        currentSheet.addObject(no);
     }
 
     public void or(ActionEvent actionEvent) {
-        ComponentInstance or = new ComponentInstance(orDoor, 12, 6);
-        currentSheet.addObject(or);
         Component physicOr = new Component("or",1, 1, new Boolean[]{false, true, true, true});
         sheet.addComponent(physicOr);
+        ComponentInstance or = new ComponentInstance(orDoor, 12, 6, physicOr);
+        currentSheet.addObject(or);
     }
 
     public void and(ActionEvent actionEvent) {
-        ComponentInstance and = new ComponentInstance(andDoor, 12, 6);
-        currentSheet.addObject(and);
         Component physicAnd = new Component("and",1, 1, new Boolean[] {false, false, false, true});
         sheet.addComponent(physicAnd);
+        ComponentInstance and = new ComponentInstance(andDoor, 12, 6, physicAnd);
+        currentSheet.addObject(and);
     }
 
 

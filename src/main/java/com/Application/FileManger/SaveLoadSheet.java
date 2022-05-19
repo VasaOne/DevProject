@@ -4,6 +4,7 @@ import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Graphics.Workspace.Sheet.Sheet;
 import com.Graphics.Workspace.Wire.WireInstance;
+import com.Physics.Component;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -11,13 +12,14 @@ import java.util.ArrayList;
 public class SaveLoadSheet {
 
     public static ArrayList<SheetObject> loadedObjects = new ArrayList<>();
+    public static ArrayList<Boolean[]> truthTables = new ArrayList<>();
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
         //String json = new ComponentData(id, name, color, sheet).getJson();
         //System.out.println(json);
         ComponentData componentData = new ComponentData(id, name, color, sheet);
         System.out.println(componentData.getFileContent());
-        componentData.setTruthTable(new boolean[][] {{true, true, false}, {true, false, true}, {true, true, false}});
+        componentData.setTruthTable(new Boolean[] {true, true, false, true, false, true, true, true, false});
         System.out.println(componentData.getTable());
 
 
@@ -51,10 +53,14 @@ public class SaveLoadSheet {
         String[] compY = content[9].split(": ")[1].split(", ");
 
         for (int i = 0; i < compId.length; i++) {
+            int compIdInt = Integer.parseInt(compId[i]);
+            SheetObject abstractComponent = loadedObjects.get(compIdInt);
+            Component physicComponent = new Component("", abstractComponent.inputs, abstractComponent.outputs, truthTables.get(compIdInt));
             sheet.addObject(new ComponentInstance(
                     loadedObjects.get(Integer.parseInt(compId[i])),
                     Double.parseDouble(compX[i]),
-                    Double.parseDouble(compY[i])));
+                    Double.parseDouble(compY[i]),
+                    physicComponent));
         }
 
         String[] wireStartComp = content[10].split(": ")[1].split(", ");

@@ -25,5 +25,7 @@ module com.devproject {
 
     exports com.Application.FileManger;
 
+    exports com.Physics;
+
     requires com.google.gson;
 }

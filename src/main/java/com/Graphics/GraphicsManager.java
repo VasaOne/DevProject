@@ -52,9 +52,13 @@ public class GraphicsManager extends Application {
         currentSheet.ioComponent.addEndNode(currentSheet);*/
 
         // We create 3 new components, which are the most basic ones we'll be using
-        SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1, new Boolean[]{false, true, true, true});
-        SheetObject notDoor = new SheetObject(1, "not", Color.web("#772288"), 1, 1, new Boolean[] {true,false});
-        SheetObject andDoor = new SheetObject(2, "and", Color.web("#03C93C"), 2, 1, new Boolean[]{false, false, false, true});
+        SaveLoadSheet.loadedObjects.add(new SheetObject(0, "or", Color.PINK, 2, 1));
+        SaveLoadSheet.loadedObjects.add(new SheetObject(1, "not", Color.web("#772288"), 1, 1));
+        SaveLoadSheet.loadedObjects.add(new SheetObject(2, "and", Color.web("#03C93C"), 2, 1));
+
+        SaveLoadSheet.truthTables.add(new Boolean[]{false, true, true, true});
+        SaveLoadSheet.truthTables.add(new Boolean[]{false, false});
+        SaveLoadSheet.truthTables.add(new Boolean[]{false, false, false, true});
 
         //SheetObject test = new SheetObject("test", Color.PURPLE, 7, 8, new Boolean[]{true});
 
@@ -80,9 +84,6 @@ public class GraphicsManager extends Application {
         wire0.setEnd(and.inputs[0]);
         // Adds the wire to the sheet
         currentSheet.addWire(wire0);*/
-        SaveLoadSheet.loadedObjects.add(orDoor);
-        SaveLoadSheet.loadedObjects.add(notDoor);
-        SaveLoadSheet.loadedObjects.add(andDoor);
 
         //SaveLoadSheet.saveSheet(1, "a", Color.PINK, currentSheet);
 

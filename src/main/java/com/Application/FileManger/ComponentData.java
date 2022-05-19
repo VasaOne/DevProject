@@ -13,7 +13,7 @@ public class ComponentData {
     public int outputs;
 
     // Table de vérité du composant
-    public boolean[][] truthTable;
+    public Boolean[] truthTable;
 
     // Informations sur la feuille du composant
     public double width;
@@ -63,7 +63,7 @@ public class ComponentData {
         //this.truthTable = new boolean[][]{};
     }
 
-    public void setTruthTable(boolean[][] truthTable) {
+    public void setTruthTable(Boolean[] truthTable) {
         this.truthTable = truthTable;
     }
 
@@ -136,18 +136,14 @@ public class ComponentData {
     }
 
     String getTable() {
-        String[] table = new String[truthTable.length];
-        for (int i = 0; i < truthTable.length; i++) {
-            table[i] = "";
-            for (int j = 0; j < truthTable[i].length; j++) {
-                if (truthTable[i][j]) {
-                    table[i] += "1";
-                }
-                else {
-                    table[i] += "0";
-                }
+        StringBuilder table = new StringBuilder();
+        for (Boolean b : truthTable) {
+            if (b) {
+                table.append("1");
+            } else {
+                table.append("0");
             }
         }
-        return String.join("\n", table);
+        return table.toString();
     }
 }
