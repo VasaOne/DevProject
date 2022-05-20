@@ -4,24 +4,15 @@ import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Physics.Component;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
-
-import java.io.IOException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
 import static com.Physics.PhysicsManager.sheet;
 
-public class HelloController {
+public class Controller {
 
     public Slider InputSlider;
     public Slider OutputSlider;

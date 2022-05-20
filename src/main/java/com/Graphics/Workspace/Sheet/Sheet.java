@@ -9,6 +9,7 @@ import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
 import com.Graphics.Workspace.Wire.WireInstance;
 import com.Graphics.Workspace.Wire.WireInteraction;
+import com.Physics.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,6 +79,19 @@ public class Sheet {
         components.add(instance);
         nodes.addAll(instance.getAllNodes());
     }
+    public void removeObject(ComponentInstance instance) {
+        components.remove(instance);
+        for (InputNode node: instance.inputs) {
+            removeWire(node.wireConnected);
+        }
+        for (OutputNode node: instance.outputs) {
+            while (node.wiresConnected.size() > 0) {
+                removeWire(node.wiresConnected.get(0));
+            }
+        }
+        while (!components.remove(instance)) {}
+    }
+
     public void addWire(WireInstance wire) {
         wires.add(wire);
     }
