@@ -8,31 +8,33 @@ import com.Physics.Component;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.regex.PatternSyntaxException;
 
 public class SaveLoadSheet {
 
-    public static ArrayList<SheetObject> loadedObjects = new ArrayList<>();
-    public static ArrayList<Boolean[]> truthTables = new ArrayList<>();
+    public static SheetObject[] loadedObjects;
+    public static Boolean[][] truthTables;
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
-        //String json = new ComponentData(id, name, color, sheet).getJson();
-        //System.out.println(json);
         ComponentData componentData = new ComponentData(id, name, color, sheet);
         System.out.println(componentData.getFileContent());
+        //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
         componentData.setTruthTable(new Boolean[] {true, true, false, true, false, true, true, true, false});
         System.out.println(componentData.getTable());
 
-
         //TODO: write in file
         String fileContent = componentData.getFileContent();
-        String table = componentData.getTable();
     }
 
-    public static Sheet loadSheet(String fileContent) {
+    public static Sheet loadSheet(String fileContent) throws ComponentNotFoundException {
         String[] content = fileContent.split("\n");
         int id = Integer.parseInt(content[0].split(": ")[1]);
         String name = content[1].split(": ")[1];
-        Color color = Color.valueOf(content[2].split(": ")[1]);
+        Color color = Color.web(content[2].split(": ")[1]);
+
+        if (loadObjectUntil(id - 1)) {
+            throw new ComponentNotFoundException();
+        }
 
         int inputs = Integer.parseInt(content[3].split(": ")[1]);
         int outputs = Integer.parseInt(content[4].split(": ")[1]);
@@ -54,10 +56,10 @@ public class SaveLoadSheet {
 
         for (int i = 0; i < compId.length; i++) {
             int compIdInt = Integer.parseInt(compId[i]);
-            SheetObject abstractComponent = loadedObjects.get(compIdInt);
-            Component physicComponent = new Component("", abstractComponent.inputs, abstractComponent.outputs, truthTables.get(compIdInt));
+            SheetObject abstractComponent = loadedObjects[compIdInt];
+            Component physicComponent = new Component("", abstractComponent.inputs, abstractComponent.outputs, truthTables[compIdInt]);
             sheet.addObject(new ComponentInstance(
-                    loadedObjects.get(Integer.parseInt(compId[i])),
+                    loadedObjects[compIdInt],
                     Double.parseDouble(compX[i]),
                     Double.parseDouble(compY[i]),
                     physicComponent));
@@ -92,5 +94,53 @@ public class SaveLoadSheet {
         }
 
         return sheet;
+    }
+
+    /**
+     * Look for components in files and tries to load them until the id id
+     * @param lastId the id of the last component
+     * @return
+     */
+    public static boolean loadObjectUntil(int lastId) {
+        SheetObject[] tempArray = new SheetObject[lastId + 1];
+        Boolean[][] truthTables = new Boolean[lastId + 1][];
+
+        //TODO: parcourir les fichiers présents dans le dossier de sauvegarde (changer le int en structure de fichiers)
+        //TODO: obtenir les fichiers et récupérer le texte.
+        String[] filesContent = new String[0];
+        for (String file: filesContent) {
+            try {
+                String[] split = file.split("\n");
+                String rawId = split[0].split(": ")[1];
+                int id = Integer.parseInt(rawId);
+
+                if (id <= lastId) {
+                    tempArray[id] = new SheetObject(id,
+                            split[1].split(": ")[1],
+                            Color.web(split[2].split(": ")[1]),
+                            Integer.parseInt(split[3].split(": ")[1]),
+                            Integer.parseInt(split[4].split(": ")[1])
+                    );
+                    String rawTable = split[14].split(": ")[1];
+                    truthTables[id] = new Boolean[rawTable.length()];
+                    for (int i = 0; i < rawTable.length(); i++) {
+                        if (rawTable.charAt(i) == '1') truthTables[id][i] = true;
+                        else truthTables[id][i] = false;
+                    }
+                }
+            }
+            catch (NumberFormatException | PatternSyntaxException e) {
+                System.err.println("File corrupted");
+            }
+        }
+
+        loadedObjects = tempArray;
+        SaveLoadSheet.truthTables = truthTables;
+        for (SheetObject obj: tempArray) {
+            if (obj == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }
