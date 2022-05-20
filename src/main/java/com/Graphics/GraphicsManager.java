@@ -88,7 +88,7 @@ public class GraphicsManager extends Application {
 
         //SaveLoadSheet.saveSheet(1, "a", Color.PINK, currentSheet);
 
-        String fileContent = "id: 1\n" +
+        String fileContent = "id: 3\n" +
                 "name: a\n" +
                 "color: 0xffc0cbff\n" +
                 "inputs: 3\n" +

@@ -359,7 +359,8 @@ public class CanvasInteractions {
                         // On fait suivre le fil par le curseur
                         selectedWire.setStart(posX, posY);
 
-                        testWirePlacing();
+                        //testWirePlacing();
+                        selectedWire.canBePlaced = false;
                     }
                     break;
                 }

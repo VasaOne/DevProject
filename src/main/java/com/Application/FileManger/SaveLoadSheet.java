@@ -32,7 +32,7 @@ public class SaveLoadSheet {
         String name = content[1].split(": ")[1];
         Color color = Color.web(content[2].split(": ")[1]);
 
-        if (loadObjectUntil(id - 1)) {
+        if (!loadObjectUntil(id - 1)) {
             throw new ComponentNotFoundException();
         }
 
@@ -105,6 +105,14 @@ public class SaveLoadSheet {
         SheetObject[] tempArray = new SheetObject[lastId + 1];
         Boolean[][] truthTables = new Boolean[lastId + 1][];
 
+        tempArray[0] = new SheetObject(0, "not", Color.BROWN, 1, 1);
+        tempArray[1] = new SheetObject(1, "and", Color.GREEN, 2, 1);
+        tempArray[2] = new SheetObject(2, "or", Color.RED, 2, 1);
+
+        truthTables[0] = new Boolean[] {true, false};
+        truthTables[1] = new Boolean[] {false, false, true};
+        truthTables[2] = new Boolean[] {false, true, true};
+
         //TODO: parcourir les fichiers présents dans le dossier de sauvegarde (changer le int en structure de fichiers)
         //TODO: obtenir les fichiers et récupérer le texte.
         String[] filesContent = new String[0];
@@ -143,4 +151,11 @@ public class SaveLoadSheet {
         }
         return true;
     }
+//
+//    public boolean test(SheetObject graphic, com.Physics.Sheet physic) {
+//        graphic = new SheetObject(sss);
+//        physic = new com.Physics.Sheet(sss);
+//
+//        return true;
+//    }
 }
