@@ -3,8 +3,6 @@ package com.Physics;
 
 public class PhysicsManager {
 
-    public static Sheet sheet = new Sheet();
-
     public static void main(String[] args) {
 
         //test avec trois portes, trois entrées, et une led...

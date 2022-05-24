@@ -16,11 +16,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+
+import static com.Application.FileManger.SaveLoadSheet.loadSheet;
+import static com.Application.FileManger.SaveLoadSheet.saveSheet;
 
 public class GraphicsManager extends Application {
 
+
     public static Sheet currentSheet;
+    public static com.Physics.Sheet physicSheet;
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -90,17 +97,19 @@ public class GraphicsManager extends Application {
         String fileContent = "id: 1\n" +
                 "name: a\n" +
                 "color: 0xffc0cbff\n" +
-                "inputs: 3\n" +
-                "outputs: 2\n" +
+                "inputs: 2\n" +
+                "outputs: 1\n" +
                 "width: 30.0\n" +
                 "height: 20.0\n" +
-                "components: 0, 1, 2\n" +
-                "componentsX: 14.1, 20.4, 7.4\n" +
-                "componentsY: 7.7, 9.0, 4.7\n" +
-                "wiresStartComp: -1, 2\n" +
-                "wiresStartNode: 0, 0\n" +
-                "wiresEndComp: 2, 1\n" +
-                "wiresEndNode: 0, 0";
+                "components: 2, 1\n" +
+                "componentsX: 14.1, 7.4\n" +
+                "componentsY: 7.7, 4.7\n" +
+                "wiresStartComp: -1, -1, 1, 0\n" +
+                "wiresStartNode: 0, 1, 0, 0\n" +
+                "wiresEndComp: 0, 0, -1, 1\n" +
+                "wiresEndNode: 0, 1, 0, 0";
+
+
 
         currentSheet = SaveLoadSheet.loadSheet(fileContent);
         // Create a new canvas renderer which will render the sheet
