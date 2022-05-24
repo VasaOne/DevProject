@@ -18,9 +18,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
 import static com.Graphics.GraphicsManager.currentSheet;
-import static com.Graphics.GraphicsManager.physicSheet;
+import static com.Physics.PhysicsManager.sheet;
 
 public class HelloController {
 
@@ -35,21 +34,21 @@ public class HelloController {
 
     public void no(ActionEvent actionEvent) {
         Component physicNo = new Component("no",1, 1, new Boolean[] {true,false});
-        physicSheet.addComponent(physicNo);
+        sheet.addComponent(physicNo);
         ComponentInstance no = new ComponentInstance(noDoor, 12, 6, physicNo);
         currentSheet.addObject(no);
     }
 
     public void or(ActionEvent actionEvent) {
         Component physicOr = new Component("or",1, 1, new Boolean[]{false, true, true, true});
-        physicSheet.addComponent(physicOr);
+        sheet.addComponent(physicOr);
         ComponentInstance or = new ComponentInstance(orDoor, 12, 6, physicOr);
         currentSheet.addObject(or);
     }
 
     public void and(ActionEvent actionEvent) {
         Component physicAnd = new Component("and",1, 1, new Boolean[] {false, false, false, true});
-        physicSheet.addComponent(physicAnd);
+        sheet.addComponent(physicAnd);
         ComponentInstance and = new ComponentInstance(andDoor, 12, 6, physicAnd);
         currentSheet.addObject(and);
     }
@@ -60,7 +59,11 @@ public class HelloController {
     }
 
     public void inputs(MouseEvent mouseEvent) {
+/*        for (int i=0;i<InputSlider.getValue();i++) {
+            currentSheet.ioComponent.addStartNode(currentSheet);
+        }*/
 
+        // J'ai remodifié le code sinon ça marchais pas :
         // On calcule le nombre d'entrées à placer
         int toPlace = (int) InputSlider.getValue() - currentSheet.ioComponent.startNodes.size();
         // Si il faut ajouter des entrées
@@ -80,7 +83,11 @@ public class HelloController {
     }
 
     public void outputs(MouseEvent mouseEvent) {
+/*        for (int i=0;i<OutputSlider.getValue();i++) {
+            currentSheet.ioComponent.addEndNode(currentSheet);
+        }*/
 
+        // J'ai remodifié le code sinon ça marchais pas :
         // On calcule le nombre d'entrées à placer
         int toPlace = (int) OutputSlider.getValue() - currentSheet.ioComponent.endNodes.size();
         // Si il faut ajouter des entrées
@@ -100,6 +107,6 @@ public class HelloController {
     }
 
     public void simulate(ActionEvent actionEvent) {
-        physicSheet.refresh();
+        sheet.refresh();
     }
 }

@@ -59,8 +59,6 @@ public class ComponentData {
         this.name = name;
         this.color = color;
         sheet.dataCollector(this);
-        //TODO: add the truth table of the sheet
-        //this.truthTable = new boolean[][]{};
     }
 
     public void setTruthTable(Boolean[] truthTable) {
@@ -68,7 +66,7 @@ public class ComponentData {
     }
 
     String getFileContent() {
-        String[] content = new String[14];
+        String[] content = new String[15];
         content[0] = "id: " + id;
         content[1] = "name: " + name;
         content[2] = "color: " + color.toString();
@@ -131,6 +129,8 @@ public class ComponentData {
                 content[13] += ", ";
             }
         }
+
+        content[14] = "table: " + getTable();
 
         return String.join("\n", content);
     }
