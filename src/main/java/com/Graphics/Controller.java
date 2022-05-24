@@ -19,9 +19,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
-import static com.Physics.PhysicsManager.sheet;
+import static com.Graphics.GraphicsManager.sheet;
 
-public class HelloController {
+public class Controller {
 
     public Slider InputSlider;
     public Slider OutputSlider;

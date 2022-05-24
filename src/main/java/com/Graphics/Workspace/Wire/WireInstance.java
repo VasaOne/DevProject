@@ -8,7 +8,7 @@ import com.Physics.Component;
 import com.Physics.Wire;
 import javafx.scene.canvas.GraphicsContext;
 
-import static com.Graphics.GraphicsManager.physicSheet;
+import static com.Graphics.GraphicsManager.sheet;
 
 import java.util.Objects;
 
@@ -79,7 +79,7 @@ public class WireInstance {
             endY = end.getCenterY();
             testMiddle();
             if (Objects.nonNull(start)) {
-                physicSheet.addWire(physicWire);
+                sheet.addWire(physicWire);
                 physicWire.connect(new Component[] {start.relativeTo.getPhysicComponent(), end.relativeTo.getPhysicComponent()});
             }
         }

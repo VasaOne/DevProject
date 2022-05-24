@@ -27,7 +27,7 @@ public class GraphicsManager extends Application {
 
 
     public static Sheet currentSheet;
-    public static com.Physics.Sheet physicSheet;
+    public static com.Physics.Sheet sheet;
 
 
     @Override
