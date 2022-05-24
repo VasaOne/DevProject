@@ -20,15 +20,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import static com.Application.FileManger.SaveLoadSheet.loadSheet;
-import static com.Application.FileManger.SaveLoadSheet.saveSheet;
 
 public class GraphicsManager extends Application {
 
-
     public static Sheet currentSheet;
     public static com.Physics.Sheet sheet;
-
+    public static com.Graphics.Workspace.Application.CanvasRenderer renderer;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -41,59 +38,6 @@ public class GraphicsManager extends Application {
         ScrollPane pane = (ScrollPane) scene.lookup("#workspace");
         pane.setFitToHeight(true);
         pane.setFitToWidth(true);
-
-        /*// Create a new sheet
-        Sheet currentSheet = new Sheet(30, 20);
-        // Create a new canvas renderer which will render the sheet
-        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
-        // Sets the workspace for the renderer
-        renderer.setCanvasParent(pane);*/
-
-        /*// The main sheet contains a special component which is the sheet itself, on which the global nodes are placed
-        // Then we create 3 inputs
-        currentSheet.ioComponent.addStartNode(currentSheet);
-        currentSheet.ioComponent.addStartNode(currentSheet);
-        currentSheet.ioComponent.addStartNode(currentSheet);
-
-        // And 2 outputs
-        currentSheet.ioComponent.addEndNode(currentSheet);
-        currentSheet.ioComponent.addEndNode(currentSheet);*/
-
-        // We create 3 new components, which are the most basic ones we'll be using
-//        SaveLoadSheet.loadedObjects.add(new SheetObject(0, "or", Color.PINK, 2, 1));
-//        SaveLoadSheet.loadedObjects.add(new SheetObject(1, "not", Color.web("#772288"), 1, 1));
-//        SaveLoadSheet.loadedObjects.add(new SheetObject(2, "and", Color.web("#03C93C"), 2, 1));
-//
-//        SaveLoadSheet.truthTables.add(new Boolean[]{false, true, true, true});
-//        SaveLoadSheet.truthTables.add(new Boolean[]{false, false});
-//        SaveLoadSheet.truthTables.add(new Boolean[]{false, false, false, true});
-
-        //SheetObject test = new SheetObject("test", Color.PURPLE, 7, 8, new Boolean[]{true});
-
-        /*// We create instances of these components
-        ComponentInstance or = new ComponentInstance(orDoor, 12, 6);
-        ComponentInstance not = new ComponentInstance(notDoor, 18, 8);
-        ComponentInstance and = new ComponentInstance(andDoor, 5, 3);
-        //ComponentInstance testInstance = new ComponentInstance(test, 18, 8);
-
-        // And we place them on the sheet
-        currentSheet.addObject(or);
-        currentSheet.addObject(not);
-        currentSheet.addObject(and);
-
-        //currentSheet.addObject(testInstance);
-
-        // We create a new wire between the first input and the add door
-        // Creates a new wire
-        WireInstance wire0 = new WireInstance();
-        // Connects the wire to the input
-        wire0.setStart(currentSheet.ioComponent.startNodes.get(0));
-        // Connects the wire to the output
-        wire0.setEnd(and.inputs[0]);
-        // Adds the wire to the sheet
-        currentSheet.addWire(wire0);*/
-
-        //SaveLoadSheet.saveSheet(1, "a", Color.PINK, currentSheet);
 
         String fileContent = "id: 3\n" +
                 "name: a\n" +
@@ -119,7 +63,7 @@ public class GraphicsManager extends Application {
         }
 
         // Create a new canvas renderer which will render the sheet
-        CanvasRenderer renderer = new CanvasRenderer(currentSheet, 50);
+        renderer = new CanvasRenderer(currentSheet, 50);
         // Sets the workspace for the renderer
         renderer.setCanvasParent(pane);
 

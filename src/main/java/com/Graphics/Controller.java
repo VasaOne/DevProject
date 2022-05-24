@@ -26,6 +26,8 @@ public class Controller {
     public Slider InputSlider;
     public Slider OutputSlider;
 
+    public Slider ScaleSlider;
+
     // We create 3 new components, which are the most basic ones we'll be using
     SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1);
     SheetObject noDoor = new SheetObject(1, "not", Color.web("#772288"), 1, 1);
@@ -59,11 +61,6 @@ public class Controller {
     }
 
     public void inputs(MouseEvent mouseEvent) {
-/*        for (int i=0;i<InputSlider.getValue();i++) {
-            currentSheet.ioComponent.addStartNode(currentSheet);
-        }*/
-
-        // J'ai remodifié le code sinon ça marchais pas :
         // On calcule le nombre d'entrées à placer
         int toPlace = (int) InputSlider.getValue() - currentSheet.ioComponent.startNodes.size();
         // Si il faut ajouter des entrées
@@ -83,11 +80,6 @@ public class Controller {
     }
 
     public void outputs(MouseEvent mouseEvent) {
-/*        for (int i=0;i<OutputSlider.getValue();i++) {
-            currentSheet.ioComponent.addEndNode(currentSheet);
-        }*/
-
-        // J'ai remodifié le code sinon ça marchais pas :
         // On calcule le nombre d'entrées à placer
         int toPlace = (int) OutputSlider.getValue() - currentSheet.ioComponent.endNodes.size();
         // Si il faut ajouter des entrées
@@ -104,6 +96,12 @@ public class Controller {
                 currentSheet.ioComponent.delEndNode(currentSheet.ioComponent.endNodes.get(currentSheet.ioComponent.endNodes.size() - 1), currentSheet);
             }
         }
+    }
+
+    public void scale(MouseEvent mouseEvent) {
+        //On calcule la nouvelle échelle à appliquer
+        double newScale = ScaleSlider.getValue();
+        GraphicsManager.renderer.setScale(newScale);
     }
 
     public void simulate(ActionEvent actionEvent) {

@@ -21,18 +21,14 @@ public class SaveLoadSheet {
     public static Boolean[][] truthTables;
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
-        //String json = new ComponentData(id, name, color, sheet).getJson();
-        //System.out.println(json);
         ComponentData componentData = new ComponentData(id, name, color, sheet);
-        System.out.println(componentData.getFileContent());
         //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
         componentData.setTruthTable(new Boolean[] {true, true, false, true, false, true, true, true, false});
-        System.out.println(componentData.getTable());
 
+        System.out.println(componentData.getFileContent());
 
         //TODO: write in file
         String fileContent = componentData.getFileContent();
-        String table = componentData.getTable();
     }
 
     public static Sheet loadSheet(String fileContent) throws ComponentNotFoundException {

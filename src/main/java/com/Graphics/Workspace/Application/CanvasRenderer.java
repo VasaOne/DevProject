@@ -30,7 +30,11 @@ public class CanvasRenderer {
     /**
      * The diameter in pixel of a node, so that size(pixel) = size(NU) * scale
      */
-    private final double scale;
+    private double scale;
+
+    public void setScale(double newScale) {
+        scale = newScale;
+    }
 
     public CanvasRenderer(Sheet displayedSheet, double defaultScale) {
         scale = defaultScale;
