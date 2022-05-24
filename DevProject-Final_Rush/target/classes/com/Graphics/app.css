@@ -1,0 +1,22 @@
+#anchor {
+  	-fx-background-color: #F0F4F8
+  }
+#files{
+  	-fx-graphic:url("./files.png")
+  	}
+#menu{
+    	-fx-graphic:url("./menu.png")
+    }
+#save{
+    	-fx-graphic:url("./save.png")
+    }
+#componant{
+   -fx-graphic:url("./circuit.png")
+}
+
+#test{
+   -fx-graphic:url("./2test.png")
+}
+#Simulate{
+    -fx-graphic:url("./simulate.png")
+}
