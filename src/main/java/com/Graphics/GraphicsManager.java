@@ -9,6 +9,7 @@ import com.Graphics.Workspace.Sheet.Sheet;
 import com.Graphics.Workspace.Wire.WireInstance;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,12 +28,20 @@ public class GraphicsManager extends Application {
     public static com.Physics.Sheet sheet;
     public static com.Graphics.Workspace.Application.CanvasRenderer renderer;
 
+    @FXML
+    public static Controller controller;
+
     @Override
     public void start(Stage stage) throws IOException {
         // Load the FXML file
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("interface.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("interface.fxml")));
+        // Set root of fxml file
+        Parent root = loader.load();
         // Create the scene based on the loaded FXML file
         Scene scene = new Scene(root);
+        // Get the controller of the scene to access elements
+        controller = loader.getController();
+        controller.setSimulateState(false);
 
         // Gets the workspace we'll be using
         ScrollPane pane = (ScrollPane) scene.lookup("#workspace");
@@ -61,6 +70,8 @@ public class GraphicsManager extends Application {
         } catch (ComponentNotFoundException e) {
             System.err.println(e);
         }
+        controller.InputSlider.setValue(currentSheet.ioComponent.startNodes.size());
+        controller.OutputSlider.setValue(currentSheet.ioComponent.endNodes.size());
 
         // Create a new canvas renderer which will render the sheet
         renderer = new CanvasRenderer(currentSheet, 50);

@@ -1,5 +1,7 @@
 package com.Graphics.Workspace.Application;
 
+import com.Graphics.Controller;
+import com.Graphics.GraphicsManager;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Graphics.Workspace.Node.GraphicNode;
 import com.Graphics.Workspace.Node.InputNode;
@@ -190,6 +192,8 @@ public class CanvasInteractions {
         currentAction = CurrentAction.none;
         startNode = null;
         endNode = null;
+
+        GraphicsManager.controller.setSimulateState(sheet.isSheetComplete());
     }
     private void OnMouseDragged(MouseEvent event) {
         double posX = event.getX() / scale;

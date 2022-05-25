@@ -82,12 +82,10 @@ public class Sheet {
     public void removeObject(ComponentInstance instance) {
         components.remove(instance);
         for (InputNode node: instance.inputs) {
-            removeWire(node.wireConnected);
+            node.clearNode();
         }
         for (OutputNode node: instance.outputs) {
-            while (node.wiresConnected.size() > 0) {
-                removeWire(node.wiresConnected.get(0));
-            }
+            node.clearNode();
         }
         while (!components.remove(instance)) {}
     }
@@ -195,6 +193,19 @@ public class Sheet {
     public boolean isThereAWire(OutputNode start, InputNode end) {
         //On regarde simplement si le début du fil relié à end est start
         return Objects.equals(end.wireConnected.getStart(), start);
+    }
+
+    public boolean isSheetComplete() {
+        for (ComponentInstance component: components) {
+            if (!component.isComplete()) return false;
+        }
+        for (InputNode node: ioComponent.endNodes) {
+            if (!node.hasWire()) return false;
+        }
+        for (OutputNode node: ioComponent.startNodes) {
+            if (!node.hasWire()) return false;
+        }
+        return ioComponent.endNodes.size() > 0 && ioComponent.startNodes.size() > 0;
     }
 
     /**

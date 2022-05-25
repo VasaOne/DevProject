@@ -8,6 +8,7 @@ import com.Physics.Component;
 import com.Physics.Wire;
 import javafx.scene.canvas.GraphicsContext;
 
+import static com.Graphics.GraphicsManager.currentSheet;
 import static com.Graphics.GraphicsManager.sheet;
 
 import java.util.Objects;
@@ -258,11 +259,14 @@ public class WireInstance {
      * /!\ Should only be called by the sheet itself ! Maybe call removeWire function from the sheet.
      */
     public void remove() {
+        if (!isReal) { System.err.println("Program is trying to delete this wire, but this wire is not real !"); return;}
         if (Objects.nonNull(start)) {
             start.removeWire(this);
         }
         if (Objects.nonNull(end)) {
             end.removeWire();
         }
+        sheet.getWires().remove(this);
+        //TODO: delete object
     }
 }

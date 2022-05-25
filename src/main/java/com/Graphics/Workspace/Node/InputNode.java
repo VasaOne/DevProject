@@ -51,4 +51,9 @@ public class InputNode extends GraphicNode {
     public boolean hasWire() {
         return !Objects.equals(abstractWire, wireConnected);
     }
+
+    @Override
+    public void clearNode() {
+        wireConnected.remove();
+    }
 }

@@ -122,4 +122,12 @@ public abstract class GraphicNode {
         }
         context.fillOval(getOriginX() * scale, getOriginY() * scale, getSize() * scale, getSize() * scale);
     }
+
+    public abstract boolean hasWire();
+
+    /**
+     * Clears the node from all wires connected
+     */
+    public abstract void clearNode();
+
 }

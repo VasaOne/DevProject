@@ -66,4 +66,16 @@ public class OutputNode extends GraphicNode {
     public void removeWire(WireInstance wire) {
         wiresConnected.remove(wire);
     }
+
+    @Override
+    public boolean hasWire() {
+        return wiresConnected.size() > 1;
+    }
+
+    @Override
+    public void clearNode() {
+        while (hasWire()) {
+            wiresConnected.get(1).remove();
+        }
+    }
 }

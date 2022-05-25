@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseDragEvent;
@@ -27,6 +28,9 @@ public class Controller {
     public Slider OutputSlider;
 
     public Slider ScaleSlider;
+
+
+    public Button Simulate;
 
     // We create 3 new components, which are the most basic ones we'll be using
     SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1);
@@ -74,7 +78,7 @@ public class Controller {
         else if (toPlace < 0) {
             // On enlève ce nombre d'entrées
             for (int i=0;i<-toPlace;i++) {
-                currentSheet.ioComponent.delStartNode(currentSheet.ioComponent.startNodes.get(currentSheet.ioComponent.startNodes.size() - 1), currentSheet);
+                currentSheet.ioComponent.delStartNode(currentSheet);
             }
         }
     }
@@ -93,7 +97,7 @@ public class Controller {
         else if (toPlace < 0) {
             // On enlève ce nombre d'entrées
             for (int i=0;i<-toPlace;i++) {
-                currentSheet.ioComponent.delEndNode(currentSheet.ioComponent.endNodes.get(currentSheet.ioComponent.endNodes.size() - 1), currentSheet);
+                currentSheet.ioComponent.delEndNode(currentSheet);
             }
         }
     }
@@ -106,5 +110,9 @@ public class Controller {
 
     public void simulate(ActionEvent actionEvent) {
         sheet.refresh();
+    }
+
+    public void setSimulateState(boolean state) {
+        Simulate.setDisable(!state);
     }
 }
