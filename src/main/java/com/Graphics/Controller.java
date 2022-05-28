@@ -3,6 +3,7 @@ package com.Graphics;
 import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Physics.Component;
+import com.Physics.Wire;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -108,5 +109,9 @@ public class Controller {
 
     public void simulate(ActionEvent actionEvent) {
         sheet.refresh();
+        for (Wire wire : sheet.getWires()) {
+            System.out.println(wire.getState());
+        }
+        currentSheet.refresh();
     }
 }

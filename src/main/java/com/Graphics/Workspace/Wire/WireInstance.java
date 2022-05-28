@@ -13,6 +13,7 @@ import static com.Graphics.GraphicsManager.sheet;
 import java.util.Objects;
 
 public class WireInstance {
+
     private OutputNode start;
     private InputNode end;
 
@@ -22,11 +23,14 @@ public class WireInstance {
     com.Physics.Wire physicWire = new Wire();
 
     private boolean state;
+
     public boolean getState() {
         return state;
     }
     public void setState(boolean state) {
         this.state = state;
+        Boolean physicState = (Boolean) state;
+        physicWire.setState(physicState);
     }
 
     private double startX;
@@ -79,8 +83,8 @@ public class WireInstance {
             endY = end.getCenterY();
             testMiddle();
             if (Objects.nonNull(start)) {
-                sheet.addWire(physicWire);
-                physicWire.connect(new Component[] {start.relativeTo.getPhysicComponent(), end.relativeTo.getPhysicComponent()});
+                //physicWire.addConnection(start.relativeTo.getPhysicComponent());
+                //physicWire.addConnection(end.relativeTo.getPhysicComponent());
             }
         }
     }
@@ -132,6 +136,7 @@ public class WireInstance {
 
         if (!(start.relativeTo instanceof IOComponent)) {
             start.relativeTo.getPhysicComponent().addWireOutput(physicWire, start.id);
+            //sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
         }
 
 
@@ -264,5 +269,13 @@ public class WireInstance {
         if (Objects.nonNull(end)) {
             end.removeWire();
         }
+    }
+
+    public void refresh() {
+        state = physicWire.getState();
+    }
+
+    public Wire getPhysicWire() {
+        return physicWire;
     }
 }

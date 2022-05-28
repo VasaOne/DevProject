@@ -5,14 +5,19 @@ package com.Physics;
 
 import javax.xml.stream.events.StartDocument;
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Wire {
 
-    Sheet sheet;
     private Boolean state;
-    private Component[] components;
+    private List<Component> components;
 
-    public Wire() {}
+    public Wire() {
+        components = new ArrayList<>();
+        state = null;
+    }
+
     public void setState(Boolean state) {
         this.state = state;
     }
@@ -21,8 +26,8 @@ public class Wire {
         return state;
     }
 
-    public void connect(Component[] components) {
-        this.components = components;
+    public void addConnection(Component component) {
+        components.add(component);
     }
 
     public Boolean isNull() {
@@ -40,23 +45,28 @@ public class Wire {
             for (Wire wire : component.getWiresInput()) {
                 if (wire == this) {
                     s ++;
+                    System.out.println("Coucou");
                 }
             }
             if (s==0) {
+                System.out.println("Test");
                 startComponent = component;
             }
         }
-        if (startComponent == null) {
+        if (startComponent.getWiresInput()[0].getState() == null) {
             return;
-        }
-        int s = 0;
-        for (int i=0;i<startComponent.getInputs();i++) {
-            if (startComponent.getWiresInput()[i].getState()) {
-                s += Math.pow(2,startComponent.getInputs()-i-1);
+        } else {
+            int s = 0;
+            for (int i=0;i<startComponent.getInputs();i++) {
+                if (startComponent.getWiresInput()[i].getState()) {
+                    s += Math.pow(2, startComponent.getInputs() - i - 1);
+                }
+
             }
+            System.out.println(startComponent.getTruthTable()[s]);
+            setState(startComponent.getTruthTable()[s]);
         }
-        //System.out.println(start.getTruthTable()[s]);
-        //System.out.println(name);
-        setState(startComponent.getTruthTable()[s]);
+
+
     }
 }

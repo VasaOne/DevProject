@@ -21,8 +21,7 @@ public class SaveLoadSheet {
     public static Boolean[][] truthTables;
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
-        //String json = new ComponentData(id, name, color, sheet).getJson();
-        //System.out.println(json);
+
         ComponentData componentData = new ComponentData(id, name, color, sheet);
         System.out.println(componentData.getFileContent());
         //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
@@ -84,7 +83,8 @@ public class SaveLoadSheet {
 
         for (int i = 0; i < wireStartComp.length; i++) {
             WireInstance wireInstance = new WireInstance();
-            Wire physicWire = new Wire();
+            //Wire physicWire = new Wire();
+            Wire physicWire = wireInstance.getPhysicWire();
 
             int startComp = Integer.parseInt(wireStartComp[i]);
             int endComp = Integer.parseInt(wireEndComp[i]);
@@ -94,17 +94,20 @@ public class SaveLoadSheet {
                 physicWire.setState(false);
             } else {
                 wireInstance.setStart(currentSheet.components.get(startComp).outputs[Integer.parseInt(wireStartNode[i])]);
-                sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
+                //sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
+                physicWire.addConnection(sheet.getComponents().get(startComp));
             }
 
             if (endComp == -1) {
                 wireInstance.setEnd(currentSheet.ioComponent.endNodes.get(Integer.parseInt(wireEndNode[i])));
             } else {
                 wireInstance.setEnd(currentSheet.components.get(endComp).inputs[Integer.parseInt(wireEndNode[i])]);
-                sheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
+                //sheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
+                physicWire.addConnection(sheet.getComponents().get(endComp));
             }
 
             currentSheet.addWire(wireInstance);
+            sheet.addWire(physicWire);
         }
 
         return currentSheet;

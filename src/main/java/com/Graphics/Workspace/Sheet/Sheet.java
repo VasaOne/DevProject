@@ -257,4 +257,10 @@ public class Sheet {
             data.wiresMiddle[i] = wires.get(i).getMiddle();
         }
     }
+
+    public void refresh() {
+        for (WireInstance wire : wires) {
+            wire.refresh();
+        }
+    }
 }

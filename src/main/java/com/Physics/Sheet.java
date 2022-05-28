@@ -46,6 +46,7 @@ public class Sheet {
 
     public void refresh() {
         boolean finish = true;
+
         do {
             System.out.println("hey");
             List<Wire> nullWires = new ArrayList<>();
@@ -54,6 +55,7 @@ public class Sheet {
                 if (wire.isNull()) {
                     finish = true;
                     nullWires.add(wire);
+                    System.out.println("addwire");
                 }
             }
             for (Wire wire : nullWires) {

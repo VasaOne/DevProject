@@ -12,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.Objects;
 
+import static com.Graphics.GraphicsManager.sheet;
+
 /**
  * This class allows the user to interact with the canvas
  */
