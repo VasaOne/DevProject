@@ -83,8 +83,12 @@ public class WireInstance {
             endY = end.getCenterY();
             testMiddle();
             if (Objects.nonNull(start)) {
-                //physicWire.addConnection(start.relativeTo.getPhysicComponent());
-                //physicWire.addConnection(end.relativeTo.getPhysicComponent());
+                //physicWire.addConnection(start.relativeTo.getPhysicComponent(), start.id);
+                //IOComponent physicStartComponent = (IOComponent) start.relativeTo;
+                //physicStartComponent.getPhysicComponent().addWireOutput(physicWire, start.id);
+                //physicWire.addConnection(end.relativeTo.getPhysicComponent(), end.id);
+                //IOComponent physicEndComponent = (IOComponent) start.relativeTo;
+                //physicStartComponent.getPhysicComponent().addWireInput(physicWire, end.id);
             }
         }
     }
@@ -136,7 +140,7 @@ public class WireInstance {
 
         if (!(start.relativeTo instanceof IOComponent)) {
             start.relativeTo.getPhysicComponent().addWireOutput(physicWire, start.id);
-            //sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
+            physicWire.setId(start.id, 0);
         }
 
 
@@ -173,6 +177,7 @@ public class WireInstance {
 
         if (!(end.relativeTo instanceof IOComponent)) {
             end.relativeTo.getPhysicComponent().addWireInput(physicWire, end.id);
+            physicWire.setId(end.id, 1);
         }
 
         /*//Connaître le numéro de la node

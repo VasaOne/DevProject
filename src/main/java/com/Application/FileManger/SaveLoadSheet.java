@@ -14,11 +14,12 @@ import java.util.regex.PatternSyntaxException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
 import static com.Graphics.GraphicsManager.sheet;
+import static java.lang.Math.exp;
 
 public class SaveLoadSheet {
 
     public static SheetObject[] loadedObjects;
-    public static Boolean[][] truthTables;
+    public static Boolean[][][] truthTables;
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
 
@@ -26,6 +27,10 @@ public class SaveLoadSheet {
         System.out.println(componentData.getFileContent());
         //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
         componentData.setTruthTable(new Boolean[] {true, true, false, true, false, true, true, true, false});
+        Boolean[] truthTable = new Boolean[sheet.ioComponent.startNodes.size()];
+        for (int i=0;i<exp(sheet.ioComponent.startNodes.size());i++) {
+
+        }
         System.out.println(componentData.getTable());
 
 
@@ -92,22 +97,25 @@ public class SaveLoadSheet {
             if (startComp == -1) {
                 wireInstance.setStart(currentSheet.ioComponent.startNodes.get(Integer.parseInt(wireStartNode[i])));
                 physicWire.setState(false);
+                sheet.addWireInput(physicWire);
             } else {
                 wireInstance.setStart(currentSheet.components.get(startComp).outputs[Integer.parseInt(wireStartNode[i])]);
-                //sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
-                physicWire.addConnection(sheet.getComponents().get(startComp));
+                sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
+                physicWire.addConnection(sheet.getComponents().get(startComp), 0);
             }
 
             if (endComp == -1) {
                 wireInstance.setEnd(currentSheet.ioComponent.endNodes.get(Integer.parseInt(wireEndNode[i])));
             } else {
                 wireInstance.setEnd(currentSheet.components.get(endComp).inputs[Integer.parseInt(wireEndNode[i])]);
-                //sheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
-                physicWire.addConnection(sheet.getComponents().get(endComp));
+                sheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
+                physicWire.addConnection(sheet.getComponents().get(endComp), 1);
             }
 
             currentSheet.addWire(wireInstance);
-            sheet.addWire(physicWire);
+            if (startComp != -1) {
+                sheet.addWire(physicWire);
+            }
         }
 
         return currentSheet;
@@ -120,15 +128,15 @@ public class SaveLoadSheet {
      */
     public static boolean loadObjectUntil(int lastId) {
         SheetObject[] tempArray = new SheetObject[lastId + 1];
-        Boolean[][] truthTables = new Boolean[lastId + 1][];
+        Boolean[][][] truthTables = new Boolean[lastId + 1][][];
 
         tempArray[0] = new SheetObject(0, "not", Color.BROWN, 1, 1);
         tempArray[1] = new SheetObject(1, "and", Color.GREEN, 2, 1);
         tempArray[2] = new SheetObject(2, "or", Color.RED, 2, 1);
 
-        truthTables[0] = new Boolean[] {true, false};
-        truthTables[1] = new Boolean[] {false, false, true};
-        truthTables[2] = new Boolean[] {false, true, true};
+        truthTables[0] = new Boolean[][] {{true}, {false}};
+        truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true},};
+        truthTables[2] = new Boolean[][] {{false}, {true}, {true}, {true}};
 
         //TODO: parcourir les fichiers présents dans le dossier de sauvegarde (changer le int en structure de fichiers)
         //TODO: obtenir les fichiers et récupérer le texte.
@@ -147,10 +155,10 @@ public class SaveLoadSheet {
                             Integer.parseInt(split[4].split(": ")[1])
                     );
                     String rawTable = split[14].split(": ")[1];
-                    truthTables[id] = new Boolean[rawTable.length()];
+                    truthTables[id] = new Boolean[rawTable.length()][];
                     for (int i = 0; i < rawTable.length(); i++) {
-                        if (rawTable.charAt(i) == '1') truthTables[id][i] = true;
-                        else truthTables[id][i] = false;
+                        if (rawTable.charAt(i) == '1') truthTables[id][i][0] = true;
+                        else truthTables[id][i][0] = false;
                     }
                 }
             }
@@ -172,7 +180,6 @@ public class SaveLoadSheet {
 //    public boolean test(SheetObject graphic, com.Physics.Sheet physic) {
 //        graphic = new SheetObject(sss);
 //        physic = new com.Physics.Sheet(sss);
-//
 //        return true;
 //    }
 }

@@ -10,9 +10,8 @@ import com.Graphics.Workspace.Wire.WireInteraction;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
 import java.util.Objects;
-
-import static com.Graphics.GraphicsManager.sheet;
 
 /**
  * This class allows the user to interact with the canvas
@@ -147,6 +146,8 @@ public class CanvasInteractions {
             case pressOnOutputNode:
                 if (Objects.equals(sheet.getNodeAt(event.getX() / scale, event.getY() / scale), selectedNode) && selectedNode.isGlobal && selectedNode instanceof OutputNode) {
                     selectedNode.setState(!selectedNode.getState());
+                    ArrayList<WireInstance> node = ((OutputNode) selectedNode).wiresConnected;
+                    node.get(0).getPhysicWire().setState(!selectedNode.getState());
                 }
                 break;
 

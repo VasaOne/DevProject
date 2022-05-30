@@ -10,12 +10,12 @@ public class Component {
     private int inputs;
     private int outputs;
 
-    private Boolean[] truthTable;
+    private Boolean[][] truthTable;
 
     private Wire[] WireInputs;
     private Wire[] WireOutput;
 
-    public Component(String name, int inputs, int outputs, Boolean[] truthTable) {
+    public Component(String name, int inputs, int outputs, Boolean[][] truthTable) {
         this.name = name;
         this.inputs = inputs;
         this.outputs = outputs;
@@ -32,7 +32,7 @@ public class Component {
         return outputs;
     }
 
-    public Boolean[] getTruthTable() {
+    public Boolean[][] getTruthTable() {
         return truthTable;
     }
 
@@ -62,6 +62,16 @@ public class Component {
 
     public Wire[] getWiresOutput() {
         return WireOutput;
+    }
+
+    public boolean canBeRefresh() {
+        boolean b = true;
+        for (Wire wire : getWiresInput()) {
+            if (wire.isNull()) {
+                b = false;
+            }
+        }
+        return b;
     }
 
 

@@ -34,21 +34,21 @@ public class Controller {
 
 
     public void no(ActionEvent actionEvent) {
-        Component physicNo = new Component("no",1, 1, new Boolean[] {true,false});
+        Component physicNo = new Component("no",1, 1, new Boolean[][] {{true},{false}});
         sheet.addComponent(physicNo);
         ComponentInstance no = new ComponentInstance(noDoor, 12, 6, physicNo);
         currentSheet.addObject(no);
     }
 
     public void or(ActionEvent actionEvent) {
-        Component physicOr = new Component("or",1, 1, new Boolean[]{false, true, true, true});
+        Component physicOr = new Component("or",1, 1, new Boolean[][] {{false}, {true}, {true}, {true}});
         sheet.addComponent(physicOr);
         ComponentInstance or = new ComponentInstance(orDoor, 12, 6, physicOr);
         currentSheet.addObject(or);
     }
 
     public void and(ActionEvent actionEvent) {
-        Component physicAnd = new Component("and",1, 1, new Boolean[] {false, false, false, true});
+        Component physicAnd = new Component("and",1, 1, new Boolean[][] {{false}, {false}, {false}, {true}});
         sheet.addComponent(physicAnd);
         ComponentInstance and = new ComponentInstance(andDoor, 12, 6, physicAnd);
         currentSheet.addObject(and);
@@ -108,6 +108,9 @@ public class Controller {
     }
 
     public void simulate(ActionEvent actionEvent) {
+        for (Wire wire : sheet.getWires()) {
+            wire.setState(null);
+        }
         sheet.refresh();
         for (Wire wire : sheet.getWires()) {
             System.out.println(wire.getState());

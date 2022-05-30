@@ -1,14 +1,12 @@
 package com.Physics;
 
-import org.w3c.dom.traversal.NodeIterator;
-
 import java.util.*;
 
 public class Sheet {
 
     private List<Component> components;
     private List<Wire> wires;
-    private List<InputNode> inputs;
+    private List<Wire> inputs;
     private List<OutputNode> outputs;
 
     public Sheet() {
@@ -34,9 +32,12 @@ public class Sheet {
         wires.add(wire);
     }
 
-    public void addInput() {
-        InputNode node = new InputNode(false, inputs.size());
-        inputs.add(node);
+    public void addWireInput(Wire wire) {
+        inputs.add(wire);
+    }
+
+    public List<Wire> getWireInputs() {
+        return inputs;
     }
 
     public void addOutput() {
