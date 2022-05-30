@@ -1,6 +1,5 @@
 package com.Application.FileManger;
 
-import com.Graphics.GraphicsManager;
 import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Graphics.Workspace.Sheet.Sheet;
@@ -14,12 +13,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.PatternSyntaxException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
-import static com.Graphics.GraphicsManager.sheet;
+import static com.Graphics.GraphicsManager.physicSheet;
 import static java.lang.Math.exp;
 
 public class SaveLoadSheet {
@@ -68,7 +66,7 @@ public class SaveLoadSheet {
         double width = Double.parseDouble(content[5].split(": ")[1]);
         double height = Double.parseDouble(content[6].split(": ")[1]);
 
-        sheet = new com.Physics.Sheet();
+        physicSheet = new com.Physics.Sheet();
         currentSheet = new Sheet(width, height);
 
         for (int i = 0; i < inputs; i++) {
@@ -91,7 +89,7 @@ public class SaveLoadSheet {
                     Double.parseDouble(compX[i]),
                     Double.parseDouble(compY[i]),
                     physicComponent));
-            sheet.addComponent(physicComponent);
+            physicSheet.addComponent(physicComponent);
         }
 
         String[] wireStartComp = content[10].split(": ")[1].split(", ");
@@ -110,24 +108,24 @@ public class SaveLoadSheet {
             if (startComp == -1) {
                 wireInstance.setStart(currentSheet.ioComponent.startNodes.get(Integer.parseInt(wireStartNode[i])));
                 physicWire.setState(false);
-                sheet.addWireInput(physicWire);
+                physicSheet.addWireInput(physicWire);
             } else {
                 wireInstance.setStart(currentSheet.components.get(startComp).outputs[Integer.parseInt(wireStartNode[i])]);
-                sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
-                physicWire.addConnection(sheet.getComponents().get(startComp), 0);
+                physicSheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
+                physicWire.addConnection(physicSheet.getComponents().get(startComp), 0);
             }
 
             if (endComp == -1) {
                 wireInstance.setEnd(currentSheet.ioComponent.endNodes.get(Integer.parseInt(wireEndNode[i])));
             } else {
                 wireInstance.setEnd(currentSheet.components.get(endComp).inputs[Integer.parseInt(wireEndNode[i])]);
-                sheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
-                physicWire.addConnection(sheet.getComponents().get(endComp), 1);
+                physicSheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
+                physicWire.addConnection(physicSheet.getComponents().get(endComp), 1);
             }
 
             currentSheet.addWire(wireInstance);
             if (startComp != -1) {
-                sheet.addWire(physicWire);
+                physicSheet.addWire(physicWire);
             }
         }
     }

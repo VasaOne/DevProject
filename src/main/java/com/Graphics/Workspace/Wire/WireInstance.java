@@ -4,12 +4,10 @@ import com.Config;
 import com.Graphics.Workspace.Component.IOComponent;
 import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
-import com.Physics.Component;
 import com.Physics.Wire;
 import javafx.scene.canvas.GraphicsContext;
 
-import static com.Graphics.GraphicsManager.currentSheet;
-import static com.Graphics.GraphicsManager.sheet;
+import static com.Graphics.GraphicsManager.physicSheet;
 
 import java.util.Objects;
 
@@ -142,6 +140,7 @@ public class WireInstance {
         if (!(start.relativeTo instanceof IOComponent)) {
             start.relativeTo.getPhysicComponent().addWireOutput(physicWire, start.id);
             physicWire.setId(start.id, 0);
+            physicWire.addConnection(start.relativeTo.getPhysicComponent(), 1);
         }
 
 
@@ -276,7 +275,7 @@ public class WireInstance {
         if (Objects.nonNull(end)) {
             end.removeWire();
         }
-        sheet.getWires().remove(this);
+        physicSheet.getWires().remove(this);
         //TODO: delete object
     }
 

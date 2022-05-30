@@ -1,8 +1,8 @@
 package com.Graphics.Workspace.Application;
 
-import com.Graphics.Controller;
 import com.Graphics.GraphicsManager;
 import com.Graphics.Workspace.Component.ComponentInstance;
+import com.Graphics.Workspace.Component.IOComponent;
 import com.Graphics.Workspace.Node.GraphicNode;
 import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
@@ -14,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static com.Graphics.GraphicsManager.physicSheet;
 
 /**
  * This class allows the user to interact with the canvas
@@ -223,9 +225,15 @@ public class CanvasInteractions {
                     // On créé un nouveau fil
                     selectedWire = new WireInstance();
                     sheet.addWire(selectedWire);
-                    selectedWire.setStart(startNode);
-                    startNode.setState(startNode.getState());
 
+                    selectedWire.setStart(startNode);
+                    if (!(startNode.relativeTo instanceof IOComponent)) {
+                        startNode.relativeTo.getPhysicComponent().addWireOutput(selectedWire.getPhysicWire(), startNode.id);
+                        physicSheet.addWire(selectedWire.getPhysicWire());
+                    } else {
+                        selectedWire.getPhysicWire().setState(startNode.getState());
+                    }
+                    startNode.setState(startNode.getState());
                     // On passe en wireDrag
                     currentAction = CurrentAction.wireDragFromOutput;
                 }
@@ -312,7 +320,15 @@ public class CanvasInteractions {
                     else {
                         selectedWire = new WireInstance();
                         sheet.addWire(selectedWire);
+
+                        if (endNode.relativeTo instanceof  IOComponent) {
+                            physicSheet.addWire(selectedWire.getPhysicWire());
+                            endNode.relativeTo.getPhysicComponent().addWireInput(selectedWire.getPhysicWire(), endNode.id);
+                        } else {
+                            selectedWire.getPhysicWire().setState(endNode.getState());
+                        }
                         selectedWire.setEnd(endNode);
+
                         endNode.setState(endNode.getState());
 
                         currentAction = CurrentAction.wireDragFromInput;

@@ -3,10 +3,7 @@ package com.Graphics;
 import com.Application.FileManger.ComponentNotFoundException;
 import com.Application.FileManger.SaveLoadSheet;
 import com.Graphics.Workspace.Application.CanvasRenderer;
-import com.Graphics.Workspace.Component.ComponentInstance;
-import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Sheet.Sheet;
-import com.Graphics.Workspace.Wire.WireInstance;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -14,18 +11,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 
 public class GraphicsManager extends Application {
 
     public static Sheet currentSheet;
-    public static com.Physics.Sheet sheet;
+    public static com.Physics.Sheet physicSheet;
     public static com.Graphics.Workspace.Application.CanvasRenderer renderer;
 
     @FXML
@@ -55,8 +50,8 @@ public class GraphicsManager extends Application {
                 "outputs: 1\n" +
                 "width: 30.0\n" +
                 "height: 20.0\n" +
-                "components: 2, 0\n" +
-                "componentsX: 14.1, 7.4\n" +
+                "components: 1, 0\n" +
+                "componentsX: 5, 15\n" +
                 "componentsY: 7.7, 4.7\n" +
                 "wiresStartComp: -1, -1, 1, 0\n" +
                 "wiresStartNode: 0, 1, 0, 0\n" +

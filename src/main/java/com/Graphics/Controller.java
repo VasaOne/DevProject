@@ -3,24 +3,15 @@ package com.Graphics;
 import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Physics.Component;
-import javafx.application.Application;
 import com.Physics.Wire;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
-
-import java.io.IOException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
-import static com.Graphics.GraphicsManager.sheet;
+import static com.Graphics.GraphicsManager.physicSheet;
 import com.Application.FileManger.SaveLoadSheet;
 
 public class Controller {
@@ -45,21 +36,21 @@ public class Controller {
 
     public void no(ActionEvent actionEvent) {
         Component physicNo = new Component("no",1, 1, new Boolean[][] {{true},{false}});
-        sheet.addComponent(physicNo);
+        physicSheet.addComponent(physicNo);
         ComponentInstance no = new ComponentInstance(noDoor, 12, 6, physicNo);
         currentSheet.addObject(no);
     }
 
     public void or(ActionEvent actionEvent) {
         Component physicOr = new Component("or",1, 1, new Boolean[][] {{false}, {true}, {true}, {true}});
-        sheet.addComponent(physicOr);
+        physicSheet.addComponent(physicOr);
         ComponentInstance or = new ComponentInstance(orDoor, 12, 6, physicOr);
         currentSheet.addObject(or);
     }
 
     public void and(ActionEvent actionEvent) {
         Component physicAnd = new Component("and",1, 1, new Boolean[][] {{false}, {false}, {false}, {true}});
-        sheet.addComponent(physicAnd);
+        physicSheet.addComponent(physicAnd);
         ComponentInstance and = new ComponentInstance(andDoor, 12, 6, physicAnd);
         currentSheet.addObject(and);
     }
@@ -114,11 +105,11 @@ public class Controller {
     }
 
     public void simulate(ActionEvent actionEvent) {
-        for (Wire wire : sheet.getWires()) {
+        for (Wire wire : physicSheet.getWires()) {
             wire.setState(null);
         }
-        sheet.refresh();
-        for (Wire wire : sheet.getWires()) {
+        physicSheet.refresh();
+        for (Wire wire : physicSheet.getWires()) {
             System.out.println(wire.getState());
         }
         currentSheet.refresh();
