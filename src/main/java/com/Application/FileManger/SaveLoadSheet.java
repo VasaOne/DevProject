@@ -24,6 +24,7 @@ import static java.lang.Math.exp;
 
 public class SaveLoadSheet {
 
+    public static ComponentData[] componentData;
     public static SheetObject[] loadedObjects;
     public static Boolean[][][] truthTables;
 
@@ -31,7 +32,7 @@ public class SaveLoadSheet {
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
         ComponentData componentData = new ComponentData(id, name, color, sheet);
-        System.out.println(componentData.getFileContent());
+        //System.out.println(componentData.getFileContent());
         //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
         componentData.setTruthTable(new Boolean[] {true, true, false, true, false, true, true, true, false});
         Boolean[] truthTable = new Boolean[sheet.ioComponent.startNodes.size()];
@@ -40,8 +41,6 @@ public class SaveLoadSheet {
         }
         System.out.println(componentData.getTable());
 
-
-        //TODO: write in file
         String fileContent = componentData.getFileContent();
 
         try {
@@ -57,71 +56,52 @@ public class SaveLoadSheet {
     }
 
     public static void loadSheet(String fileContent) throws ComponentNotFoundException {
-        String[] content = fileContent.split("\n");
-        int id = Integer.parseInt(content[0].split(": ")[1]);
-        String name = content[1].split(": ")[1];
-        Color color = Color.web(content[2].split(": ")[1]);
-
-        int inputs = Integer.parseInt(content[3].split(": ")[1]);
-        int outputs = Integer.parseInt(content[4].split(": ")[1]);
-
-        double width = Double.parseDouble(content[5].split(": ")[1]);
-        double height = Double.parseDouble(content[6].split(": ")[1]);
+        ComponentData data = ComponentData.parseData(fileContent);
 
         sheet = new com.Physics.Sheet();
-        currentSheet = new Sheet(width, height);
+        currentSheet = new Sheet(data.width, data.height);
 
-        for (int i = 0; i < inputs; i++) {
+        for (int i = 0; i < data.inputs; i++) {
             currentSheet.ioComponent.addStartNode(currentSheet);
         }
-        for (int i = 0; i < outputs; i++) {
+        for (int i = 0; i < data.outputs; i++) {
             currentSheet.ioComponent.addEndNode(currentSheet);
         }
 
-        String[] compId = content[7].split(": ")[1].split(", ");
-        String[] compX = content[8].split(": ")[1].split(", ");
-        String[] compY = content[9].split(": ")[1].split(", ");
-
-        for (int i = 0; i < compId.length; i++) {
-            int compIdInt = Integer.parseInt(compId[i]);
+        for (int i = 0; i < data.components.length; i++) {
+            int compIdInt = data.components[i];
             SheetObject abstractComponent = loadedObjects[compIdInt];
-            Component physicComponent = new Component("", abstractComponent.inputs, abstractComponent.outputs, truthTables[compIdInt]);
+            Component physicComponent = new Component(
+                    data.name, abstractComponent.inputs, abstractComponent.outputs, truthTables[compIdInt]);
             currentSheet.addObject(new ComponentInstance(
-                    loadedObjects[compIdInt],
-                    Double.parseDouble(compX[i]),
-                    Double.parseDouble(compY[i]),
-                    physicComponent));
+                    loadedObjects[compIdInt], data.componentsX[i], data.componentsY[i], physicComponent));
             sheet.addComponent(physicComponent);
         }
 
-        String[] wireStartComp = content[10].split(": ")[1].split(", ");
-        String[] wireStartNode = content[11].split(": ")[1].split(", ");
-        String[] wireEndComp = content[12].split(": ")[1].split(", ");
-        String[] wireEndNode = content[13].split(": ")[1].split(", ");
 
-        for (int i = 0; i < wireStartComp.length; i++) {
+        for (int i = 0; i < data.wiresStartComp.length; i++) {
             WireInstance wireInstance = new WireInstance();
             //Wire physicWire = new Wire();
             Wire physicWire = wireInstance.getPhysicWire();
 
-            int startComp = Integer.parseInt(wireStartComp[i]);
-            int endComp = Integer.parseInt(wireEndComp[i]);
+            int startComp = data.wiresStartComp[i];
+            int endComp = data.wiresEndComp[i];
 
             if (startComp == -1) {
-                wireInstance.setStart(currentSheet.ioComponent.startNodes.get(Integer.parseInt(wireStartNode[i])));
+                wireInstance.setStart(currentSheet.ioComponent.startNodes.get(data.wiresStartNode[i]));
                 physicWire.setState(false);
                 sheet.addWireInput(physicWire);
             } else {
-                wireInstance.setStart(currentSheet.components.get(startComp).outputs[Integer.parseInt(wireStartNode[i])]);
-                sheet.getComponents().get(startComp).addWireOutput(physicWire, Integer.parseInt(wireEndNode[i]));
+                wireInstance.setStart(currentSheet.components.get(startComp).outputs[data.wiresStartNode[i]]);
+                sheet.getComponents().get(startComp).addWireOutput(physicWire, data.wiresEndNode[i]);
                 physicWire.addConnection(sheet.getComponents().get(startComp), 0);
             }
 
             if (endComp == -1) {
-                wireInstance.setEnd(currentSheet.ioComponent.endNodes.get(Integer.parseInt(wireEndNode[i])));
+                wireInstance.setEnd(currentSheet.ioComponent.endNodes.get(data.wiresEndNode[i]));
             } else {
-                wireInstance.setEnd(currentSheet.components.get(endComp).inputs[Integer.parseInt(wireEndNode[i])]);
-                sheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
+                wireInstance.setEnd(currentSheet.components.get(endComp).inputs[data.wiresEndNode[i]]);
+                sheet.getComponents().get(endComp).addWireInput(physicWire, data.wiresStartNode[i]);
                 physicWire.addConnection(sheet.getComponents().get(endComp), 1);
             }
 
@@ -140,12 +120,17 @@ public class SaveLoadSheet {
         int lastId = compFiles.length;
 
         File[] fileNames = new File[lastId];
+        ComponentData[] componentData = new ComponentData[lastId + 3];
         SheetObject[] tempArray = new SheetObject[lastId + 3];
         Boolean[][][] truthTables = new Boolean[lastId + 3][][];
 
         tempArray[0] = new SheetObject(0, "not", Color.BROWN, 1, 1);
         tempArray[1] = new SheetObject(1, "and", Color.GREEN, 2, 1);
         tempArray[2] = new SheetObject(2, "or", Color.RED, 2, 1);
+
+        componentData[0] = new ComponentData(0, "not", Color.BROWN);
+        componentData[1] = new ComponentData(1, "and", Color.GREEN);
+        componentData[2] = new ComponentData(2, "or", Color.RED);
 
         truthTables[0] = new Boolean[][] {{true}, {false}};
         truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true},};
@@ -157,6 +142,7 @@ public class SaveLoadSheet {
                 String[] split = fileContent.split("\n");
                 String rawId = split[0].split(": ")[1];
                 int id = Integer.parseInt(rawId);
+                fileNames[id - 3] = file;
 
                 if (id >= lastId) {
                     tempArray[id] = new SheetObject(id,
@@ -165,13 +151,14 @@ public class SaveLoadSheet {
                             Integer.parseInt(split[3].split(": ")[1]),
                             Integer.parseInt(split[4].split(": ")[1])
                     );
-                    String rawTable = split[14].split(": ")[1];
-                    truthTables[id] = new Boolean[rawTable.length()][];
-                    for (int i = 0; i < rawTable.length(); i++) {
-                        if (rawTable.charAt(i) == '1') truthTables[id][i][0] = true;
-                        else truthTables[id][i][0] = false;
-                    }
+//                    String rawTable = split[14].split(": ")[1];
+//                    truthTables[id] = new Boolean[rawTable.length()][];
+//                    for (int i = 0; i < rawTable.length(); i++) {
+//                        if (rawTable.charAt(i) == '1') truthTables[id][i][0] = true;
+//                        else truthTables[id][i][0] = false;
+//                    }
                     fileNames[id - 3] = file;
+                    componentData[id] = ComponentData.parseData(fileContent);
                 }
             }
             catch (IOException e) {
@@ -182,14 +169,14 @@ public class SaveLoadSheet {
             }
         }
 
-        if (fileNames.length > 0) {
+        if (fileNames[0] != null) {
             int i = 0;
-            while (fileNames[i] != null) i++;
-            i--;
+            while (i < fileNames.length && fileNames[i] != null) i++;
 
+            SaveLoadSheet.componentData = Arrays.copyOfRange(componentData, 0, i + 3);
             loadedObjects = Arrays.copyOfRange(tempArray, 0, i + 3);
             SaveLoadSheet.truthTables = Arrays.copyOfRange(truthTables, 0, i + 3);
-            return Files.readString(fileNames[i].toPath(), StandardCharsets.UTF_8);
+            return Files.readString(fileNames[i - 1].toPath(), StandardCharsets.UTF_8);
         }
         else {
             loadedObjects = tempArray;
@@ -199,15 +186,35 @@ public class SaveLoadSheet {
     }
 
     public static void loadAll() throws IOException, ComponentNotFoundException {
+        System.out.println("entered");
         File[] compFiles = new File(defaultPath).listFiles();
-        String rawSheet = null;
         if (compFiles != null) {
-            rawSheet = loadObjectUntil(compFiles);
-            loadSheet(rawSheet);
+            System.out.println("file found " + compFiles.length);
+            String rawSheet = loadObjectUntil(compFiles);
+            if (rawSheet != null) {
+                System.out.println("rawSheet : " + rawSheet);
+                loadSheet(rawSheet);
+            }
+            else {
+                System.out.println("rawSheet is null");
+                sheet = new com.Physics.Sheet();
+                currentSheet = new Sheet(30, 20);
+            }
         }
         else {
+            System.out.println("file not found");
             loadObjectUntil(new File[0]);
-            currentSheet = new Sheet(500, 500);
+            sheet = new com.Physics.Sheet();
+            currentSheet = new Sheet(30, 20);
         }
+    }
+
+    public static void createNewSheet() throws IOException {
+        File[] files = new File(defaultPath).listFiles();
+        assert files != null;
+        loadObjectUntil(files);
+
+        sheet = new com.Physics.Sheet();
+        currentSheet = new Sheet(30, 20);
     }
 }
