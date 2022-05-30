@@ -22,7 +22,6 @@ public class SaveLoadSheet {
     public static Boolean[][][] truthTables;
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
-
         ComponentData componentData = new ComponentData(id, name, color, sheet);
         System.out.println(componentData.getFileContent());
         //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
@@ -180,6 +179,7 @@ public class SaveLoadSheet {
 //    public boolean test(SheetObject graphic, com.Physics.Sheet physic) {
 //        graphic = new SheetObject(sss);
 //        physic = new com.Physics.Sheet(sss);
+//
 //        return true;
 //    }
 }

@@ -280,4 +280,14 @@ public class ComponentInstance extends ObjectInstance {
     private Color getActualColor() {
         return Config.lerpColor(instanceOf.color, Config.WSDisabledColor, colorAnimation.getSize());
     }
+
+    public boolean isComplete() {
+        for (InputNode node: inputs) {
+            if (!node.hasWire()) return false;
+        }
+        for (OutputNode node: outputs) {
+            if (!node.hasWire()) return false;
+        }
+        return true;
+    }
 }

@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseDragEvent;
@@ -26,6 +27,11 @@ public class Controller {
 
     public Slider InputSlider;
     public Slider OutputSlider;
+
+    public Slider ScaleSlider;
+
+
+    public Button Simulate;
 
     // We create 3 new components, which are the most basic ones we'll be using
     SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1);
@@ -60,11 +66,6 @@ public class Controller {
     }
 
     public void inputs(MouseEvent mouseEvent) {
-/*        for (int i=0;i<InputSlider.getValue();i++) {
-            currentSheet.ioComponent.addStartNode(currentSheet);
-        }*/
-
-        // J'ai remodifié le code sinon ça marchais pas :
         // On calcule le nombre d'entrées à placer
         int toPlace = (int) InputSlider.getValue() - currentSheet.ioComponent.startNodes.size();
         // Si il faut ajouter des entrées
@@ -78,17 +79,12 @@ public class Controller {
         else if (toPlace < 0) {
             // On enlève ce nombre d'entrées
             for (int i=0;i<-toPlace;i++) {
-                currentSheet.ioComponent.delStartNode(currentSheet.ioComponent.startNodes.get(currentSheet.ioComponent.startNodes.size() - 1), currentSheet);
+                currentSheet.ioComponent.delStartNode(currentSheet);
             }
         }
     }
 
     public void outputs(MouseEvent mouseEvent) {
-/*        for (int i=0;i<OutputSlider.getValue();i++) {
-            currentSheet.ioComponent.addEndNode(currentSheet);
-        }*/
-
-        // J'ai remodifié le code sinon ça marchais pas :
         // On calcule le nombre d'entrées à placer
         int toPlace = (int) OutputSlider.getValue() - currentSheet.ioComponent.endNodes.size();
         // Si il faut ajouter des entrées
@@ -102,9 +98,15 @@ public class Controller {
         else if (toPlace < 0) {
             // On enlève ce nombre d'entrées
             for (int i=0;i<-toPlace;i++) {
-                currentSheet.ioComponent.delEndNode(currentSheet.ioComponent.endNodes.get(currentSheet.ioComponent.endNodes.size() - 1), currentSheet);
+                currentSheet.ioComponent.delEndNode(currentSheet);
             }
         }
+    }
+
+    public void scale(MouseEvent mouseEvent) {
+        //On calcule la nouvelle échelle à appliquer
+        double newScale = ScaleSlider.getValue();
+        GraphicsManager.renderer.setScale(newScale);
     }
 
     public void simulate(ActionEvent actionEvent) {
@@ -116,5 +118,9 @@ public class Controller {
             System.out.println(wire.getState());
         }
         currentSheet.refresh();
+    }
+
+    public void setSimulateState(boolean state) {
+        Simulate.setDisable(!state);
     }
 }
