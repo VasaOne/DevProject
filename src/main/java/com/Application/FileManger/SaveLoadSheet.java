@@ -128,9 +128,9 @@ public class SaveLoadSheet {
         tempArray[1] = new SheetObject(1, "and", Color.GREEN, 2, 1);
         tempArray[2] = new SheetObject(2, "or", Color.RED, 2, 1);
 
-        componentData[0] = new ComponentData(0, "not", Color.BROWN);
-        componentData[1] = new ComponentData(1, "and", Color.GREEN);
-        componentData[2] = new ComponentData(2, "or", Color.RED);
+        componentData[0] = new ComponentData(0, "not", Color.BROWN, 1, 1);
+        componentData[1] = new ComponentData(1, "and", Color.GREEN, 2, 1);
+        componentData[2] = new ComponentData(2, "or", Color.RED, 2, 1);
 
         truthTables[0] = new Boolean[][] {{true}, {false}};
         truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true},};

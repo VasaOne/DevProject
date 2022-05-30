@@ -43,7 +43,7 @@ public class Controller {
 
     public void addDoor(int id) {
         ComponentData data = SaveLoadSheet.componentData[id];
-        Component physicComponent = new Component(data.name,data.inputs, data.outputs, SaveLoadSheet.truthTables[id]);
+        Component physicComponent = new Component(data.name, data.inputs, data.outputs, SaveLoadSheet.truthTables[id]);
         sheet.addComponent(physicComponent);
         ComponentInstance instance = new ComponentInstance(SaveLoadSheet.loadedObjects[id], data.inputs, data.outputs, physicComponent);
         currentSheet.addObject(instance);

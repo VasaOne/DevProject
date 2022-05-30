@@ -54,10 +54,13 @@ public class ComponentData {
      * @param name the name of the component
      * @param color the color of the component
      */
-    public ComponentData(int id, String name, Color color) {
+    public ComponentData(int id, String name, Color color, int inputs, int outputs) {
         this.id = id;
         this.name = name;
         this.color = color;
+
+        this.inputs = inputs;
+        this.outputs = outputs;
     }
 
     /**
@@ -171,7 +174,9 @@ public class ComponentData {
         double width = Double.parseDouble(content[5].split(": ")[1]);
         double height = Double.parseDouble(content[6].split(": ")[1]);
 
-        ComponentData data = new ComponentData(id, name, color);
+        ComponentData data = new ComponentData(id, name, color, inputs, outputs);
+        data.width = width;
+        data.height = height;
 
         String[] compId = content[7].split(": ")[1].split(", ");
         String[] compX = content[8].split(": ")[1].split(", ");
