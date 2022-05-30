@@ -9,7 +9,13 @@ import com.Physics.Component;
 import javafx.scene.paint.Color;
 import com.Physics.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.PatternSyntaxException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
@@ -20,6 +26,8 @@ public class SaveLoadSheet {
 
     public static SheetObject[] loadedObjects;
     public static Boolean[][][] truthTables;
+
+    private static String defaultPath = System.getProperty("user.home") + "/Documents/SimulateurElectronique/";
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
         ComponentData componentData = new ComponentData(id, name, color, sheet);
@@ -35,7 +43,17 @@ public class SaveLoadSheet {
 
         //TODO: write in file
         String fileContent = componentData.getFileContent();
-        String table = componentData.getTable();
+
+        try {
+            File creator = new File(defaultPath + name + ".comp");
+            creator.createNewFile();
+            FileWriter saveCompo = new FileWriter(defaultPath + name + ".comp");
+            saveCompo.write(fileContent);
+            saveCompo.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public static Sheet loadSheet(String fileContent) throws ComponentNotFoundException {
@@ -43,10 +61,6 @@ public class SaveLoadSheet {
         int id = Integer.parseInt(content[0].split(": ")[1]);
         String name = content[1].split(": ")[1];
         Color color = Color.web(content[2].split(": ")[1]);
-
-        if (!loadObjectUntil(id - 1)) {
-            throw new ComponentNotFoundException();
-        }
 
         int inputs = Integer.parseInt(content[3].split(": ")[1]);
         int outputs = Integer.parseInt(content[4].split(": ")[1]);
@@ -122,12 +136,14 @@ public class SaveLoadSheet {
 
     /**
      * Look for components in files and tries to load them until the id id
-     * @param lastId the id of the last component
-     * @return
+     * @return the id of the last loaded element
      */
-    public static boolean loadObjectUntil(int lastId) {
-        SheetObject[] tempArray = new SheetObject[lastId + 1];
-        Boolean[][][] truthTables = new Boolean[lastId + 1][][];
+    public static String loadObjectUntil(File[] compFiles) throws IOException {
+        int lastId = compFiles.length;
+
+        File[] fileNames = new File[lastId];
+        SheetObject[] tempArray = new SheetObject[lastId + 3];
+        Boolean[][][] truthTables = new Boolean[lastId + 3][][];
 
         tempArray[0] = new SheetObject(0, "not", Color.BROWN, 1, 1);
         tempArray[1] = new SheetObject(1, "and", Color.GREEN, 2, 1);
@@ -137,16 +153,14 @@ public class SaveLoadSheet {
         truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true},};
         truthTables[2] = new Boolean[][] {{false}, {true}, {true}, {true}};
 
-        //TODO: parcourir les fichiers présents dans le dossier de sauvegarde (changer le int en structure de fichiers)
-        //TODO: obtenir les fichiers et récupérer le texte.
-        String[] filesContent = new String[0];
-        for (String file: filesContent) {
+        for (File file: compFiles) {
             try {
-                String[] split = file.split("\n");
+                String fileContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+                String[] split = fileContent.split("\n");
                 String rawId = split[0].split(": ")[1];
                 int id = Integer.parseInt(rawId);
 
-                if (id <= lastId) {
+                if (id >= lastId) {
                     tempArray[id] = new SheetObject(id,
                             split[1].split(": ")[1],
                             Color.web(split[2].split(": ")[1]),
@@ -159,27 +173,29 @@ public class SaveLoadSheet {
                         if (rawTable.charAt(i) == '1') truthTables[id][i][0] = true;
                         else truthTables[id][i][0] = false;
                     }
+                    fileNames[id - 3] = file;
                 }
             }
-            catch (NumberFormatException | PatternSyntaxException e) {
-                System.err.println("File corrupted");
+            catch (IOException e) {
+                System.err.println("IOException");
+            }
+            catch (NumberFormatException | PatternSyntaxException | IndexOutOfBoundsException e) {
+                System.err.println("File corrupted : " + file.getPath());
             }
         }
 
-        loadedObjects = tempArray;
-        SaveLoadSheet.truthTables = truthTables;
-        for (SheetObject obj: tempArray) {
-            if (obj == null) {
-                return false;
-            }
-        }
-        return true;
+        int i = 0;
+        while (fileNames[i] != null) i++;
+        i--;
+
+        loadedObjects = Arrays.copyOfRange(tempArray, 0, i + 3);
+        SaveLoadSheet.truthTables = Arrays.copyOfRange(truthTables, 0, i + 3);
+        return Files.readString(fileNames[i].toPath(), StandardCharsets.UTF_8);
     }
-//
-//    public boolean test(SheetObject graphic, com.Physics.Sheet physic) {
-//        graphic = new SheetObject(sss);
-//        physic = new com.Physics.Sheet(sss);
-//
-//        return true;
-//    }
+
+    public static Sheet loadAll() throws IOException, ComponentNotFoundException {
+        File[] compFiles = new File(defaultPath).listFiles();
+        String rawSheet = loadObjectUntil(compFiles);
+        return loadSheet(rawSheet);
+    }
 }

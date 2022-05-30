@@ -65,10 +65,13 @@ public class GraphicsManager extends Application {
 
 
         try {
-            currentSheet = SaveLoadSheet.loadSheet(fileContent);
-        } catch (ComponentNotFoundException e) {
-            System.err.println(e);
+            currentSheet = SaveLoadSheet.loadAll();
         }
+        catch (ComponentNotFoundException e) {
+            System.err.println("File error");
+        }
+
+
         controller.InputSlider.setValue(currentSheet.ioComponent.startNodes.size());
         controller.OutputSlider.setValue(currentSheet.ioComponent.endNodes.size());
 

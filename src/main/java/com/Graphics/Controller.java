@@ -3,14 +3,13 @@ package com.Graphics;
 import com.Graphics.Workspace.Application.SheetObject;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Physics.Component;
+import javafx.application.Application;
 import com.Physics.Wire;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -22,6 +21,7 @@ import java.io.IOException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
 import static com.Graphics.GraphicsManager.sheet;
+import com.Application.FileManger.SaveLoadSheet;
 
 public class Controller {
 
@@ -31,7 +31,11 @@ public class Controller {
     public Slider ScaleSlider;
 
 
+    public Button Transform;
     public Button Simulate;
+
+    public TextField NameInput;
+    public ColorPicker Picker;
 
     // We create 3 new components, which are the most basic ones we'll be using
     SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1);
@@ -122,5 +126,10 @@ public class Controller {
 
     public void setSimulateState(boolean state) {
         Simulate.setDisable(!state);
+        Transform.setDisable(!state);
+    }
+
+    public void transformSheet() {
+        SaveLoadSheet.saveSheet(SaveLoadSheet.loadedObjects.length, NameInput.getText(), Picker.getValue(), currentSheet);
     }
 }
