@@ -56,7 +56,7 @@ public class SaveLoadSheet {
         }
     }
 
-    public static Sheet loadSheet(String fileContent) throws ComponentNotFoundException {
+    public static void loadSheet(String fileContent) throws ComponentNotFoundException {
         String[] content = fileContent.split("\n");
         int id = Integer.parseInt(content[0].split(": ")[1]);
         String name = content[1].split(": ")[1];
@@ -130,8 +130,6 @@ public class SaveLoadSheet {
                 sheet.addWire(physicWire);
             }
         }
-
-        return currentSheet;
     }
 
     /**
@@ -184,18 +182,32 @@ public class SaveLoadSheet {
             }
         }
 
-        int i = 0;
-        while (fileNames[i] != null) i++;
-        i--;
+        if (fileNames.length > 0) {
+            int i = 0;
+            while (fileNames[i] != null) i++;
+            i--;
 
-        loadedObjects = Arrays.copyOfRange(tempArray, 0, i + 3);
-        SaveLoadSheet.truthTables = Arrays.copyOfRange(truthTables, 0, i + 3);
-        return Files.readString(fileNames[i].toPath(), StandardCharsets.UTF_8);
+            loadedObjects = Arrays.copyOfRange(tempArray, 0, i + 3);
+            SaveLoadSheet.truthTables = Arrays.copyOfRange(truthTables, 0, i + 3);
+            return Files.readString(fileNames[i].toPath(), StandardCharsets.UTF_8);
+        }
+        else {
+            loadedObjects = tempArray;
+            SaveLoadSheet.truthTables = truthTables;
+            return null;
+        }
     }
 
-    public static Sheet loadAll() throws IOException, ComponentNotFoundException {
+    public static void loadAll() throws IOException, ComponentNotFoundException {
         File[] compFiles = new File(defaultPath).listFiles();
-        String rawSheet = loadObjectUntil(compFiles);
-        return loadSheet(rawSheet);
+        String rawSheet = null;
+        if (compFiles != null) {
+            rawSheet = loadObjectUntil(compFiles);
+            loadSheet(rawSheet);
+        }
+        else {
+            loadObjectUntil(new File[0]);
+            currentSheet = new Sheet(500, 500);
+        }
     }
 }

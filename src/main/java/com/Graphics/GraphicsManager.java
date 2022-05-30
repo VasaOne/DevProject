@@ -65,7 +65,8 @@ public class GraphicsManager extends Application {
 
 
         try {
-            currentSheet = SaveLoadSheet.loadAll();
+            SaveLoadSheet.loadAll();
+            SaveLoadSheet.loadSheet(fileContent);
         }
         catch (ComponentNotFoundException e) {
             System.err.println("File error");
