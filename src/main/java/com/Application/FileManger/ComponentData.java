@@ -164,23 +164,23 @@ public class ComponentData {
 
     public static ComponentData parseData(String fileContent) {
         String[] content = fileContent.split("\n");
-        int id = Integer.parseInt(content[0].split(": ")[1]);
-        String name = content[1].split(": ")[1];
-        Color color = Color.web(content[2].split(": ")[1]);
+        int id = Integer.parseInt(content[0].split(": ")[1].split(String.valueOf((char)13))[0]);
+        String name = content[1].split(": ")[1].split(String.valueOf((char)13))[0];
+        Color color = Color.web(content[2].split(": ")[1].split(String.valueOf((char)13))[0]);
 
-        int inputs = Integer.parseInt(content[3].split(": ")[1]);
-        int outputs = Integer.parseInt(content[4].split(": ")[1]);
+        int inputs = Integer.parseInt(content[3].split(": ")[1].split(String.valueOf((char)13))[0]);
+        int outputs = Integer.parseInt(content[4].split(": ")[1].split(String.valueOf((char)13))[0]);
 
-        double width = Double.parseDouble(content[5].split(": ")[1]);
-        double height = Double.parseDouble(content[6].split(": ")[1]);
+        double width = Double.parseDouble(content[5].split(": ")[1].split(String.valueOf((char)13))[0]);
+        double height = Double.parseDouble(content[6].split(": ")[1].split(String.valueOf((char)13))[0]);
 
         ComponentData data = new ComponentData(id, name, color, inputs, outputs);
         data.width = width;
         data.height = height;
 
-        String[] compId = content[7].split(": ")[1].split(", ");
-        String[] compX = content[8].split(": ")[1].split(", ");
-        String[] compY = content[9].split(": ")[1].split(", ");
+        String[] compId = content[7].split(": ")[1].split(String.valueOf((char)13))[0].split(", ");
+        String[] compX = content[8].split(": ")[1].split(String.valueOf((char)13))[0].split(", ");
+        String[] compY = content[9].split(": ")[1].split(String.valueOf((char)13))[0].split(", ");
 
         data.components = new int[compId.length];
         data.componentsX = new double[compX.length];
@@ -192,10 +192,10 @@ public class ComponentData {
             data.componentsY[i] = Double.parseDouble(compY[i]);
         }
 
-        String[] wireStartComp = content[10].split(": ")[1].split(", ");
-        String[] wireStartNode = content[11].split(": ")[1].split(", ");
-        String[] wireEndComp = content[12].split(": ")[1].split(", ");
-        String[] wireEndNode = content[13].split(": ")[1].split(", ");
+        String[] wireStartComp = content[10].split(": ")[1].split(String.valueOf((char)13))[0].split(", ");
+        String[] wireStartNode = content[11].split(": ")[1].split(String.valueOf((char)13))[0].split(", ");
+        String[] wireEndComp = content[12].split(": ")[1].split(String.valueOf((char)13))[0].split(", ");
+        String[] wireEndNode = content[13].split(": ")[1].split(String.valueOf((char)13))[0].split(", ");
 
         data.wiresStartComp = new int[wireStartComp.length];
         data.wiresStartNode = new int[wireStartNode.length];

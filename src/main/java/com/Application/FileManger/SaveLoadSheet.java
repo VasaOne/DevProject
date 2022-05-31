@@ -28,7 +28,7 @@ public class SaveLoadSheet {
     public static SheetObject[] loadedObjects;
     public static Boolean[][][] truthTables;
 
-    private static String defaultPath = System.getProperty("user.home") + "/Documents/SimulateurElectronique/";
+    private static String defaultPath = "C:\\Users\\larde\\Bureau\\Elec";
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
         ComponentData componentData = new ComponentData(id, name, color, sheet);
@@ -142,16 +142,16 @@ public class SaveLoadSheet {
             try {
                 String fileContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
                 String[] split = fileContent.split("\n");
-                String rawId = split[0].split(": ")[1];
+                String rawId = split[0].split(": ")[1].split(String.valueOf((char)13))[0];
                 int id = Integer.parseInt(rawId);
                 fileNames[id - 3] = file;
 
                 if (id >= lastId) {
                     tempArray[id] = new SheetObject(id,
-                            split[1].split(": ")[1],
-                            Color.web(split[2].split(": ")[1]),
-                            Integer.parseInt(split[3].split(": ")[1]),
-                            Integer.parseInt(split[4].split(": ")[1])
+                            split[1].split(": ")[1].split(String.valueOf((char)13))[0],
+                            Color.web(split[2].split(": ")[1].split(String.valueOf((char)13))[0]),
+                            Integer.parseInt(split[3].split(": ")[1].split(String.valueOf((char)13))[0]),
+                            Integer.parseInt(split[4].split(": ")[1].split(String.valueOf((char)13))[0])
                     );
 //                    String rawTable = split[14].split(": ")[1];
 //                    truthTables[id] = new Boolean[rawTable.length()][];
@@ -168,10 +168,11 @@ public class SaveLoadSheet {
             }
             catch (NumberFormatException | PatternSyntaxException | IndexOutOfBoundsException e) {
                 System.err.println("File corrupted : " + file.getPath());
+                e.printStackTrace();
             }
         }
 
-        if (fileNames[0] != null) {
+        if (fileNames.length>0 && fileNames[0] != null) {
             int i = 0;
             while (i < fileNames.length && fileNames[i] != null) i++;
 
@@ -181,6 +182,7 @@ public class SaveLoadSheet {
             return Files.readString(fileNames[i - 1].toPath(), StandardCharsets.UTF_8);
         }
         else {
+            SaveLoadSheet.componentData = componentData;
             loadedObjects = tempArray;
             SaveLoadSheet.truthTables = truthTables;
             return null;
@@ -218,5 +220,6 @@ public class SaveLoadSheet {
 
         physicSheet = new com.Physics.Sheet();
         currentSheet = new Sheet(30, 20);
+
     }
 }
