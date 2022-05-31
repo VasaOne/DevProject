@@ -28,7 +28,7 @@ public class SaveLoadSheet {
     public static SheetObject[] loadedObjects;
     public static Boolean[][][] truthTables;
 
-    private static String defaultPath = "C:\\Users\\larde\\Bureau\\Elec";
+    private static String defaultPath = System.getProperty("user.home") + "/Documents/SimulateurElectronique/";
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
         ComponentData componentData = new ComponentData(id, name, color, sheet);
@@ -135,7 +135,7 @@ public class SaveLoadSheet {
         componentData[2] = new ComponentData(2, "or", Color.RED, 2, 1);
 
         truthTables[0] = new Boolean[][] {{true}, {false}};
-        truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true},};
+        truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true}};
         truthTables[2] = new Boolean[][] {{false}, {true}, {true}, {true}};
 
         for (File file: compFiles) {
@@ -172,7 +172,7 @@ public class SaveLoadSheet {
             }
         }
 
-        if (fileNames.length>0 && fileNames[0] != null) {
+        if (fileNames.length > 0 && fileNames[0] != null) {
             int i = 0;
             while (i < fileNames.length && fileNames[i] != null) i++;
 
@@ -220,6 +220,5 @@ public class SaveLoadSheet {
 
         physicSheet = new com.Physics.Sheet();
         currentSheet = new Sheet(30, 20);
-
     }
 }

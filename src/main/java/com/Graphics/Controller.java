@@ -1,6 +1,7 @@
 package com.Graphics;
 
 import com.Application.FileManger.ComponentData;
+import com.Application.FileManger.ComponentNotFoundException;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Physics.Component;
 import com.Physics.Wire;
@@ -10,11 +11,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.Graphics.GraphicsManager.currentSheet;
-import static com.Graphics.GraphicsManager.physicSheet;
 import com.Application.FileManger.SaveLoadSheet;
+
+import static com.Graphics.GraphicsManager.*;
 
 public class Controller {
 
@@ -112,11 +114,14 @@ public class Controller {
     }
 
     public void setSimulateState(boolean state) {
-        Simulate.setDisable(!state);
         Transform.setDisable(!state);
     }
 
     public void transformSheet() {
         SaveLoadSheet.saveSheet(SaveLoadSheet.loadedObjects.length, NameInput.getText(), Picker.getValue(), currentSheet);
+    }
+
+    public void loadLastSheet(MouseEvent event) throws ComponentNotFoundException, IOException {
+        SaveLoadSheet.loadAll();
     }
 }

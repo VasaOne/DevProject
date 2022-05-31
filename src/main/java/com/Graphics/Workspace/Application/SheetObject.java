@@ -49,11 +49,4 @@ public class SheetObject {
             outputNodeHeights[i] = Config.WSNodeSpace * i + (height - Config.WSNodeSpace * (outputs - 1)) / 2d;
         }
     }
-
-/*    public static SheetObject DefaultNode() {
-        SheetObject node = new SheetObject();
-        node.height = 1;
-        node.width = 1;
-        return node;
-    }*/
 }

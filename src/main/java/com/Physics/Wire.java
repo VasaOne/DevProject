@@ -75,7 +75,6 @@ public class Wire {
 
             }
             this.setState(startComponent.getTruthTable()[s][this.getId(0)]);
-            System.out.println(startComponent.getTruthTable()[s][0]);
         }
 
 

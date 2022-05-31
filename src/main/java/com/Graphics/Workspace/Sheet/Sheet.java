@@ -9,7 +9,6 @@ import com.Graphics.Workspace.Node.InputNode;
 import com.Graphics.Workspace.Node.OutputNode;
 import com.Graphics.Workspace.Wire.WireInstance;
 import com.Graphics.Workspace.Wire.WireInteraction;
-import com.Physics.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;

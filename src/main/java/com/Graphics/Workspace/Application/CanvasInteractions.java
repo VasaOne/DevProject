@@ -9,12 +9,14 @@ import com.Graphics.Workspace.Node.OutputNode;
 import com.Graphics.Workspace.Sheet.Sheet;
 import com.Graphics.Workspace.Wire.WireInstance;
 import com.Graphics.Workspace.Wire.WireInteraction;
+import com.Physics.Wire;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.Graphics.GraphicsManager.currentSheet;
 import static com.Graphics.GraphicsManager.physicSheet;
 
 /**
@@ -152,6 +154,17 @@ public class CanvasInteractions {
                     selectedNode.setState(!selectedNode.getState());
                     ArrayList<WireInstance> node = ((OutputNode) selectedNode).wiresConnected;
                     node.get(0).getPhysicWire().setState(!selectedNode.getState());
+
+                    if (sheet.isSheetComplete()) {
+                        for (Wire wire : physicSheet.getWires()) {
+                            wire.setState(null);
+                        }
+                        physicSheet.refresh();
+                        for (Wire wire : physicSheet.getWires()) {
+                            System.out.println(wire.getState());
+                        }
+                        currentSheet.refresh();
+                    }
                 }
                 break;
 
@@ -172,6 +185,16 @@ public class CanvasInteractions {
             case wireDragFromOutput:
                 if (!selectedWire.canBePlaced) {
                     sheet.removeWire(selectedWire);
+                }
+                if (sheet.isSheetComplete()) {
+                    for (Wire wire : physicSheet.getWires()) {
+                        wire.setState(null);
+                    }
+                    physicSheet.refresh();
+                    for (Wire wire : physicSheet.getWires()) {
+                        System.out.println(wire.getState());
+                    }
+                    currentSheet.refresh();
                 }
                 break;
 

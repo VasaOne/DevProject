@@ -20,7 +20,11 @@ public class OutputNode extends GraphicNode {
      */
     @Override
     public boolean getState() {
-        return wiresConnected.get(0).getState();
+        if (wiresConnected.size() > 1) {
+            return wiresConnected.get(1).getState();
+        } else {
+            return false;
+        }
     }
 
     /**
