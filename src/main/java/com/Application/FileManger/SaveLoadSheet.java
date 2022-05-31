@@ -19,15 +19,16 @@ import java.util.Arrays;
 import java.util.regex.PatternSyntaxException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
-import static com.Graphics.GraphicsManager.sheet;
+import static com.Graphics.GraphicsManager.physicSheet;
 import static java.lang.Math.exp;
 
 public class SaveLoadSheet {
 
+    public static ComponentData[] componentData;
     public static SheetObject[] loadedObjects;
     public static Boolean[][][] truthTables;
 
-    private static String defaultPath = System.getProperty("user.home") + "/Documents/SimulateurElectronique/";
+    private static String defaultPath = "C:\\Users\\larde\\Bureau\\Elec";
 
     public static void saveSheet(int id, String name, Color color, Sheet sheet) {
         ComponentData componentData = new ComponentData(id, name, color, sheet);
@@ -35,7 +36,7 @@ public class SaveLoadSheet {
         //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
         componentData.setTruthTable(new Boolean[] {true, true, false, true, false, true, true, true, false});
         Boolean[] truthTable = new Boolean[sheet.ioComponent.startNodes.size()];
-        for (int i=0;i<pow(2, sheet.ioComponent.startNodes.size());i++) {
+        for (int i=0;i<Math.pow(2, sheet.ioComponent.startNodes.size());i++) {
 
         }
         System.out.println(componentData.getTable());
@@ -77,11 +78,6 @@ public class SaveLoadSheet {
             physicSheet.addComponent(physicComponent);
         }
 
-        String[] wireStartComp = content[10].split(": ")[1].split(", ");
-        String[] wireStartNode = content[11].split(": ")[1].split(", ");
-        String[] wireEndComp = content[12].split(": ")[1].split(", ");
-        String[] wireEndNode = content[13].split(": ")[1].split(", ");
-
         for (int i = 0; i < data.wiresStartComp.length; i++) {
             WireInstance wireInstance = new WireInstance();
             //Wire physicWire = new Wire();
@@ -112,7 +108,7 @@ public class SaveLoadSheet {
 
             currentSheet.addWire(wireInstance);
             if (startComp != -1) {
-                sheet.addWire(physicWire);
+                physicSheet.addWire(physicWire);
             }
         }
     }
@@ -174,7 +170,7 @@ public class SaveLoadSheet {
             }
         }
 
-        if (fileNames[0] != null) {
+        if (fileNames.length>0 && fileNames[0] != null) {
             int i = 0;
             while (i < fileNames.length && fileNames[i] != null) i++;
 
@@ -202,24 +198,26 @@ public class SaveLoadSheet {
             }
             else {
                 System.out.println("rawSheet is null");
-                sheet = new com.Physics.Sheet();
+                physicSheet = new com.Physics.Sheet();
                 currentSheet = new Sheet(30, 20);
             }
         }
         else {
             System.out.println("file not found");
             loadObjectUntil(new File[0]);
-            sheet = new com.Physics.Sheet();
+            physicSheet = new com.Physics.Sheet();
             currentSheet = new Sheet(30, 20);
         }
     }
 
     public static void createNewSheet() throws IOException {
         File[] files = new File(defaultPath).listFiles();
-        assert files != null;
+        if (files == null) {
+            files = new File[0];
+        }
         loadObjectUntil(files);
 
-        sheet = new com.Physics.Sheet();
+        physicSheet = new com.Physics.Sheet();
         currentSheet = new Sheet(30, 20);
     }
 }

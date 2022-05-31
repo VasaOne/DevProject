@@ -34,6 +34,7 @@ public class Controller {
     public void getAvailableComponents(MouseEvent mouseEvent) {
         ComponentList.getItems().clear();
         ArrayList<MenuItem> items = new ArrayList<>();
+        System.out.println("heyyy"+SaveLoadSheet.componentData[0]);
         for (ComponentData data : SaveLoadSheet.componentData) {
             MenuItem item = new MenuItem(data.name);
             item.setOnAction(event -> addDoor(data.id));
