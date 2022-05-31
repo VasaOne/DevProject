@@ -4,15 +4,21 @@
 package com.Physics;
 
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Wire extends ObjetCircuit {
+public class Wire {
 
-    Sheet sheet;
     private Boolean state;
-    private Component start; //Problème en graphique : comment savoir qui est le start, qui est le end ?
-    private Component end; //Je crois qu'il est possible de faire sans start et end mais pour linstant jai pas encore trouvé
+    private Component[] componentsAttached;
+    private int[] id;
 
-    public Wire() {}
+    public Wire() {
+        componentsAttached = new Component[2];
+        state = null;
+        id = new int[2];
+    }
+
     public void setState(Boolean state) {
         this.state = state;
     }
@@ -21,9 +27,8 @@ public class Wire extends ObjetCircuit {
         return state;
     }
 
-    public void connect(Component start, Component end) {
-        this.start = start;
-        this.end = end;
+    public void addConnection(Component component, int i) {
+        componentsAttached[i] = component;
     }
 
     public Boolean isNull() {
@@ -34,20 +39,44 @@ public class Wire extends ObjetCircuit {
         }
     }
 
+    public int getId(int i) {
+        return id[i];
+    }
+
+    public void setId(int id, int i) {
+        this.id[i] = id;
+    }
+
     public void refresh() {
-        for (Wire wire : start.getWiresInput()) {
-            if (wire == null) {
-                return;
+        Component startComponent = null;
+        for (Component component : componentsAttached) {
+            if(component != null) {
+                int s = 0;
+                for (Wire wire : component.getWiresInput()) {
+                    if (wire == this) {
+                        s ++;
+                        System.out.println("Coucou");
+                    }
+                }
+                if (s==0) {
+                    System.out.println("Test");
+                    startComponent = component;
+                }
             }
         }
-        int s = 0;
-        for (int i=0;i<start.getInputs();i++) {
-            if (start.getWiresInput()[i].getState()) {
-                s += Math.pow(2,start.getInputs()-i-1);
+        if (startComponent.canBeRefresh()) {
+            int s = 0;
+            for (int i=0;i<startComponent.getInputs();i++) {
+                if (startComponent.getWiresInput()[i].getState()) {
+                    System.out.println(i);
+                    System.out.println(s);
+                    s += Math.pow(2, startComponent.getInputs() - i - 1);
+                }
+
             }
+            this.setState(startComponent.getTruthTable()[s][this.getId(0)]);
         }
-        //System.out.println(start.getTruthTable()[s]);
-        //System.out.println(name);
-        setState(start.getTruthTable()[s]);
+
+
     }
 }

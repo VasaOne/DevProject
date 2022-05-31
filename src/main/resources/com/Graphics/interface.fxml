@@ -3,16 +3,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
-   <left>
-       <ScrollPane hbarPolicy="NEVER" prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="149.0">
-               <Button mnemonicParsing="false" text="Button"/>
-           </AnchorPane>
-       </ScrollPane>
-   </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1319.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Graphics.Controller">
+   <top>
+      <AnchorPane prefHeight="92.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuButton fx:id="ComponentList" layoutX="358.0" layoutY="34.0" mnemonicParsing="false" onMouseClicked="#getAvailableComponents" text="Components">
+              <items>
+              </items>
+            </MenuButton>
+            <Slider fx:id="OutputSlider" layoutX="512.0" layoutY="66.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" onMouseReleased="#outputs" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+            <Slider fx:id="InputSlider" layoutX="512.0" layoutY="27.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" onMouseReleased="#inputs" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="8.0" />
+            <Button fx:id="Transform" layoutX="44.0" layoutY="42.0" mnemonicParsing="false" onAction="#transformSheet" text="Transform" />
+            <Slider fx:id="ScaleSlider" blockIncrement="5.0" layoutX="671.0" layoutY="42.0" max="80.0" min="30.0" onMouseDragged="#scale" prefHeight="38.0" prefWidth="237.0" showTickLabels="true" showTickMarks="true" value="50.0" />
+            <ColorPicker fx:id="Picker" layoutX="209.0" layoutY="61.0" prefHeight="24.0" prefWidth="124.0" />
+            <TextField fx:id="NameInput" layoutX="193.0" layoutY="28.0" prefHeight="24.0" prefWidth="141.0" text="Nom" />
+            <Label layoutX="150.0" layoutY="32.0" text="Nom" />
+            <Label layoutX="150.0" layoutY="65.0" text="Couleur" />
+         </children>
+      </AnchorPane>
+   </top>
    <center>
-       <ScrollPane fx:id="workspace" hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+       <ScrollPane fx:id="workspace" hbarPolicy="ALWAYS" prefHeight="313.0" prefWidth="722.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
        </ScrollPane>
    </center>
 </BorderPane>

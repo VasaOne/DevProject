@@ -2,14 +2,18 @@ package com.Physics;
 
 import java.util.*;
 
-public class Sheet extends ObjetCircuit {
+public class Sheet {
 
     private List<Component> components;
     private List<Wire> wires;
+    private List<Wire> inputs;
+    private List<Wire> outputs;
 
     public Sheet() {
         wires = new ArrayList<>();
         components = new ArrayList<>();
+        inputs = new ArrayList<>();
+        outputs = new ArrayList<>();
     }
 
     public List<Component> getComponents() {
@@ -28,15 +32,30 @@ public class Sheet extends ObjetCircuit {
         wires.add(wire);
     }
 
+    public void addWireInput(Wire wire) {
+        inputs.add(wire);
+    }
+
+    public List<Wire> getWireInputs() {
+        return inputs;
+    }
+
+    public void addOutput(Wire wire) {
+        outputs.add(wire);
+    }
+
     public void refresh() {
         boolean finish = true;
+
         do {
+            System.out.println("hey");
             List<Wire> nullWires = new ArrayList<>();
             finish = false;
             for (Wire wire : wires) {
                 if (wire.isNull()) {
                     finish = true;
                     nullWires.add(wire);
+                    System.out.println("addwire");
                 }
             }
             for (Wire wire : nullWires) {
