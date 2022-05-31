@@ -68,14 +68,13 @@ public class Wire {
             int s = 0;
             for (int i=0;i<startComponent.getInputs();i++) {
                 if (startComponent.getWiresInput()[i].getState()) {
-                    System.out.println("Est true");
                     System.out.println(i);
                     System.out.println(s);
                     s += Math.pow(2, startComponent.getInputs() - i - 1);
                 }
 
             }
-            this.setState(startComponent.getTruthTable()[s][0]);
+            this.setState(startComponent.getTruthTable()[s][this.getId(0)]);
             System.out.println(startComponent.getTruthTable()[s][0]);
         }
 

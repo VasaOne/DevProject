@@ -30,26 +30,26 @@ public class Controller {
 
     // We create 3 new components, which are the most basic ones we'll be using
     SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1);
-    SheetObject noDoor = new SheetObject(1, "not", Color.web("#772288"), 1, 1);
+    SheetObject noDoor = new SheetObject(1, "not", Color.web("#772288"), 1, 2);
     SheetObject andDoor = new SheetObject(2, "and", Color.web("#03C93C"), 2, 1);
 
 
     public void no(ActionEvent actionEvent) {
-        Component physicNo = new Component("no",1, 1, new Boolean[][] {{true},{false}});
+        Component physicNo = new Component("no",1, 2, new Boolean[][] {{true, false},{false, true}});
         physicSheet.addComponent(physicNo);
         ComponentInstance no = new ComponentInstance(noDoor, 12, 6, physicNo);
         currentSheet.addObject(no);
     }
 
     public void or(ActionEvent actionEvent) {
-        Component physicOr = new Component("or",1, 1, new Boolean[][] {{false}, {true}, {true}, {true}});
+        Component physicOr = new Component("or",2, 1, new Boolean[][] {{false}, {true}, {true}, {true}});
         physicSheet.addComponent(physicOr);
         ComponentInstance or = new ComponentInstance(orDoor, 12, 6, physicOr);
         currentSheet.addObject(or);
     }
 
     public void and(ActionEvent actionEvent) {
-        Component physicAnd = new Component("and",1, 1, new Boolean[][] {{false}, {false}, {false}, {true}});
+        Component physicAnd = new Component("and",2, 1, new Boolean[][] {{false}, {false}, {false}, {true}});
         physicSheet.addComponent(physicAnd);
         ComponentInstance and = new ComponentInstance(andDoor, 12, 6, physicAnd);
         currentSheet.addObject(and);

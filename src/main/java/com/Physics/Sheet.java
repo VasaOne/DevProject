@@ -7,7 +7,7 @@ public class Sheet {
     private List<Component> components;
     private List<Wire> wires;
     private List<Wire> inputs;
-    private List<OutputNode> outputs;
+    private List<Wire> outputs;
 
     public Sheet() {
         wires = new ArrayList<>();
@@ -40,9 +40,8 @@ public class Sheet {
         return inputs;
     }
 
-    public void addOutput() {
-        OutputNode node = new OutputNode(false, outputs.size());
-        outputs.add(node);
+    public void addOutput(Wire wire) {
+        outputs.add(wire);
     }
 
     public void refresh() {

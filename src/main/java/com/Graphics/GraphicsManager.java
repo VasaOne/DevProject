@@ -50,13 +50,13 @@ public class GraphicsManager extends Application {
                 "outputs: 1\n" +
                 "width: 30.0\n" +
                 "height: 20.0\n" +
-                "components: 1, 0\n" +
-                "componentsX: 5, 15\n" +
-                "componentsY: 7.7, 4.7\n" +
-                "wiresStartComp: -1, -1, 1, 0\n" +
-                "wiresStartNode: 0, 1, 0, 0\n" +
-                "wiresEndComp: 0, 0, -1, 1\n" +
-                "wiresEndNode: 0, 1, 0, 0";
+                "components: 0\n" +
+                "componentsX: 15\n" +
+                "componentsY: 4.7\n" +
+                "wiresStartComp: -1\n" +
+                "wiresStartNode: 0\n" +
+                "wiresEndComp: 0\n" +
+                "wiresEndNode: 0";
 
 
         try {

@@ -18,7 +18,7 @@ import java.util.regex.PatternSyntaxException;
 
 import static com.Graphics.GraphicsManager.currentSheet;
 import static com.Graphics.GraphicsManager.physicSheet;
-import static java.lang.Math.exp;
+import static java.lang.Math.pow;
 
 public class SaveLoadSheet {
 
@@ -33,7 +33,7 @@ public class SaveLoadSheet {
         //TODO: Change setTruthTable argument to "compiled version" of the truthTable of the sheet
         componentData.setTruthTable(new Boolean[] {true, true, false, true, false, true, true, true, false});
         Boolean[] truthTable = new Boolean[sheet.ioComponent.startNodes.size()];
-        for (int i=0;i<exp(sheet.ioComponent.startNodes.size());i++) {
+        for (int i=0;i<pow(2, sheet.ioComponent.startNodes.size());i++) {
 
         }
         System.out.println(componentData.getTable());
@@ -117,6 +117,8 @@ public class SaveLoadSheet {
 
             if (endComp == -1) {
                 wireInstance.setEnd(currentSheet.ioComponent.endNodes.get(Integer.parseInt(wireEndNode[i])));
+                physicSheet.addOutput(wireInstance.getPhysicWire());
+                System.out.println("Output");
             } else {
                 wireInstance.setEnd(currentSheet.components.get(endComp).inputs[Integer.parseInt(wireEndNode[i])]);
                 physicSheet.getComponents().get(endComp).addWireInput(physicWire, Integer.parseInt(wireStartNode[i]));
@@ -146,7 +148,7 @@ public class SaveLoadSheet {
         tempArray[2] = new SheetObject(2, "or", Color.RED, 2, 1);
 
         truthTables[0] = new Boolean[][] {{true}, {false}};
-        truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true},};
+        truthTables[1] = new Boolean[][] {{false}, {false}, {false}, {true}};
         truthTables[2] = new Boolean[][] {{false}, {true}, {true}, {true}};
 
         for (File file: compFiles) {
