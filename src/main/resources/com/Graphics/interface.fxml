@@ -7,15 +7,10 @@
    <top>
       <AnchorPane prefHeight="92.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <SplitMenuButton layoutX="358.0" layoutY="34.0" mnemonicParsing="false" text="Components">
+            <MenuButton fx:id="ComponentList" layoutX="358.0" layoutY="34.0" mnemonicParsing="false" text="Components" onMouseClicked="#getAvailableComponents">
               <items>
-                  <SeparatorMenuItem mnemonicParsing="false" text="Basic Components" />
-                    <MenuItem fx:id="No" mnemonicParsing="false" onAction="#no" text="No" />
-                    <MenuItem fx:id="Or" mnemonicParsing="false" onAction="#or" text="Or" />
-                    <MenuItem fx:id="And" mnemonicParsing="false" onAction="#and" text="And" />
-                  <SeparatorMenuItem mnemonicParsing="false" text="Your Components" />
               </items>
-            </SplitMenuButton>
+            </MenuButton>
             <Slider fx:id="OutputSlider" layoutX="512.0" layoutY="66.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" onMouseReleased="#outputs" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
             <Slider fx:id="InputSlider" layoutX="512.0" layoutY="27.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" onMouseReleased="#inputs" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="8.0" />
             <Button fx:id="Transform" layoutX="44.0" layoutY="36.0" mnemonicParsing="false" onAction="#transformSheet" text="Transform" />

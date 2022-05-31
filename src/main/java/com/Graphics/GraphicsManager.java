@@ -59,14 +59,14 @@ public class GraphicsManager extends Application {
                 "wiresEndNode: 0";
 
 
-        try {
-            SaveLoadSheet.loadAll();
-            SaveLoadSheet.loadSheet(fileContent);
-        }
-        catch (ComponentNotFoundException e) {
-            System.err.println("File error");
-        }
-
+//        try {
+//            SaveLoadSheet.loadAll();
+//            //SaveLoadSheet.loadSheet(fileContent);
+//        }
+//        catch (ComponentNotFoundException e) {
+//            System.err.println("File error");
+//        }
+        SaveLoadSheet.createNewSheet();
 
         controller.InputSlider.setValue(currentSheet.ioComponent.startNodes.size());
         controller.OutputSlider.setValue(currentSheet.ioComponent.endNodes.size());

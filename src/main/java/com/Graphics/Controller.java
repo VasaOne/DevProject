@@ -1,6 +1,6 @@
 package com.Graphics;
 
-import com.Graphics.Workspace.Application.SheetObject;
+import com.Application.FileManger.ComponentData;
 import com.Graphics.Workspace.Component.ComponentInstance;
 import com.Physics.Component;
 import com.Physics.Wire;
@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+
+import java.util.ArrayList;
 
 import static com.Graphics.GraphicsManager.currentSheet;
 import static com.Graphics.GraphicsManager.physicSheet;
@@ -21,6 +23,7 @@ public class Controller {
 
     public Slider ScaleSlider;
 
+    public MenuButton ComponentList;
 
     public Button Transform;
     public Button Simulate;
@@ -28,31 +31,23 @@ public class Controller {
     public TextField NameInput;
     public ColorPicker Picker;
 
-    // We create 3 new components, which are the most basic ones we'll be using
-    SheetObject orDoor = new SheetObject(0, "or", Color.PINK, 2, 1);
-    SheetObject noDoor = new SheetObject(1, "not", Color.web("#772288"), 1, 2);
-    SheetObject andDoor = new SheetObject(2, "and", Color.web("#03C93C"), 2, 1);
-
-
-    public void no(ActionEvent actionEvent) {
-        Component physicNo = new Component("no",1, 2, new Boolean[][] {{true, false},{false, true}});
-        physicSheet.addComponent(physicNo);
-        ComponentInstance no = new ComponentInstance(noDoor, 12, 6, physicNo);
-        currentSheet.addObject(no);
+    public void getAvailableComponents(MouseEvent mouseEvent) {
+        ComponentList.getItems().clear();
+        ArrayList<MenuItem> items = new ArrayList<>();
+        for (ComponentData data : SaveLoadSheet.componentData) {
+            MenuItem item = new MenuItem(data.name);
+            item.setOnAction(event -> addDoor(data.id));
+            items.add(item);
+        }
+        ComponentList.getItems().addAll(items);
     }
 
-    public void or(ActionEvent actionEvent) {
-        Component physicOr = new Component("or",2, 1, new Boolean[][] {{false}, {true}, {true}, {true}});
-        physicSheet.addComponent(physicOr);
-        ComponentInstance or = new ComponentInstance(orDoor, 12, 6, physicOr);
-        currentSheet.addObject(or);
-    }
-
-    public void and(ActionEvent actionEvent) {
-        Component physicAnd = new Component("and",2, 1, new Boolean[][] {{false}, {false}, {false}, {true}});
-        physicSheet.addComponent(physicAnd);
-        ComponentInstance and = new ComponentInstance(andDoor, 12, 6, physicAnd);
-        currentSheet.addObject(and);
+    public void addDoor(int id) {
+        ComponentData data = SaveLoadSheet.componentData[id];
+        Component physicComponent = new Component(data.name, data.inputs, data.outputs, SaveLoadSheet.truthTables[id]);
+        physicSheet.addComponent(physicComponent);
+        ComponentInstance instance = new ComponentInstance(SaveLoadSheet.loadedObjects[id], data.inputs, data.outputs, physicComponent);
+        currentSheet.addObject(instance);
     }
 
 
